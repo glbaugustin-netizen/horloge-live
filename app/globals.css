@@ -1,0 +1,340 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Texte */
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: rgba(255, 255, 255, 0.60);
+  --color-text-hint: rgba(255, 255, 255, 0.30);
+
+  /* Accent */
+  --color-accent: #4FC3F7;
+  --color-accent-hover: #81D4FA;
+  --color-accent-subtle: #B3E5FC;
+
+  /* Liquid Glass */
+  --glass-bg: rgba(255, 255, 255, 0.08);
+  --glass-bg-active: rgba(255, 255, 255, 0.15);
+  --glass-bg-hover: rgba(255, 255, 255, 0.12);
+  --glass-bg-accent: rgba(79, 195, 247, 0.22);
+  --glass-border: rgba(255, 255, 255, 0.15);
+  --glass-border-active: rgba(255, 255, 255, 0.20);
+  --glass-border-accent: rgba(79, 195, 247, 0.50);
+  --glass-blur: blur(20px);
+  --glass-separator: rgba(255, 255, 255, 0.10);
+
+  /* États */
+  --color-error-bg: rgba(220, 38, 38, 0.15);
+  --color-error-text: #fca5a5;
+  --color-error-border: rgba(220, 38, 38, 0.40);
+  --color-success-bg: rgba(34, 197, 94, 0.15);
+  --color-success-text: #86efac;
+  --color-success-border: rgba(34, 197, 94, 0.40);
+  --color-warning-bg: rgba(234, 179, 8, 0.15);
+  --color-warning-text: #fde047;
+  --color-warning-border: rgba(234, 179, 8, 0.40);
+
+  /* Horloge (dynamique — mis à jour par useSettings) */
+  --clock-font-family: 'Inter', sans-serif;
+  --clock-font-size: 120px;
+
+  /* Fond (dynamique — mis à jour par useSettings) */
+  --bg-image: url('/backgrounds/bg-nature7.webp');
+  --bg-color: transparent;
+}
+
+/* Reset de base */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+/* Masquer la scrollbar en plein écran (tous les navigateurs) */
+:fullscreen,
+:-webkit-full-screen,
+:-moz-full-screen {
+  overflow: hidden;
+}
+
+body {
+  color: var(--color-text-primary);
+  background-image: var(--bg-image);
+  background-color: var(--bg-color);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Overlay sombre sur l'image de fond pour garantir la lisibilité */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Style Liquid Glass — base de tous les composants */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+}
+
+.glass:hover {
+  background: var(--glass-bg-hover);
+  border-color: var(--glass-border-active);
+  transition: background 150ms ease, border-color 150ms ease;
+}
+
+.glass:active {
+  transform: scale(0.97);
+  transition: transform 100ms ease;
+}
+
+.glass-active {
+  background: var(--glass-bg-active);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border-active);
+}
+
+.glass-accent {
+  background: var(--glass-bg-accent);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border-accent);
+  color: var(--color-accent-subtle);
+}
+
+/* Clignotement minuteur à zéro */
+@keyframes timerBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+.timer-blink {
+  animation: timerBlink 500ms ease-in-out infinite;
+}
+
+/* Fade out du hint plein écran */
+@keyframes fadeOut {
+  from { opacity: 0.35; }
+  to { opacity: 0; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 0.35; }
+}
+
+/* Transition police horloge */
+@keyframes fontFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.clock-font-transition {
+  animation: fontFadeIn 200ms ease;
+}
+
+/* ─── Slider paramètres (taille police) ──────────────────────── */
+.settings-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.15);
+  outline: none;
+  cursor: pointer;
+}
+
+.settings-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #4fc3f7;
+  border: 2px solid rgba(255, 255, 255, 0.30);
+  cursor: pointer;
+}
+
+.settings-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #4fc3f7;
+  border: 2px solid rgba(255, 255, 255, 0.30);
+  cursor: pointer;
+  border: none;
+}
+
+/* ─── Taille responsive de l'horloge ─────────────────────────── */
+
+/*
+  Mobile (<640px) : remplit "toute la largeur - marges"
+  clamp(72px, calc((100vw - 32px) / 3), 110px)
+  → 320px : 96px | 375px : 110px | 430px : 110px
+  À 110px, "12:45" ≈ 302px sur 343px disponibles (88 %) ✓
+*/
+.clock-size {
+  font-size: clamp(72px, calc((100vw - 32px) / 3), 110px);
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+/* Tablet (640–1024px) */
+@media (min-width: 640px) {
+  .clock-size {
+    font-size: 80px;
+    letter-spacing: 0.05em;
+  }
+}
+
+/* Desktop (>1024px) : CSS var réglable par l'utilisateur */
+@media (min-width: 1024px) {
+  .clock-size {
+    font-size: var(--clock-font-size);
+    letter-spacing: 0.05em;
+  }
+}
+
+/*
+  Secondes mobiles : 40 % de la taille principale
+  clamp(28px, calc((100vw - 32px) / 7.5), 44px)
+  → 320px : 38px | 375px : 44px (capped)
+*/
+.clock-size-seconds {
+  font-size: clamp(28px, calc((100vw - 32px) / 7.5), 44px);
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+@media (min-width: 640px) {
+  .clock-size-seconds {
+    font-size: 32px; /* 40 % de 80px */
+  }
+}
+
+@media (min-width: 1024px) {
+  .clock-size-seconds {
+    font-size: calc(var(--clock-font-size) * 0.4);
+  }
+}
+
+/* Labels HEURES / MINUTES / SECONDES */
+.clock-label {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  opacity: 0.35;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+@media (min-width: 640px) {
+  .clock-label {
+    font-size: 11px;
+  }
+}
+
+/*
+  Centrage de l'horloge :
+  Desktop/tablet : milieu exact du viewport
+  Mobile : remonté de 56px pour centrer dans la zone utile
+  (100vh − 112px de barres fixes = zone utile ; centre = 50vh − 56px)
+*/
+.clock-centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  padding: 0 16px;
+}
+
+@media (max-width: 639px) {
+  .clock-centered {
+    top: calc(50% - 56px);
+  }
+}
+
+/* ─── Taille responsive chrono / minuteur ─────────────────────── */
+.chrono-size {
+  font-size: 48px;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+@media (min-width: 640px) {
+  .chrono-size {
+    font-size: 64px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .chrono-size {
+    font-size: 88px;
+  }
+}
+
+/* Millièmes : 40 % de la taille principale */
+.chrono-size-millis {
+  font-size: 19px;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+@media (min-width: 640px) {
+  .chrono-size-millis {
+    font-size: 26px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .chrono-size-millis {
+    font-size: 35px;
+  }
+}
+
+/*
+  Centrage contenu chrono / minuteur :
+  Identique à .clock-centered mais flex-column pour
+  empiler affichage + boutons + tableau des tours.
+*/
+.chrono-centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 600px;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+@media (max-width: 639px) {
+  .chrono-centered {
+    top: calc(50% - 56px);
+    gap: 20px;
+  }
+}

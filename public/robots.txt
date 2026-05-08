@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /connexion
+Disallow: /mentions-legales
+Disallow: /cgu
+Disallow: /confidentialite
+
+Sitemap: https://horloge-live.com/sitemap.xml
