@@ -46,31 +46,62 @@ export default function ConfidentialitePage() {
         Google (prénom, nom, adresse e-mail). Aucun numéro de téléphone n'est obligatoire. La
         date et l'heure d'acceptation des conditions légales sont enregistrées.
       </p>
+      <p style={S.p}>
+        Si l'utilisateur crée un compte, les données suivantes sont également sauvegardées dans un
+        espace personnel sécurisé :
+      </p>
+      <ul style={{ ...S.p, paddingLeft: '20px', margin: '0 0 12px 0' }}>
+        <li>Préférences de personnalisation (police, taille, couleur du texte, fond d'écran, format 12h/24h, mode miroir, affichage de la date, langue)</li>
+        <li>Liste des villes ajoutées pour l'horloge mondiale (limitée à 6 villes personnalisées)</li>
+        <li>Historique des sessions de chronomètre et minuteur (type d'outil, durée, date et heure de la session) — limité aux 50 sessions les plus récentes</li>
+      </ul>
+      <p style={S.p}>
+        Ces données sont synchronisées automatiquement entre tous les appareils où l'utilisateur se
+        connecte avec le même compte.
+      </p>
 
       {/* ── 2. Finalité de la collecte ── */}
       <h2 style={S.h2}>2. Finalité de la collecte</h2>
       <p style={S.p}>
         Les données collectées lors de la création d'un compte sont utilisées exclusivement aux
-        fins suivantes : permettre la connexion et l'authentification sécurisée de l'utilisateur.
+        fins suivantes :
       </p>
+      <ul style={{ ...S.p, paddingLeft: '20px', margin: '0 0 12px 0' }}>
+        <li>Permettre la connexion et l'authentification sécurisée de l'utilisateur</li>
+        <li>Synchroniser les préférences de personnalisation (police, couleurs, fond, format d'heure, langue) entre tous les appareils de l'utilisateur</li>
+        <li>Sauvegarder les villes personnalisées ajoutées à l'horloge mondiale</li>
+        <li>Conserver l'historique des sessions de chronomètre et minuteur (50 sessions maximum)</li>
+      </ul>
       <p style={S.p}>
         Aucune donnée n'est utilisée à des fins publicitaires, commerciales ou de profilage.
         Aucune donnée n'est vendue, cédée ou transmise à des tiers, à l'exception des
         sous-traitants techniques mentionnés ci-après.
       </p>
       <p style={S.p}>
-        <strong style={S.strong}>Sous-traitants :</strong> Firebase Authentication (Google LLC)
-        pour la gestion de l'authentification. Google LLC est soumis aux clauses contractuelles
-        types de la Commission européenne garantissant un niveau de protection adéquat des données.
+        <strong style={S.strong}>Sous-traitants :</strong>
+      </p>
+      <ul style={{ ...S.p, paddingLeft: '20px', margin: '0 0 12px 0' }}>
+        <li>Firebase Authentication (Google LLC) pour la gestion de l'authentification</li>
+        <li>Firebase Firestore (Google LLC) pour le stockage sécurisé des préférences, de l'historique des sessions et des villes personnalisées</li>
+      </ul>
+      <p style={S.p}>
+        Google LLC est soumis aux clauses contractuelles types de la Commission européenne
+        garantissant un niveau de protection adéquat des données.
       </p>
 
       {/* ── 3. Durée de conservation ── */}
       <h2 style={S.h2}>3. Durée de conservation</h2>
       <p style={S.p}>
-        Les données du compte utilisateur (adresse e-mail, préférences synchronisées) sont
-        conservées pendant toute la durée d'existence du compte. L'utilisateur peut supprimer son
-        compte à tout moment depuis les paramètres de son profil, ce qui entraîne la suppression
-        définitive et immédiate de l'ensemble de ses données personnelles.
+        Les données du compte utilisateur (adresse e-mail, préférences synchronisées, villes
+        personnalisées de l'horloge mondiale, historique des sessions) sont conservées pendant toute
+        la durée d'existence du compte. L'utilisateur peut supprimer son compte à tout moment depuis
+        les paramètres de son profil, ce qui entraîne la suppression définitive et immédiate de
+        l'ensemble de ses données personnelles.
+      </p>
+      <p style={S.p}>
+        L'historique des sessions de chronomètre et minuteur est automatiquement plafonné à 50
+        entrées. Lorsque la limite est atteinte, les sessions les plus anciennes sont
+        automatiquement supprimées pour faire place aux nouvelles.
       </p>
       <p style={S.p}>
         Les données stockées en localStorage sur l'appareil de l'utilisateur sont conservées
