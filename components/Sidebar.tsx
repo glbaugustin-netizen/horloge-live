@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Clock, Timer, AlarmClock, X, User } from 'lucide-react';
+import { Clock, Timer, AlarmClock, Globe, X, User } from 'lucide-react';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -13,16 +13,18 @@ interface SidebarProps {
 
 const NAV_ITEMS = {
   fr: [
-    { href: '/', Icon: Clock, label: 'Horloge' },
-    { href: '/chrono', Icon: Timer, label: 'Chronomètre' },
-    { href: '/minuteur', Icon: AlarmClock, label: 'Minuteur' },
+    { href: '/',        Icon: Clock,      label: 'Horloge'     },
+    { href: '/chrono',  Icon: Timer,      label: 'Chronomètre' },
+    { href: '/minuteur',Icon: AlarmClock, label: 'Minuteur'    },
+    { href: '/monde',   Icon: Globe,      label: 'Monde'       },
   ],
   en: [
-    { href: '/', Icon: Clock, label: 'Clock' },
-    { href: '/chrono', Icon: Timer, label: 'Stopwatch' },
-    { href: '/minuteur', Icon: AlarmClock, label: 'Timer' },
+    { href: '/',        Icon: Clock,      label: 'Clock'       },
+    { href: '/chrono',  Icon: Timer,      label: 'Stopwatch'   },
+    { href: '/minuteur',Icon: AlarmClock, label: 'Timer'       },
+    { href: '/monde',   Icon: Globe,      label: 'World'       },
   ],
-} as const;
+};
 
 export default function Sidebar({ isOpen, onClose, language = 'fr' }: SidebarProps) {
   const pathname = usePathname();
