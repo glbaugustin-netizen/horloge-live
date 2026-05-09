@@ -165,7 +165,7 @@ function ClockCard({
           }}
           onMouseEnter={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.70)'; }}
           onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.30)'; }}
-          title="Supprimer"
+          title={language === 'fr' ? 'Supprimer' : 'Remove'}
         >
           <X size={14} strokeWidth={1.5} />
         </button>
