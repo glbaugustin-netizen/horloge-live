@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /connexion
+Disallow: /compte
 Disallow: /mentions-legales
 Disallow: /cgu
 Disallow: /confidentialite
