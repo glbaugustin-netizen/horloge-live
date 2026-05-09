@@ -58,7 +58,7 @@ const faqJsonLd = {
       name: "Faut-il créer un compte pour utiliser l'horloge ?",
       acceptedAnswer: {
         '@type': 'Answer',
-        text: "Non. L'horloge en ligne est totalement gratuite et fonctionne sans inscription. Aucun compte n'est nécessaire pour utiliser toutes les fonctionnalités du site.",
+        text: "Non. L'horloge en ligne est totalement gratuite et fonctionne sans inscription. La création d'un compte gratuit est optionnelle et permet de synchroniser vos préférences sur plusieurs appareils, d'accéder à l'horloge mondiale personnalisée et de consulter l'historique de vos sessions chrono et minuteur.",
       },
     },
   ],
@@ -159,8 +159,8 @@ export default function Home() {
             Adaptez votre horloge à votre style : choisissez parmi plus de 60 polices de
             caractères, modifiez la couleur du texte, et définissez une image de fond aesthetic ou
             une couleur unie. Le format 12h/24h, le mode miroir et l&apos;affichage de la date sont
-            aussi paramétrables. Vos préférences sont sauvegardées automatiquement pour votre
-            prochaine visite.
+            aussi paramétrables. Vos préférences sont sauvegardées automatiquement dans votre
+            navigateur. Créez un compte gratuit pour les synchroniser sur tous vos appareils.
           </p>
         </div>
 
@@ -189,7 +189,7 @@ export default function Home() {
             />
             <FaqItem
               question="Peut-on personnaliser l'horloge en ligne ?"
-              answer="Oui. Depuis les paramètres, vous pouvez choisir parmi plus de 60 polices, changer la couleur du texte, définir un fond aesthetic ou une photo de paysage, et régler le format 12h/24h. Toutes vos préférences sont sauvegardées automatiquement dans votre navigateur."
+              answer="Oui. Depuis les paramètres, vous pouvez choisir parmi plus de 60 polices, changer la couleur du texte, définir un fond aesthetic ou une photo de paysage, et régler le format 12h/24h. Vos préférences sont sauvegardées automatiquement dans votre navigateur. Créez un compte gratuit pour les synchroniser sur tous vos appareils."
             />
             <FaqItem
               question="L'horloge en ligne est-elle précise ?"
@@ -197,7 +197,7 @@ export default function Home() {
             />
             <FaqItem
               question="Faut-il créer un compte pour utiliser l'horloge ?"
-              answer="Non. L'horloge en ligne est totalement gratuite et fonctionne sans inscription. Aucun compte n'est nécessaire pour utiliser toutes les fonctionnalités du site."
+              answer="Non. L'horloge en ligne est totalement gratuite et fonctionne sans inscription. La création d'un compte gratuit est optionnelle et permet de synchroniser vos préférences sur plusieurs appareils, d'accéder à l'horloge mondiale personnalisée et de consulter l'historique de vos sessions chrono et minuteur."
             />
           </div>
         </div>
