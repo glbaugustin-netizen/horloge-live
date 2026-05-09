@@ -329,6 +329,15 @@ export default function ChronoPageClient() {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [sidebarOpen,  setSidebarOpen]  = useState(false);
+  const [accountHref,  setAccountHref]  = useState('/connexion');
+
+  useEffect(() => {
+    let unsub: (() => void) | null = null;
+    import('@/lib/firebase').then(({ auth, onAuthStateChanged }) => {
+      unsub = onAuthStateChanged(auth, (user) => setAccountHref(user ? '/compte' : '/connexion'));
+    }).catch(() => {});
+    return () => { unsub?.(); };
+  }, []);
 
   /* ── Chrono state ── */
   const [elapsed,  setElapsed]  = useState(0);
@@ -501,7 +510,7 @@ export default function ChronoPageClient() {
               ? <Minimize2 size={20} strokeWidth={1.5} />
               : <Maximize2 size={20} strokeWidth={1.5} />}
           </IconButton>
-          <IconButton href="/connexion" title={settings.language === 'fr' ? 'Mon compte' : 'My account'}>
+          <IconButton href={accountHref} title={settings.language === 'fr' ? 'Mon compte' : 'My account'}>
             <User size={20} strokeWidth={1.5} />
           </IconButton>
         </div>
