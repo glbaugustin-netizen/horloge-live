@@ -25,13 +25,15 @@ export default function CguPage() {
       <p style={S.p}>
         Le site horloge-live.com est un service gratuit et accessible à tous permettant d'afficher
         l'heure exacte en temps réel dans un navigateur web. Il propose également des outils
-        complémentaires (chronomètre, minuteur) ainsi que des options de personnalisation visuelle
-        de l'interface.
+        complémentaires : chronomètre, minuteur, horloge mondiale (affichage simultané de plusieurs
+        fuseaux horaires), ainsi que des options de personnalisation visuelle de l'interface.
       </p>
       <p style={S.p}>
         Ce site est édité à titre personnel et non commercial. Son accès et son utilisation sont
         entièrement gratuits. Aucune inscription n'est requise pour utiliser les fonctionnalités
-        de base. La création d'un compte est optionnelle.
+        de base. La création d'un compte est optionnelle et permet de synchroniser les préférences
+        de personnalisation sur plusieurs appareils et de conserver un historique des sessions de
+        chronomètre et minuteur.
       </p>
 
       {/* ── 2. Conditions d'utilisation ── */}
