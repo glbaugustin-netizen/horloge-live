@@ -59,8 +59,8 @@ export default function MentionsLegalesPage() {
         </a>
       </p>
       <p style={S.p}>
-        Le nom de domaine horloge-live.com est enregistré auprès de OVHcloud, 2 rue Kellermann,
-        59100 Roubaix, France.
+        Le nom de domaine horloge-live.com est enregistré auprès de Porkbun LLC, 6600 SW 92nd Ave
+        Suite 250, Portland, OR 97223, États-Unis.
       </p>
 
       {/* ── 3. Propriété intellectuelle ── */}
