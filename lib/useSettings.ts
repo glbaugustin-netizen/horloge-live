@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { loadFont } from '@/lib/googleFonts';
+import { useSync } from '@/lib/useSync';
 
 const KEYS = {
   font:       'horloge-live.com-font',
@@ -91,67 +92,30 @@ function applyToCssVariables(settings: Settings) {
   }
 }
 
-/**
- * Applique un objet de préférences Firestore au localStorage + état React.
- * Retourne le Settings mergé avec les defaults.
- */
-function applyFirestorePrefs(firestorePrefs: Record<string, string>): Settings {
-  Object.entries(KEYS).forEach(([, storageKey]) => {
-    const value = firestorePrefs[storageKey];
-    if (value !== undefined) {
-      try { localStorage.setItem(storageKey, value); } catch { /* noop */ }
-    }
-  });
-  const stored = readFromStorage();
-  return { ...DEFAULTS, ...stored };
-}
-
 export function useSettings() {
-  const [settings,    setSettings]    = useState<Settings>(DEFAULTS);
-  const [isHydrated,  setIsHydrated]  = useState(false);
+  const [settings,   setSettings]   = useState<Settings>(DEFAULTS);
+  const [isHydrated, setIsHydrated] = useState(false);
 
-  /* ── Hydratation initiale + sync Firestore (chargé dynamiquement) ── */
-  useEffect(() => {
-    // 1. Lire localStorage immédiatement
+  // Appelé par useSync quand les prefs Firestore arrivent (localStorage déjà mis à jour)
+  const handleFirestoreLoad = useCallback(() => {
     const stored      = readFromStorage();
+    const newSettings = { ...DEFAULTS, ...stored };
+    setSettings(newSettings);
+    applyToCssVariables(newSettings);
+    if (newSettings.font !== 'Inter') loadFont(newSettings.font);
+  }, []);
+
+  const { syncToFirestore } = useSync(handleFirestoreLoad);
+
+  /* ── Hydratation initiale depuis localStorage ── */
+  useEffect(() => {
+    const stored       = readFromStorage();
     const detectedLang = detectLanguage();
-    const merged: Settings = {
-      ...DEFAULTS,
-      language: detectedLang,
-      ...stored,
-    };
+    const merged: Settings = { ...DEFAULTS, language: detectedLang, ...stored };
     setSettings(merged);
     applyToCssVariables(merged);
     if (merged.font !== 'Inter') loadFont(merged.font);
     setIsHydrated(true);
-
-    // 2. Firebase — import dynamique (hors bundle initial, ~300 KB économisés)
-    let cancelled = false;
-    let unsubscribeFirebase: (() => void) | null = null;
-
-    import('@/lib/firebase').then(({ auth, onAuthStateChanged, loadPrefsFromFirestore }) => {
-      if (cancelled) return;
-      unsubscribeFirebase = onAuthStateChanged(auth, async (user) => {
-        if (cancelled || !user) return;
-        try {
-          const firestorePrefs = await loadPrefsFromFirestore(user.uid);
-          if (!firestorePrefs || cancelled) return;
-          const newSettings = applyFirestorePrefs(firestorePrefs);
-          setSettings(newSettings);
-          applyToCssVariables(newSettings);
-          if (newSettings.font !== 'Inter') loadFont(newSettings.font);
-        } catch {
-          // Firestore non disponible ou config manquante — silencieux
-        }
-      });
-    }).catch(() => {
-      // Firebase non configuré — silencieux
-    });
-
-    return () => {
-      cancelled = true;
-      if (unsubscribeFirebase) unsubscribeFirebase();
-    };
   }, []);
 
   /* ── Mise à jour d'un réglage ── */
@@ -162,26 +126,13 @@ export function useSettings() {
     setSettings((prev) => {
       const next = { ...prev, [key]: value };
       applyToCssVariables(next);
-
       try {
-        const storageKey = KEYS[key];
-        localStorage.setItem(storageKey, String(value));
-      } catch {
-        // localStorage non disponible (mode privé strict)
-      }
-
+        localStorage.setItem(KEYS[key], String(value));
+      } catch { /* localStorage non disponible (mode privé strict) */ }
+      syncToFirestore(next);
       return next;
     });
-
-    // Sync Firestore — import dynamique (déjà en cache après la première fois)
-    import('@/lib/firebase').then(({ auth, savePrefsToFirestore }) => {
-      const user = auth.currentUser;
-      if (user) {
-        const storageKey = KEYS[key];
-        savePrefsToFirestore(user.uid, { [storageKey]: String(value) }).catch(() => {});
-      }
-    }).catch(() => {});
-  }, []);
+  }, [syncToFirestore]);
 
   const updateFont       = useCallback((font: string) => {
     loadFont(font);

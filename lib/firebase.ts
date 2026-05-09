@@ -76,13 +76,13 @@ export type FirestorePrefs = Record<string, string>;
 
 /**
  * Écrit (ou met à jour partiellement) les préférences de l'utilisateur.
- * Chemin : /users/{uid}/data/preferences
+ * Chemin : /users/{uid}/preferences/main
  */
 export async function savePrefsToFirestore(
   uid: string,
   prefs: FirestorePrefs,
 ): Promise<void> {
-  const ref = doc(db, 'users', uid, 'data', 'preferences');
+  const ref = doc(db, 'users', uid, 'preferences', 'main');
   await setDoc(ref, prefs, { merge: true });
 }
 
@@ -93,7 +93,7 @@ export async function savePrefsToFirestore(
 export async function loadPrefsFromFirestore(
   uid: string,
 ): Promise<FirestorePrefs | null> {
-  const ref  = doc(db, 'users', uid, 'data', 'preferences');
+  const ref  = doc(db, 'users', uid, 'preferences', 'main');
   const snap = await getDoc(ref);
   return snap.exists() ? (snap.data() as FirestorePrefs) : null;
 }
