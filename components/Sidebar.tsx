@@ -1,8 +1,9 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Clock, Timer, AlarmClock, X } from 'lucide-react';
+import { Clock, Timer, AlarmClock, X, User } from 'lucide-react';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -25,7 +26,18 @@ const NAV_ITEMS = {
 
 export default function Sidebar({ isOpen, onClose, language = 'fr' }: SidebarProps) {
   const pathname = usePathname();
-  const items = NAV_ITEMS[language];
+  const items    = NAV_ITEMS[language];
+
+  const [accountHref, setAccountHref] = useState('/connexion');
+  useEffect(() => {
+    let unsub: (() => void) | null = null;
+    import('@/lib/firebase').then(({ auth, onAuthStateChanged }) => {
+      unsub = onAuthStateChanged(auth, (user) => {
+        setAccountHref(user ? '/compte' : '/connexion');
+      });
+    }).catch(() => {});
+    return () => { unsub?.(); };
+  }, []);
 
   return (
     <>
@@ -148,6 +160,50 @@ export default function Sidebar({ isOpen, onClose, language = 'fr' }: SidebarPro
             </Link>
           );
         })}
+
+        {/* Lien Mon compte — poussé en bas */}
+        {(() => {
+          const accountLabel  = language === 'fr' ? 'Mon compte' : 'My account';
+          const isAccountActive = pathname === '/compte' || pathname === '/connexion';
+          return (
+            <div style={{ marginTop: 'auto', paddingTop: '12px', borderTop: '1px solid rgba(255,255,255,0.10)' }}>
+              <Link
+                href={accountHref}
+                onClick={onClose}
+                style={{
+                  borderRadius: '50px',
+                  padding: '10px 16px',
+                  fontSize: '15px',
+                  fontWeight: 400,
+                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  cursor: 'pointer',
+                  transition: 'background 150ms ease, color 150ms ease',
+                  background: isAccountActive ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.04)',
+                  border: `1px solid ${isAccountActive ? 'rgba(255,255,255,0.20)' : 'transparent'}`,
+                  color: isAccountActive ? '#ffffff' : 'rgba(255,255,255,0.55)',
+                }}
+                onMouseEnter={(e) => {
+                  if (isAccountActive) return;
+                  const el = e.currentTarget as HTMLAnchorElement;
+                  el.style.background = 'rgba(255,255,255,0.08)';
+                  el.style.color = 'rgba(255,255,255,0.80)';
+                }}
+                onMouseLeave={(e) => {
+                  if (isAccountActive) return;
+                  const el = e.currentTarget as HTMLAnchorElement;
+                  el.style.background = 'rgba(255,255,255,0.04)';
+                  el.style.color = 'rgba(255,255,255,0.55)';
+                }}
+              >
+                <User size={16} strokeWidth={1.5} color={isAccountActive ? '#4FC3F7' : 'rgba(255,255,255,0.55)'} />
+                {accountLabel}
+              </Link>
+            </div>
+          );
+        })()}
       </aside>
     </>
   );

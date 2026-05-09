@@ -9,6 +9,7 @@ import {
 import dynamic from 'next/dynamic';
 import MobileNav from '@/components/MobileNav';
 import { useSettings } from '@/lib/useSettings';
+import { saveSession } from '@/lib/useHistory';
 
 /* Chargés en différé — absents du bundle initial */
 const Sidebar = dynamic(() => import('@/components/Sidebar'), { ssr: false, loading: () => null });
@@ -383,6 +384,15 @@ export default function ChronoPageClient() {
   };
 
   const handleReset = () => {
+    if (elapsed > 0) {
+      saveSession({
+        type: 'chrono',
+        duration: elapsed,
+        laps: laps.length > 0
+          ? laps.map((l, i) => ({ lap: i + 1, lapTime: l.lapTime, totalTime: l.totalTime }))
+          : null,
+      });
+    }
     setRunning(false);
     setElapsed(0);
     setLaps([]);
