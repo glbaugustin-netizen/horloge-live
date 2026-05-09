@@ -9,6 +9,7 @@ import {
 import dynamic from 'next/dynamic';
 import MobileNav from '@/components/MobileNav';
 import { useSettings } from '@/lib/useSettings';
+import { saveSession } from '@/lib/useHistory';
 
 /* Chargés en différé — absents du bundle initial */
 const Sidebar = dynamic(() => import('@/components/Sidebar'), { ssr: false, loading: () => null });
@@ -354,6 +355,15 @@ export default function MinuteurPageClient() {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [sidebarOpen,  setSidebarOpen]  = useState(false);
+  const [accountHref,  setAccountHref]  = useState('/connexion');
+
+  useEffect(() => {
+    let unsub: (() => void) | null = null;
+    import('@/lib/firebase').then(({ auth, onAuthStateChanged }) => {
+      unsub = onAuthStateChanged(auth, (user) => setAccountHref(user ? '/compte' : '/connexion'));
+    }).catch(() => {});
+    return () => { unsub?.(); };
+  }, []);
 
   /* ── Saisie ── */
   const [inputH, setInputH] = useState('00');
@@ -368,6 +378,8 @@ export default function MinuteurPageClient() {
 
   /* Heure de fin prévue, calculée lors du démarrage */
   const endTimeRef = useRef<number>(0);
+  /* Évite de sauvegarder plusieurs fois la même session */
+  const hasSavedRef = useRef(false);
 
   /* ── Boucle requestAnimationFrame ── */
   useEffect(() => {
@@ -391,6 +403,15 @@ export default function MinuteurPageClient() {
     return () => cancelAnimationFrame(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [running]);
+
+  /* ── Sauvegarde session à la fin naturelle du minuteur ── */
+  useEffect(() => { hasSavedRef.current = false; }, [duration]);
+  useEffect(() => {
+    if (atZero && !hasSavedRef.current && duration > 0) {
+      hasSavedRef.current = true;
+      saveSession({ type: 'minuteur', duration, laps: null });
+    }
+  }, [atZero, duration]);
 
   /* ── Plein écran ── */
   useEffect(() => {
@@ -555,7 +576,7 @@ export default function MinuteurPageClient() {
               ? <Minimize2 size={20} strokeWidth={1.5} />
               : <Maximize2 size={20} strokeWidth={1.5} />}
           </IconButton>
-          <IconButton href="/connexion" title={settings.language === 'fr' ? 'Mon compte' : 'My account'}>
+          <IconButton href={accountHref} title={settings.language === 'fr' ? 'Mon compte' : 'My account'}>
             <User size={20} strokeWidth={1.5} />
           </IconButton>
         </div>

@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
@@ -73,7 +74,18 @@ export default function MobileNav({
   onFullscreenToggle,
 }: MobileNavProps) {
   const pathname = usePathname();
-  const items = NAV_ITEMS[language];
+  const items    = NAV_ITEMS[language];
+
+  const [accountHref, setAccountHref] = useState('/connexion');
+  useEffect(() => {
+    let unsub: (() => void) | null = null;
+    import('@/lib/firebase').then(({ auth, onAuthStateChanged }) => {
+      unsub = onAuthStateChanged(auth, (user) => {
+        setAccountHref(user ? '/compte' : '/connexion');
+      });
+    }).catch(() => {});
+    return () => { unsub?.(); };
+  }, []);
 
   return (
     <>
@@ -98,8 +110,8 @@ export default function MobileNav({
         </button>
 
         <Link
-          href="/connexion"
-          style={iconBtnStyle(false)}
+          href={accountHref}
+          style={iconBtnStyle(pathname === '/compte' || pathname === '/connexion')}
           title={language === 'fr' ? 'Mon compte' : 'My account'}
         >
           <User size={20} strokeWidth={1.5} />

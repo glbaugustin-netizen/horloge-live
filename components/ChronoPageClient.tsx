@@ -9,6 +9,7 @@ import {
 import dynamic from 'next/dynamic';
 import MobileNav from '@/components/MobileNav';
 import { useSettings } from '@/lib/useSettings';
+import { saveSession } from '@/lib/useHistory';
 
 /* Chargés en différé — absents du bundle initial */
 const Sidebar = dynamic(() => import('@/components/Sidebar'), { ssr: false, loading: () => null });
@@ -328,6 +329,15 @@ export default function ChronoPageClient() {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [sidebarOpen,  setSidebarOpen]  = useState(false);
+  const [accountHref,  setAccountHref]  = useState('/connexion');
+
+  useEffect(() => {
+    let unsub: (() => void) | null = null;
+    import('@/lib/firebase').then(({ auth, onAuthStateChanged }) => {
+      unsub = onAuthStateChanged(auth, (user) => setAccountHref(user ? '/compte' : '/connexion'));
+    }).catch(() => {});
+    return () => { unsub?.(); };
+  }, []);
 
   /* ── Chrono state ── */
   const [elapsed,  setElapsed]  = useState(0);
@@ -383,6 +393,15 @@ export default function ChronoPageClient() {
   };
 
   const handleReset = () => {
+    if (elapsed > 0) {
+      saveSession({
+        type: 'chrono',
+        duration: elapsed,
+        laps: laps.length > 0
+          ? laps.map((l, i) => ({ lap: i + 1, lapTime: l.lapTime, totalTime: l.totalTime }))
+          : null,
+      });
+    }
     setRunning(false);
     setElapsed(0);
     setLaps([]);
@@ -491,7 +510,7 @@ export default function ChronoPageClient() {
               ? <Minimize2 size={20} strokeWidth={1.5} />
               : <Maximize2 size={20} strokeWidth={1.5} />}
           </IconButton>
-          <IconButton href="/connexion" title={settings.language === 'fr' ? 'Mon compte' : 'My account'}>
+          <IconButton href={accountHref} title={settings.language === 'fr' ? 'Mon compte' : 'My account'}>
             <User size={20} strokeWidth={1.5} />
           </IconButton>
         </div>
