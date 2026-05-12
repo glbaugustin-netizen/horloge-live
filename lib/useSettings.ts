@@ -85,11 +85,20 @@ function applyToCssVariables(settings: Settings) {
   const isUrl = settings.background.startsWith('url(');
   if (isUrl) {
     root.style.setProperty('--bg-image', settings.background);
+    root.style.setProperty('--bg-image-mobile', getMobileUrl(settings.background));
     root.style.setProperty('--bg-color', 'transparent');
   } else {
     root.style.setProperty('--bg-image', 'none');
+    root.style.setProperty('--bg-image-mobile', 'none');
     root.style.setProperty('--bg-color', settings.background);
   }
+}
+
+function getMobileUrl(bg: string): string {
+  if (bg.startsWith("url('/backgrounds/") && bg.endsWith(".webp')")) {
+    return bg.replace(".webp')", "-mobile.webp')");
+  }
+  return bg;
 }
 
 export function useSettings() {

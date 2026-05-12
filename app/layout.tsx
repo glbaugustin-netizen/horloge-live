@@ -87,9 +87,12 @@ const foucScript = `(function(){try{
   r.style.setProperty('--color-text-primary',color);
   if(bg.indexOf('url(')===0){
     r.style.setProperty('--bg-image',bg);
+    var mob=bg.startsWith("url('/backgrounds/")&&bg.endsWith(".webp')")?bg.replace(".webp')","-mobile.webp')"):bg;
+    r.style.setProperty('--bg-image-mobile',mob);
     r.style.setProperty('--bg-color','transparent');
   }else{
     r.style.setProperty('--bg-image','none');
+    r.style.setProperty('--bg-image-mobile','none');
     r.style.setProperty('--bg-color',bg);
   }
 }catch(e){}})();`;

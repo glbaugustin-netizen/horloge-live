@@ -41,6 +41,7 @@
 
   /* Fond (dynamique — mis à jour par useSettings) */
   --bg-image: url('/backgrounds/bg-nature7.webp');
+  --bg-image-mobile: url('/backgrounds/bg-nature7-mobile.webp');
   --bg-color: transparent;
 }
 
@@ -74,6 +75,13 @@ body {
   background-attachment: fixed;
   position: relative;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+@media (max-width: 768px) {
+  body {
+    background-image: var(--bg-image-mobile);
+    background-attachment: scroll;
+  }
 }
 
 /* Overlay sombre sur l'image de fond pour garantir la lisibilité */
