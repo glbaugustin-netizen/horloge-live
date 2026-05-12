@@ -320,7 +320,7 @@ function FullscreenHint({ language, onExit }: { language: 'fr' | 'en'; onExit: (
 export default function ChronoPageClient() {
   const {
     settings, updateFont, updateFontSize, updateTextColor, updateBackground,
-    updateFormat, updateMirror, updateShowDate, updateLanguage,
+    updateFormat, updateMirror, updateShowDate, updateShowSeconds, updateLanguage,
   } = useSettings();
 
   const t = LABELS[settings.language];
@@ -567,6 +567,7 @@ export default function ChronoPageClient() {
         updateFormat={updateFormat}
         updateMirror={updateMirror}
         updateShowDate={updateShowDate}
+        updateShowSeconds={updateShowSeconds}
         updateLanguage={updateLanguage}
       />
     </div>
