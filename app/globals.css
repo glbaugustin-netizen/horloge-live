@@ -59,11 +59,23 @@ body {
   height: 100%;
 }
 
-/* Masquer la scrollbar en plein écran (tous les navigateurs) */
+/* Bloquer le scroll et cacher la scrollbar en plein écran */
 :fullscreen,
 :-webkit-full-screen,
 :-moz-full-screen {
   overflow: hidden;
+}
+
+:fullscreen body,
+:-webkit-full-screen body,
+:-moz-full-screen body {
+  overflow: hidden;
+  scrollbar-width: none; /* Firefox */
+}
+
+:fullscreen body::-webkit-scrollbar,
+:-webkit-full-screen body::-webkit-scrollbar {
+  display: none; /* Chrome / Safari / Edge */
 }
 
 body {
