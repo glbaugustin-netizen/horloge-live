@@ -10,9 +10,10 @@ const STORAGE_KEY_MAP: Record<keyof Settings, string> = {
   textColor:  'horloge-live.com-text-color',
   background: 'horloge-live.com-background',
   format:     'horloge-live.com-format',
-  mirror:     'horloge-live.com-mirror',
-  showDate:   'horloge-live.com-show-date',
-  language:   'horloge-live.com-language',
+  mirror:       'horloge-live.com-mirror',
+  showDate:     'horloge-live.com-show-date',
+  showSeconds:  'horloge-live.com-show-seconds',
+  language:     'horloge-live.com-language',
 };
 
 // Firestore doc uses clean field names (font, fontSize…); localStorage uses full keys
@@ -23,9 +24,10 @@ function settingsToFirestorePrefs(s: Settings): Record<string, string> {
     textColor:  s.textColor,
     background: s.background,
     format:     s.format,
-    mirror:     String(s.mirror),
-    showDate:   String(s.showDate),
-    language:   s.language,
+    mirror:       String(s.mirror),
+    showDate:     String(s.showDate),
+    showSeconds:  String(s.showSeconds),
+    language:     s.language,
   };
 }
 

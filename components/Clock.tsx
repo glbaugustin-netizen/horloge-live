@@ -28,6 +28,7 @@ const TRANSLATIONS = {
 interface ClockProps {
   format?: '12h' | '24h';
   showDate?: boolean;
+  showSeconds?: boolean;
   language?: 'fr' | 'en';
 }
 
@@ -75,6 +76,7 @@ function Colon() {
 export default function Clock({
   format = '24h',
   showDate = true,
+  showSeconds = false,
   language = 'fr',
 }: ClockProps) {
   const [time, setTime] = useState<Date | null>(null);
@@ -110,11 +112,13 @@ export default function Clock({
             <div className="clock-size" style={clockStyle}>--</div>
             <div className="clock-label mt-1">{t.minutes}</div>
           </div>
-          <div className="clock-size" style={{ ...clockStyle, opacity: 0.5, paddingBottom: '18px' }}>:</div>
-          <div className="flex flex-col items-center">
-            <div className="clock-size" style={clockStyle}>--</div>
-            <div className="clock-label mt-1">{t.seconds}</div>
-          </div>
+          {showSeconds && <>
+            <div className="clock-size" style={{ ...clockStyle, opacity: 0.5, paddingBottom: '18px' }}>:</div>
+            <div className="flex flex-col items-center">
+              <div className="clock-size" style={clockStyle}>--</div>
+              <div className="clock-label mt-1">{t.seconds}</div>
+            </div>
+          </>}
         </div>
         {/* Mobile placeholder */}
         <div className="sm:hidden text-center">
@@ -163,8 +167,10 @@ export default function Clock({
         <TimeUnit value={hh} label={t.hours} />
         <Colon />
         <TimeUnit value={mm} label={t.minutes} />
-        <Colon />
-        <TimeUnit value={ss} label={t.seconds} />
+        {showSeconds && <>
+          <Colon />
+          <TimeUnit value={ss} label={t.seconds} />
+        </>}
         {ampm && (
           <div
             className="ml-4"
@@ -230,35 +236,37 @@ export default function Clock({
         </div>
 
         {/* :SS */}
-        <div className="mt-3 flex items-baseline justify-center">
-          <span
-            className="clock-size-seconds"
-            style={{
-              fontFamily: 'var(--clock-font-family)',
-              fontWeight: 300,
-              lineHeight: 1,
-              color: 'var(--color-text-primary)',
-              opacity: 0.5,
-            }}
-          >
-            :
-          </span>
-          <span
-            className="clock-size-seconds"
-            style={{
-              fontFamily: 'var(--clock-font-family)',
-              fontVariantNumeric: 'tabular-nums',
-              fontWeight: 300,
-              lineHeight: 1,
-              color: 'var(--color-text-primary)',
-            }}
-          >
-            {ss}
-          </span>
-        </div>
+        {showSeconds && <>
+          <div className="mt-3 flex items-baseline justify-center">
+            <span
+              className="clock-size-seconds"
+              style={{
+                fontFamily: 'var(--clock-font-family)',
+                fontWeight: 300,
+                lineHeight: 1,
+                color: 'var(--color-text-primary)',
+                opacity: 0.5,
+              }}
+            >
+              :
+            </span>
+            <span
+              className="clock-size-seconds"
+              style={{
+                fontFamily: 'var(--clock-font-family)',
+                fontVariantNumeric: 'tabular-nums',
+                fontWeight: 300,
+                lineHeight: 1,
+                color: 'var(--color-text-primary)',
+              }}
+            >
+              {ss}
+            </span>
+          </div>
 
-        {/* Label SECONDES */}
-        <div className="clock-label mt-1">{t.seconds}</div>
+          {/* Label SECONDES */}
+          <div className="clock-label mt-1">{t.seconds}</div>
+        </>}
 
         {/* AM/PM */}
         {ampm && (

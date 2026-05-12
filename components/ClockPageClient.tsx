@@ -147,6 +147,7 @@ export default function ClockPageClient() {
     updateFormat,
     updateMirror,
     updateShowDate,
+    updateShowSeconds,
     updateLanguage,
   } = useSettings();
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -230,6 +231,7 @@ export default function ClockPageClient() {
           <Clock
             format={settings.format}
             showDate={settings.showDate}
+            showSeconds={settings.showSeconds}
             language={settings.language}
           />
         </div>
@@ -350,6 +352,7 @@ export default function ClockPageClient() {
         updateFormat={updateFormat}
         updateMirror={updateMirror}
         updateShowDate={updateShowDate}
+        updateShowSeconds={updateShowSeconds}
         updateLanguage={updateLanguage}
       />
     </div>

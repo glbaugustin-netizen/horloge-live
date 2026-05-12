@@ -67,6 +67,7 @@ const LABELS = {
     format: 'Format 12h / 24h',
     mirror: 'Mode miroir',
     showDate: 'Afficher la date',
+    showSeconds: 'Afficher les secondes',
     language: 'Langue',
     solidColors: 'Couleurs unies',
     landscapes: 'Paysages',
@@ -82,6 +83,7 @@ const LABELS = {
     format: '12h / 24h format',
     mirror: 'Mirror mode',
     showDate: 'Show date',
+    showSeconds: 'Show seconds',
     language: 'Language',
     solidColors: 'Solid colors',
     landscapes: 'Landscapes',
@@ -558,6 +560,7 @@ interface SettingsPanelProps {
   updateFormat: (v: '12h' | '24h') => void;
   updateMirror: (v: boolean) => void;
   updateShowDate: (v: boolean) => void;
+  updateShowSeconds: (v: boolean) => void;
   updateLanguage: (v: 'fr' | 'en') => void;
 }
 
@@ -572,6 +575,7 @@ export default function SettingsPanel({
   updateFormat,
   updateMirror,
   updateShowDate,
+  updateShowSeconds,
   updateLanguage,
 }: SettingsPanelProps) {
   const [fontExpanded, setFontExpanded] = useState(false);
@@ -818,6 +822,11 @@ export default function SettingsPanel({
             {/* Afficher la date */}
             <ParamRow label={t.showDate}>
               <Toggle value={settings.showDate} onChange={updateShowDate} />
+            </ParamRow>
+
+            {/* Afficher les secondes */}
+            <ParamRow label={t.showSeconds}>
+              <Toggle value={settings.showSeconds} onChange={updateShowSeconds} />
             </ParamRow>
 
             {/* Langue */}
