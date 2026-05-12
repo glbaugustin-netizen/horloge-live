@@ -453,7 +453,7 @@ function IconButton({
 export default function MondePageClient() {
   const {
     settings, updateFont, updateFontSize, updateTextColor, updateBackground,
-    updateFormat, updateMirror, updateShowDate, updateLanguage,
+    updateFormat, updateMirror, updateShowDate, updateShowSeconds, updateLanguage,
   } = useSettings();
 
   const language = settings.language;
@@ -690,6 +690,7 @@ export default function MondePageClient() {
         updateFormat={updateFormat}
         updateMirror={updateMirror}
         updateShowDate={updateShowDate}
+        updateShowSeconds={updateShowSeconds}
         updateLanguage={updateLanguage}
       />
 

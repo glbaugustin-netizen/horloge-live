@@ -346,7 +346,7 @@ function FullscreenHint({ language, onExit }: { language: 'fr' | 'en'; onExit: (
 export default function MinuteurPageClient() {
   const {
     settings, updateFont, updateFontSize, updateTextColor, updateBackground,
-    updateFormat, updateMirror, updateShowDate, updateLanguage,
+    updateFormat, updateMirror, updateShowDate, updateShowSeconds, updateLanguage,
   } = useSettings();
 
   const t = LABELS[settings.language];
@@ -633,6 +633,7 @@ export default function MinuteurPageClient() {
         updateFormat={updateFormat}
         updateMirror={updateMirror}
         updateShowDate={updateShowDate}
+        updateShowSeconds={updateShowSeconds}
         updateLanguage={updateLanguage}
       />
     </div>
