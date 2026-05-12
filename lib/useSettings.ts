@@ -10,9 +10,10 @@ const KEYS = {
   textColor:  'horloge-live.com-text-color',
   background: 'horloge-live.com-background',
   format:     'horloge-live.com-format',
-  mirror:     'horloge-live.com-mirror',
-  showDate:   'horloge-live.com-show-date',
-  language:   'horloge-live.com-language',
+  mirror:       'horloge-live.com-mirror',
+  showDate:     'horloge-live.com-show-date',
+  showSeconds:  'horloge-live.com-show-seconds',
+  language:     'horloge-live.com-language',
 } as const;
 
 export interface Settings {
@@ -21,9 +22,10 @@ export interface Settings {
   textColor:  string;
   background: string;
   format:     '12h' | '24h';
-  mirror:     boolean;
-  showDate:   boolean;
-  language:   'fr' | 'en';
+  mirror:       boolean;
+  showDate:     boolean;
+  showSeconds:  boolean;
+  language:     'fr' | 'en';
 }
 
 const DEFAULTS: Settings = {
@@ -32,9 +34,10 @@ const DEFAULTS: Settings = {
   textColor:  '#FFFFFF',
   background: "url('/backgrounds/bg-nature7.webp')",
   format:     '24h',
-  mirror:     false,
-  showDate:   true,
-  language:   'fr',
+  mirror:       false,
+  showDate:     true,
+  showSeconds:  false,
+  language:     'fr',
 };
 
 function detectLanguage(): 'fr' | 'en' {
@@ -51,9 +54,10 @@ function readFromStorage(): Partial<Settings> {
     const textColor   = localStorage.getItem(KEYS.textColor);
     const background  = localStorage.getItem(KEYS.background);
     const format      = localStorage.getItem(KEYS.format);
-    const mirror      = localStorage.getItem(KEYS.mirror);
-    const showDate    = localStorage.getItem(KEYS.showDate);
-    const language    = localStorage.getItem(KEYS.language);
+    const mirror       = localStorage.getItem(KEYS.mirror);
+    const showDate     = localStorage.getItem(KEYS.showDate);
+    const showSeconds  = localStorage.getItem(KEYS.showSeconds);
+    const language     = localStorage.getItem(KEYS.language);
 
     const result: Partial<Settings> = {};
     if (font) result.font = font;
@@ -64,9 +68,10 @@ function readFromStorage(): Partial<Settings> {
     if (textColor)  result.textColor  = textColor;
     if (background) result.background = background;
     if (format === '12h' || format === '24h') result.format = format;
-    if (mirror  === 'true' || mirror  === 'false') result.mirror   = mirror  === 'true';
-    if (showDate === 'true' || showDate === 'false') result.showDate = showDate === 'true';
-    if (language === 'fr' || language === 'en')      result.language = language;
+    if (mirror      === 'true' || mirror      === 'false') result.mirror      = mirror      === 'true';
+    if (showDate    === 'true' || showDate    === 'false') result.showDate    = showDate    === 'true';
+    if (showSeconds === 'true' || showSeconds === 'false') result.showSeconds = showSeconds === 'true';
+    if (language === 'fr' || language === 'en')            result.language    = language;
 
     return result;
   } catch {
@@ -151,9 +156,10 @@ export function useSettings() {
   const updateTextColor  = useCallback((color: string)      => updateSetting('textColor',  color), [updateSetting]);
   const updateBackground = useCallback((bg: string)         => updateSetting('background', bg),    [updateSetting]);
   const updateFormat     = useCallback((fmt: '12h' | '24h') => updateSetting('format',     fmt),   [updateSetting]);
-  const updateMirror     = useCallback((val: boolean)       => updateSetting('mirror',     val),   [updateSetting]);
-  const updateShowDate   = useCallback((val: boolean)       => updateSetting('showDate',   val),   [updateSetting]);
-  const updateLanguage   = useCallback((lang: 'fr' | 'en')  => updateSetting('language',  lang),  [updateSetting]);
+  const updateMirror      = useCallback((val: boolean)       => updateSetting('mirror',      val), [updateSetting]);
+  const updateShowDate    = useCallback((val: boolean)       => updateSetting('showDate',    val), [updateSetting]);
+  const updateShowSeconds = useCallback((val: boolean)       => updateSetting('showSeconds', val), [updateSetting]);
+  const updateLanguage    = useCallback((lang: 'fr' | 'en')  => updateSetting('language',   lang), [updateSetting]);
 
   return {
     settings,
@@ -165,6 +171,7 @@ export function useSettings() {
     updateFormat,
     updateMirror,
     updateShowDate,
+    updateShowSeconds,
     updateLanguage,
   };
 }
