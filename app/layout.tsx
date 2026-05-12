@@ -80,7 +80,7 @@ const webApplicationJsonLd = {
 const foucScript = `(function(){try{
   var r=document.documentElement;
   var font=localStorage.getItem('horloge-live.com-font')||'Inter';
-  var size=parseInt(localStorage.getItem('horloge-live.com-font-size')||'120',10);
+  var size=parseInt(localStorage.getItem('horloge-live.com-font-size')||'200',10);
   var color=localStorage.getItem('horloge-live.com-text-color')||'#FFFFFF';
   var bg=localStorage.getItem('horloge-live.com-background')||"url('/backgrounds/bg-nature7.webp')";
   r.style.setProperty('--clock-font-family',"'"+font+"', sans-serif");
