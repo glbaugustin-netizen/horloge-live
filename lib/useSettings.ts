@@ -30,7 +30,7 @@ export interface Settings {
 
 const DEFAULTS: Settings = {
   font:       'Inter',
-  fontSize:   120,
+  fontSize:   200,
   textColor:  '#FFFFFF',
   background: "url('/backgrounds/bg-nature7.webp')",
   format:     '24h',
