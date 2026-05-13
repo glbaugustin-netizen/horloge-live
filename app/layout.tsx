@@ -28,6 +28,14 @@ export const metadata: Metadata = {
     title: 'Horloge en ligne — Plein écran & personnalisable | horloge-live.com',
     description:
       'Affichez l\'heure exacte en ligne avec une horloge gratuite, personnalisable et en plein écran. Choisissez votre style et utilisez-la sur mobile ou PC en un clic.',
+    images: [
+      {
+        url: '/backgrounds/bg-nature7.webp',
+        width: 1920,
+        height: 1080,
+        alt: 'Horloge en ligne — horloge-live.com',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
