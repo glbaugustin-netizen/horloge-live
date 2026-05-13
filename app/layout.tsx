@@ -30,10 +30,10 @@ export const metadata: Metadata = {
       'Affichez l\'heure exacte en ligne avec une horloge gratuite, personnalisable et en plein écran. Choisissez votre style et utilisez-la sur mobile ou PC en un clic.',
     images: [
       {
-        url: '/backgrounds/bg-nature7.webp',
-        width: 1920,
-        height: 1080,
-        alt: 'Horloge en ligne — horloge-live.com',
+        url: 'https://horloge-live.com/og-image.webp',
+        width: 1200,
+        height: 630,
+        alt: 'Horloge en ligne gratuite et personnalisable — horloge-live.com',
       },
     ],
   },
