@@ -12,6 +12,14 @@ export const metadata: Metadata = {
     description:
       "Affichez l'heure exacte en ligne avec une horloge gratuite, personnalisable et en plein écran.",
     url: 'https://horloge-live.com/',
+    images: [
+      {
+        url: 'https://horloge-live.com/og-image.webp',
+        width: 1200,
+        height: 630,
+        alt: 'Horloge en ligne gratuite et personnalisable — horloge-live.com',
+      },
+    ],
   },
   robots: { index: true, follow: true },
 };

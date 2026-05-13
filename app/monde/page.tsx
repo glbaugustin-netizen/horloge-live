@@ -15,10 +15,10 @@ export const metadata: Metadata = {
     url: 'https://horloge-live.com/monde',
     images: [
       {
-        url: '/backgrounds/bg-nature7.webp',
-        width: 1920,
-        height: 1080,
-        alt: 'Horloge mondiale — horloge-live.com',
+        url: 'https://horloge-live.com/og-image.webp',
+        width: 1200,
+        height: 630,
+        alt: 'Horloge en ligne gratuite et personnalisable — horloge-live.com',
       },
     ],
   },
