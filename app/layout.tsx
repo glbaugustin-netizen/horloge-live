@@ -11,11 +11,12 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Horloge en ligne — Plein écran & personnalisable | horloge-live.com',
+    // TODO: dynamiser selon langue (EN: 'Aesthetic online clock — Full screen & customizable | horloge-live.com')
+    default: 'Horloge en ligne aesthetic — Plein écran & personnalisable | horloge-live.com',
     template: '%s | horloge-live.com',
   },
   description:
-    'Affichez l\'heure exacte en ligne avec une horloge gratuite, personnalisable et en plein écran. Choisissez votre style et utilisez-la sur mobile ou PC en un clic.',
+    "Horloge numérique en ligne aesthetic — affiche l'heure exacte, gratuite, personnalisable et en plein écran. Plus de 60 polices, fonds aesthetic et paysages. Sur mobile et PC en un clic.",
   metadataBase: new URL('https://horloge-live.com'),
   alternates: {
     canonical: '/',
@@ -25,9 +26,9 @@ export const metadata: Metadata = {
     locale: 'fr_FR',
     url: 'https://horloge-live.com',
     siteName: 'horloge-live.com',
-    title: 'Horloge en ligne — Plein écran & personnalisable | horloge-live.com',
+    title: 'Horloge en ligne aesthetic — Plein écran & personnalisable | horloge-live.com',
     description:
-      'Affichez l\'heure exacte en ligne avec une horloge gratuite, personnalisable et en plein écran. Choisissez votre style et utilisez-la sur mobile ou PC en un clic.',
+      "Horloge numérique en ligne aesthetic — affiche l'heure exacte, gratuite, personnalisable et en plein écran.",
     images: [
       {
         url: 'https://horloge-live.com/og-image.webp',
@@ -39,9 +40,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Horloge en ligne — Plein écran & personnalisable | horloge-live.com',
+    title: 'Horloge en ligne aesthetic — Plein écran & personnalisable | horloge-live.com',
     description:
-      'Affichez l\'heure exacte en ligne avec une horloge gratuite, personnalisable et en plein écran.',
+      "Horloge numérique en ligne aesthetic — affiche l'heure exacte, gratuite, personnalisable et en plein écran.",
   },
   robots: {
     index: true,
