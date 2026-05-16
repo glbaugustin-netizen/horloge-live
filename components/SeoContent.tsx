@@ -1,7 +1,7 @@
 'use client';
 /* eslint-disable react/no-unescaped-entities */
 
-import { useState, useEffect } from 'react';
+import { useSettings } from '@/lib/useSettings';
 
 type Lang = 'fr' | 'en';
 
@@ -115,14 +115,8 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
 }
 
 export default function SeoContent() {
-  const [lang, setLang] = useState<Lang>('fr');
-
-  useEffect(() => {
-    const stored = localStorage.getItem('horloge-live.com-language');
-    if (stored === 'en') setLang('en');
-  }, []);
-
-  const t = LABELS[lang];
+  const { settings } = useSettings();
+  const t = LABELS[settings.language as Lang] ?? LABELS.fr;
 
   return (
     <section
