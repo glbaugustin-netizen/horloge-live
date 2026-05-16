@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 
@@ -20,6 +21,15 @@ export default function LegalPageLayout({
   navLinks,
   children,
 }: LegalPageLayoutProps) {
+  const [lang, setLang] = useState<'fr' | 'en'>('fr');
+
+  useEffect(() => {
+    const stored = localStorage.getItem('horloge-live.com-language');
+    if (stored === 'en') setLang('en');
+  }, []);
+
+  const backLabel = lang === 'fr' ? "Retour à l'horloge" : 'Back to clock';
+
   return (
     <div
       style={{
@@ -50,7 +60,7 @@ export default function LegalPageLayout({
           onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.60)')}
         >
           <ArrowLeft size={16} strokeWidth={1.5} />
-          <span>Retour à l'horloge</span>
+          <span>{backLabel}</span>
         </Link>
 
         {/* ── H1 ── */}
