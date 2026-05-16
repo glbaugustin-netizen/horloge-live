@@ -288,11 +288,18 @@ export default function ClockPageClient() {
             gap: '16px',
           }}
         >
-          {[
-            { href: '/cgu', label: 'CGU' },
-            { href: '/mentions-legales', label: 'Mentions légales' },
-            { href: '/confidentialite', label: 'Confidentialité' },
-          ].map(({ href, label }) => (
+          {(settings.language === 'en'
+            ? [
+                { href: '/cgu',              label: 'Terms of use'   },
+                { href: '/mentions-legales', label: 'Legal notice'   },
+                { href: '/confidentialite',  label: 'Privacy policy' },
+              ]
+            : [
+                { href: '/cgu',              label: 'CGU'              },
+                { href: '/mentions-legales', label: 'Mentions légales' },
+                { href: '/confidentialite',  label: 'Confidentialité'  },
+              ]
+          ).map(({ href, label }) => (
             <Link
               key={href}
               href={href}
