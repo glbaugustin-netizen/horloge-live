@@ -6,6 +6,7 @@ import { Menu, Settings2, Maximize2, Minimize2, User } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Clock from '@/components/Clock';
 import MobileNav from '@/components/MobileNav';
+import SeoContent from '@/components/SeoContent';
 import { useSettings } from '@/lib/useSettings';
 
 /* Chargés en différé — absents du bundle initial (économise ~80 KB) */
@@ -182,6 +183,7 @@ export default function ClockPageClient() {
   };
 
   return (
+    <>
     <div
       className="relative overflow-hidden"
       style={{ height: '100svh', minHeight: '100vh' }}
@@ -363,5 +365,8 @@ export default function ClockPageClient() {
         updateLanguage={updateLanguage}
       />
     </div>
+
+    <SeoContent language={settings.language} />
+    </>
   );
 }

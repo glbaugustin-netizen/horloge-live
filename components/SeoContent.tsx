@@ -1,8 +1,6 @@
 'use client';
 /* eslint-disable react/no-unescaped-entities */
 
-import { useState, useEffect } from 'react';
-
 type Lang = 'fr' | 'en';
 
 const LABELS: Record<Lang, {
@@ -114,15 +112,8 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
   );
 }
 
-export default function SeoContent() {
-  const [lang, setLang] = useState<Lang>('fr');
-
-  useEffect(() => {
-    const stored = localStorage.getItem('horloge-live.com-language');
-    if (stored === 'en') setLang('en');
-  }, []);
-
-  const t = LABELS[lang];
+export default function SeoContent({ language }: { language: Lang }) {
+  const t = LABELS[language] ?? LABELS.fr;
 
   return (
     <section
