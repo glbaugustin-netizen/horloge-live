@@ -1,8 +1,6 @@
 'use client';
 /* eslint-disable react/no-unescaped-entities */
 
-import { useSettings } from '@/lib/useSettings';
-
 type Lang = 'fr' | 'en';
 
 const LABELS: Record<Lang, {
@@ -114,9 +112,8 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
   );
 }
 
-export default function SeoContent() {
-  const { settings } = useSettings();
-  const t = LABELS[settings.language as Lang] ?? LABELS.fr;
+export default function SeoContent({ language }: { language: Lang }) {
+  const t = LABELS[language] ?? LABELS.fr;
 
   return (
     <section

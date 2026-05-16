@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import ClockPageClient from '@/components/ClockPageClient';
-import SeoContent from '@/components/SeoContent';
 
 /* ─── Métadonnées SEO ─────────────────────────────────────── */
 export const metadata: Metadata = {
@@ -89,8 +88,6 @@ export default function Home() {
       {/* ── Zone interactive plein écran ── */}
       <ClockPageClient />
 
-      {/* ── Contenu SEO bilingue (FR/EN selon langue utilisateur) ── */}
-      <SeoContent />
     </>
   );
 }
