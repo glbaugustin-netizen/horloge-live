@@ -40,6 +40,20 @@ const nextConfig = {
           },
         ],
       },
+      /* Autorise l'intégration en iframe (Notion, autres sites) */
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'ALLOWALL',
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: "frame-ancestors *",
+          },
+        ],
+      },
     ];
   },
 };
