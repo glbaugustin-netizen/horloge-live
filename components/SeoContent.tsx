@@ -5,7 +5,7 @@ type Lang = 'fr' | 'en';
 
 const LABELS: Record<Lang, {
   h1: string; h2_1: string; p1: string; h2_2: string; p2: string;
-  h2_3: string; p3: string; h2_faq: string;
+  h2_3: string; p3: string; h2_4: string; p4: string; h2_faq: string;
   faq: { q: string; a: string }[];
   about: string;
 }> = {
@@ -17,6 +17,8 @@ const LABELS: Record<Lang, {
     p2: "Choisissez parmi plus de 60 polices de caractères, modifiez la couleur du texte, et définissez une image de fond aesthetic, un paysage ou une couleur unie. Format 12h/24h, mode miroir, affichage de la date — tout est paramétrable. Vos préférences sont sauvegardées automatiquement.",
     h2_3: "Affichez l'horloge en plein écran",
     p3: "Cliquez sur l'icône plein écran ou appuyez sur F pour afficher l'horloge sur tout l'écran. Idéal en salle de classe, en réunion ou comme horloge de bureau sur un second moniteur. Appuyez sur Échap pour quitter.",
+    h2_4: "Mode Examen — Horloge plein écran pour la classe",
+    p4: "Le mode examen affiche l'heure en grand sur fond blanc, parfait pour la projection en salle de classe. Indiquez la matière et la durée de l'épreuve, activez le plein écran et laissez les élèves gérer leur temps en autonomie.",
     h2_faq: "Questions fréquentes sur l'horloge en ligne",
     faq: [
       {
@@ -50,6 +52,8 @@ const LABELS: Record<Lang, {
     p2: 'Choose from over 60 fonts, change the text color, and set an aesthetic background, landscape photo or solid color. 12h/24h format, mirror mode, date display — all customizable. Your preferences are saved automatically.',
     h2_3: 'Display the clock in full screen',
     p3: 'Click the full screen icon or press F to display the clock on your entire screen. Perfect for classrooms, meetings or as a desktop clock on a second monitor. Press Esc to exit.',
+    h2_4: 'Exam Mode — Full-screen clock for the classroom',
+    p4: 'Exam mode displays the time in large on a white background, perfect for classroom projection. Enter the subject and exam duration, enable full screen, and let students manage their time independently.',
     h2_faq: 'Frequently asked questions about the online clock',
     faq: [
       {
@@ -151,6 +155,11 @@ export default function SeoContent({ language }: { language: Lang }) {
       <div style={sectionStyle}>
         <h2 style={h2Style}>{t.h2_3}</h2>
         <p style={pStyle}>{t.p3}</p>
+      </div>
+
+      <div style={sectionStyle}>
+        <h2 style={h2Style}>{t.h2_4}</h2>
+        <p style={pStyle}>{t.p4}</p>
       </div>
 
       <div style={sectionStyle}>

@@ -333,6 +333,18 @@ body::before {
   }
 }
 
+/* ─── Mode Examen ─────────────────────────────────────────────── */
+/*
+  Classe racine de la page /examen. Remplace le fond sombre/image
+  par un fond blanc avec texte sombre, adapté à la projection en classe.
+*/
+.exam-mode {
+  --color-text-primary: #111827;
+  --color-text-secondary: rgba(0, 0, 0, 0.55);
+  background: #ffffff;
+  color: #111827;
+}
+
 /*
   Centrage contenu chrono / minuteur :
   Identique à .clock-centered mais flex-column pour
