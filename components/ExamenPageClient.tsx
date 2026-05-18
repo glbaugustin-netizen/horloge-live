@@ -306,10 +306,9 @@ export default function ExamenPageClient() {
               flexDirection: 'column',
               gap: '14px',
               marginBottom: '28px',
-              paddingTop: '4px',
-              borderTop: '1px solid #f3f4f6',
               paddingTop: '18px',
-            } as React.CSSProperties}>
+              borderTop: '1px solid #f3f4f6',
+            }}>
               <ToggleRow
                 label="Afficher les secondes"
                 checked={config.showSeconds}
