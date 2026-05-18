@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   Settings2, Maximize2, Minimize2, User,
-  Clock, Timer, AlarmClock, Globe,
+  Clock, Timer, AlarmClock, Globe, GraduationCap,
 } from 'lucide-react';
 
 interface MobileNavProps {
@@ -17,16 +17,18 @@ interface MobileNavProps {
 
 const NAV_ITEMS = {
   fr: [
-    { href: '/',        Icon: Clock,      label: 'Horloge'     },
-    { href: '/chrono',  Icon: Timer,      label: 'Chrono'      },
-    { href: '/minuteur',Icon: AlarmClock, label: 'Minuteur'    },
-    { href: '/monde',   Icon: Globe,      label: 'Monde'       },
+    { href: '/',        Icon: Clock,          label: 'Horloge'  },
+    { href: '/chrono',  Icon: Timer,          label: 'Chrono'   },
+    { href: '/minuteur',Icon: AlarmClock,     label: 'Minuteur' },
+    { href: '/monde',   Icon: Globe,          label: 'Monde'    },
+    { href: '/examen',  Icon: GraduationCap,  label: 'Examen'   },
   ],
   en: [
-    { href: '/',        Icon: Clock,      label: 'Clock'       },
-    { href: '/chrono',  Icon: Timer,      label: 'Chrono'      },
-    { href: '/minuteur',Icon: AlarmClock, label: 'Timer'       },
-    { href: '/monde',   Icon: Globe,      label: 'World'       },
+    { href: '/',        Icon: Clock,          label: 'Clock'    },
+    { href: '/chrono',  Icon: Timer,          label: 'Chrono'   },
+    { href: '/minuteur',Icon: AlarmClock,     label: 'Timer'    },
+    { href: '/monde',   Icon: Globe,          label: 'World'    },
+    { href: '/examen',  Icon: GraduationCap,  label: 'Exam'     },
   ],
 };
 
@@ -120,8 +122,8 @@ export default function MobileNav({
         </Link>
       </div>
 
-      {/* ── Barre 2 — Navigation (Horloge | Chronomètre | Minuteur) ── */}
-      <nav className="sm:hidden flex" style={{ ...BAR_BASE, bottom: 0 }}>
+      {/* ── Barre 2 — Navigation (Horloge | Chrono | Minuteur | Monde | Examen) ── */}
+      <nav className="sm:hidden flex" style={{ ...BAR_BASE, bottom: 0, overflowX: 'auto', justifyContent: 'flex-start' }}>
         {items.map(({ href, Icon, label }) => {
           const isActive = href === '/' ? pathname === '/' : pathname.startsWith(href);
 
@@ -130,7 +132,8 @@ export default function MobileNav({
               key={href}
               href={href}
               style={{
-                flex: 1,
+                flex: '0 0 20%',
+                minWidth: '64px',
                 height: '100%',
                 display: 'flex',
                 flexDirection: 'column',
