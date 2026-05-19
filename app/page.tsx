@@ -3,15 +3,14 @@ import ClockPageClient from '@/components/ClockPageClient';
 
 /* ─── Métadonnées SEO ─────────────────────────────────────── */
 export const metadata: Metadata = {
-  // TODO: dynamiser selon langue (EN: 'Aesthetic online clock — Full screen & customizable | horloge-live.com')
-  title: 'Horloge en ligne aesthetic — Plein écran & personnalisable | horloge-live.com',
+  title: 'Horloge en ligne — Heure exacte, aesthetic, live et personnalisable | horloge-live.com',
   description:
-    "Horloge numérique en ligne aesthetic — affiche l'heure exacte, gratuite, personnalisable et en plein écran. Plus de 60 polices, fonds aesthetic et paysages. Sur mobile et PC en un clic.",
+    "Horloge en ligne live et aesthetic — affiche l'heure exacte en temps réel, gratuite et personnalisable. Plus de 60 polices, fonds aesthetic, paysages. Plein écran en un clic. Sur mobile et PC.",
   alternates: { canonical: 'https://horloge-live.com/' },
   openGraph: {
-    title: 'Horloge en ligne aesthetic — Plein écran & personnalisable | horloge-live.com',
+    title: 'Horloge en ligne — Heure exacte, aesthetic, live et personnalisable | horloge-live.com',
     description:
-      "Horloge numérique en ligne aesthetic — affiche l'heure exacte, gratuite, personnalisable et en plein écran.",
+      "Horloge en ligne live et aesthetic — affiche l'heure exacte en temps réel, gratuite et personnalisable. Plus de 60 polices, fonds aesthetic, paysages. Plein écran en un clic.",
     url: 'https://horloge-live.com/',
     images: [
       {
@@ -40,10 +39,10 @@ const faqJsonLd = {
     },
     {
       '@type': 'Question',
-      name: 'Quelle heure est-il maintenant ?',
+      name: "Quelle heure est-il maintenant ? Est-ce une horloge en ligne live ?",
       acceptedAnswer: {
         '@type': 'Answer',
-        text: "L'horloge affiche l'heure exacte en temps réel, synchronisée automatiquement avec l'heure de votre navigateur. Aucun réglage n'est nécessaire : l'heure s'affiche dès l'ouverture de la page.",
+        text: "Oui. L'horloge affiche l'heure exacte en temps réel, synchronisée en direct avec votre navigateur — c'est bien une horloge live. Aucun réglage nécessaire : l'heure s'affiche dès l'ouverture de la page.",
       },
     },
     {
@@ -51,7 +50,7 @@ const faqJsonLd = {
       name: "Comment afficher l'horloge en plein écran ?",
       acceptedAnswer: {
         '@type': 'Answer',
-        text: "Cliquez sur l'icône plein écran en bas de la page ou appuyez sur la touche F de votre clavier. L'horloge occupe alors tout l'écran. Pour quitter le mode plein écran, appuyez sur la touche Échap.",
+        text: "Cliquez sur l'icône plein écran en bas de la page ou appuyez sur la touche F de votre clavier. L'horloge occupe tout l'écran. Pour quitter le mode plein écran, appuyez sur la touche Échap.",
       },
     },
     {
@@ -64,10 +63,10 @@ const faqJsonLd = {
     },
     {
       '@type': 'Question',
-      name: "L'horloge en ligne est-elle précise ?",
+      name: "Peut-on avoir une horloge en ligne personnalisable et modifiable ?",
       acceptedAnswer: {
         '@type': 'Answer',
-        text: "Oui. L'horloge est synchronisée avec l'heure de votre système, elle-même mise à jour automatiquement via les serveurs de temps NTP. Elle affiche l'heure exacte à la seconde près.",
+        text: "Oui. horloge-live.com est une horloge en ligne entièrement personnalisable et modifiable : police, taille, couleur du texte, fond aesthetic ou paysage, format 12h/24h et mode miroir. Toutes vos préférences sont sauvegardées automatiquement.",
       },
     },
   ],
