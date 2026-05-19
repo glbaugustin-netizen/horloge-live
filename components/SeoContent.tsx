@@ -10,15 +10,15 @@ const LABELS: Record<Lang, {
   about: string;
 }> = {
   fr: {
-    h1: 'Horloge en ligne aesthetic — Heure exacte, gratuite et personnalisable',
+    h1: 'Horloge en ligne aesthetic — Heure exacte, live et personnalisable',
     h2_1: 'Quelle heure est-il en ce moment ?',
-    p1: "Notre horloge numérique en ligne aesthetic affiche l'heure exacte en heures, minutes et secondes, synchronisée automatiquement avec l'heure de votre navigateur. Gratuite et sans installation, elle fonctionne sur ordinateur, tablette et mobile.",
+    p1: "Notre horloge en ligne live affiche l'heure exacte en heures, minutes et secondes, synchronisée en temps réel avec votre navigateur. Gratuite et sans installation, elle fonctionne sur ordinateur, tablette et mobile. Consultez l'heure précise à tout moment.",
     h2_2: 'Personnalisez votre horloge en ligne',
-    p2: "Choisissez parmi plus de 60 polices de caractères, modifiez la couleur du texte, et définissez une image de fond aesthetic, un paysage ou une couleur unie. Format 12h/24h, mode miroir, affichage de la date — tout est paramétrable. Vos préférences sont sauvegardées automatiquement.",
+    p2: "Choisissez parmi plus de 60 polices de caractères, modifiez la couleur du texte, et définissez une image de fond aesthetic, un paysage ou une couleur unie. Format 12h/24h, mode miroir, affichage de la date — tout est paramétrable sur cette horloge en ligne modifiable. Vos préférences sont sauvegardées automatiquement.",
     h2_3: "Affichez l'horloge en plein écran",
-    p3: "Cliquez sur l'icône plein écran ou appuyez sur F pour afficher l'horloge sur tout l'écran. Idéal en salle de classe, en réunion ou comme horloge de bureau sur un second moniteur. Appuyez sur Échap pour quitter.",
-    h2_4: "Mode Examen — Horloge plein écran pour la classe",
-    p4: "Le mode examen affiche l'heure en grand sur fond blanc, parfait pour la projection en salle de classe. Indiquez la matière et la durée de l'épreuve, activez le plein écran et laissez les élèves gérer leur temps en autonomie.",
+    p3: "Passez en mode plein écran d'un simple clic pour afficher votre horloge sur tout l'écran. Idéal pour une horloge en ligne plein écran aesthetic en salle de classe, en réunion ou comme horloge de bureau sur un second moniteur. Appuyez sur F ou sur l'icône dédiée — Échap pour quitter.",
+    h2_4: "Horloge plein écran pour la classe et les examens",
+    p4: "Le mode plein écran affiche l'heure en grand sur tout l'écran, parfait pour la projection en salle de classe. Idéal pour les examens, les activités minutées ou simplement garder le temps visible pour tous les élèves. Fonctionne sur tableau blanc interactif, ordinateur et tablette.",
     h2_faq: "Questions fréquentes sur l'horloge en ligne",
     faq: [
       {
@@ -26,34 +26,34 @@ const LABELS: Record<Lang, {
         a: "Une horloge en ligne aesthetic est une horloge numérique personnalisable visuellement : police, fond d'écran, couleurs et style. horloge-live.com propose plus de 60 polices et des fonds aesthetic, paysages ou couleurs unies pour créer une horloge à votre image.",
       },
       {
-        q: 'Quelle heure est-il maintenant ?',
-        a: "L'horloge affiche l'heure exacte en temps réel, synchronisée automatiquement avec l'heure de votre navigateur. Aucun réglage n'est nécessaire : l'heure s'affiche dès l'ouverture de la page.",
+        q: "Quelle heure est-il maintenant ? Est-ce une horloge en ligne live ?",
+        a: "Oui. L'horloge affiche l'heure exacte en temps réel, synchronisée en direct avec votre navigateur — c'est bien une horloge live. Aucun réglage nécessaire : l'heure s'affiche dès l'ouverture de la page.",
       },
       {
         q: "Comment afficher l'horloge en plein écran ?",
-        a: "Cliquez sur l'icône plein écran en bas de la page ou appuyez sur la touche F de votre clavier. L'horloge occupe alors tout l'écran. Pour quitter le mode plein écran, appuyez sur la touche Échap.",
+        a: "Cliquez sur l'icône plein écran en bas de la page ou appuyez sur la touche F de votre clavier. L'horloge occupe tout l'écran. Pour quitter le mode plein écran, appuyez sur la touche Échap.",
       },
       {
         q: "L'horloge en ligne est-elle gratuite et sans inscription ?",
         a: "Oui. horloge-live.com est totalement gratuit, sans publicité et sans inscription. Aucun compte n'est nécessaire pour utiliser toutes les fonctionnalités du site.",
       },
       {
-        q: "L'horloge en ligne est-elle précise ?",
-        a: "Oui. L'horloge est synchronisée avec l'heure de votre système, elle-même mise à jour automatiquement via les serveurs de temps NTP. Elle affiche l'heure exacte à la seconde près.",
+        q: "Peut-on avoir une horloge en ligne personnalisable et modifiable ?",
+        a: "Oui. horloge-live.com est une horloge en ligne entièrement personnalisable et modifiable : police, taille, couleur du texte, fond aesthetic ou paysage, format 12h/24h et mode miroir. Toutes vos préférences sont sauvegardées automatiquement.",
       },
     ],
-    about: "horloge-live.com est une horloge numérique aesthetic, gratuite et sans publicité. Personnalisable avec plus de 60 polices et des fonds aesthetic ou paysages, elle s'adresse à tous — usage personnel, en classe ou en réunion. Aucune installation requise.",
+    about: "horloge-live.com est une horloge en ligne live et aesthetic, gratuite et sans publicité. Personnalisable avec plus de 60 polices et des fonds aesthetic ou paysages, cette horloge numérique en ligne s'adresse à tous — usage personnel, en classe ou en réunion. Aucune installation requise.",
   },
   en: {
-    h1: 'Aesthetic online clock — Exact time, free and customizable',
+    h1: 'Aesthetic online clock — Exact time, live & customizable',
     h2_1: 'What time is it right now?',
-    p1: 'Our aesthetic online digital clock displays the exact time in hours, minutes and seconds, automatically synchronized with your browser. Free and with no installation, it works on desktop, tablet and mobile.',
+    p1: 'Our live online clock displays the exact time in hours, minutes and seconds, synchronized in real time with your browser. Free and with no installation, it works on desktop, tablet and mobile. Check the precise time at any moment.',
     h2_2: 'Customize your online clock',
-    p2: 'Choose from over 60 fonts, change the text color, and set an aesthetic background, landscape photo or solid color. 12h/24h format, mirror mode, date display — all customizable. Your preferences are saved automatically.',
+    p2: 'Choose from over 60 fonts, change the text color, and set an aesthetic background, landscape photo or solid color. 12h/24h format, mirror mode, date display — everything is customizable on this modifiable online clock. Your preferences are saved automatically.',
     h2_3: 'Display the clock in full screen',
-    p3: 'Click the full screen icon or press F to display the clock on your entire screen. Perfect for classrooms, meetings or as a desktop clock on a second monitor. Press Esc to exit.',
-    h2_4: 'Exam Mode — Full-screen clock for the classroom',
-    p4: 'Exam mode displays the time in large on a white background, perfect for classroom projection. Enter the subject and exam duration, enable full screen, and let students manage their time independently.',
+    p3: 'Go full screen in one click to display your clock on the entire screen. Perfect for an aesthetic full screen online clock in a classroom, meeting room or as a desktop clock on a second monitor. Press F or click the dedicated icon — press Esc to exit.',
+    h2_4: 'Full screen clock for the classroom and exams',
+    p4: 'Full screen mode displays the time large across the entire screen, perfect for classroom projection. Ideal for exams, timed activities or simply keeping time visible for all students. Works on interactive whiteboards, computers and tablets.',
     h2_faq: 'Frequently asked questions about the online clock',
     faq: [
       {
@@ -61,8 +61,8 @@ const LABELS: Record<Lang, {
         a: 'An aesthetic online clock is a visually customizable digital clock: font, wallpaper, colors and style. horloge-live.com offers over 60 fonts and aesthetic, landscape or solid color backgrounds to create a clock that matches your style.',
       },
       {
-        q: 'What time is it now?',
-        a: 'The clock displays the exact time in real time, automatically synchronized with your browser. No setup needed: the time appears as soon as you open the page.',
+        q: 'What time is it now? Is this a live online clock?',
+        a: 'Yes. The clock displays the exact time in real time, synchronized live with your browser — it is indeed a live clock. No setup needed: the time appears as soon as you open the page.',
       },
       {
         q: 'How do I display the clock in full screen?',
@@ -73,11 +73,11 @@ const LABELS: Record<Lang, {
         a: 'Yes. horloge-live.com is completely free, with no ads and no registration. No account is needed to use all the features of the site.',
       },
       {
-        q: 'Is the online clock accurate?',
-        a: 'Yes. The clock is synchronized with your system time, which is automatically updated via NTP time servers. It displays the exact time to the second.',
+        q: 'Can I have a customizable and modifiable online clock?',
+        a: 'Yes. horloge-live.com is a fully customizable and modifiable online clock: font, size, text color, aesthetic or landscape background, 12h/24h format and mirror mode. All your preferences are saved automatically.',
       },
     ],
-    about: 'horloge-live.com is a free, ad-free aesthetic digital clock. Customizable with over 60 fonts and aesthetic or landscape backgrounds, it suits everyone — personal use, classroom or meeting. No installation required.',
+    about: 'horloge-live.com is a free, ad-free live and aesthetic online clock. Customizable with over 60 fonts and aesthetic or landscape backgrounds, this digital online clock suits everyone — personal use, classroom or meeting. No installation required.',
   },
 };
 
