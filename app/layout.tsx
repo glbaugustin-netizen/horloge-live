@@ -50,6 +50,9 @@ export const metadata: Metadata = {
   verification: {
     google: 'Hzs39rl0UhFX4FifeL0N9sjbvjI5VwwiW-JOhW96gbk',
   },
+  other: {
+    'p:domain_verify': '48ee732ffd6a25dbac4a94feb8e63963',
+  },
 };
 
 const webApplicationJsonLd = {
