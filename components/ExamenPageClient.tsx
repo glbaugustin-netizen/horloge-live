@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { Maximize2, Minimize2, Pencil, GraduationCap, ArrowLeft } from 'lucide-react';
 
 /* ─── Types ──────────────────────────────────────────────────── */
+type Lang = 'fr' | 'en';
+
 interface ExamConfig {
   subject: string;
   durationHours: number;
@@ -22,7 +24,46 @@ const DEFAULT_CONFIG: ExamConfig = {
   showDate: true,
 };
 
-const STORAGE_KEY = 'horloge-live.com-examen-config';
+const STORAGE_KEY     = 'horloge-live.com-examen-config';
+const STORAGE_LANG    = 'horloge-live.com-language';
+
+/* ─── Traductions ────────────────────────────────────────────── */
+const LABELS = {
+  fr: {
+    backLink:        "Retour à l'horloge",
+    title:           'Mode Examen',
+    subtitle:        'Horloge plein écran pour la salle de classe',
+    labelSubject:    'Matière',
+    placeholder:     'Ex : Mathématiques, Physique…',
+    labelDuration:   "Durée de l'épreuve",
+    hour:            (n: number) => `${n} heure${n !== 1 ? 's' : ''}`,
+    min:             (m: number) => `${m} min`,
+    showSeconds:     'Afficher les secondes',
+    showDate:        'Afficher la date',
+    startBtn:        "Démarrer l'examen",
+    durationPrefix:  'Durée :',
+    editBtn:         'Modifier',
+    exitFullscreen:  'Quitter le plein écran',
+    fullscreen:      'Plein écran',
+  },
+  en: {
+    backLink:        'Back to clock',
+    title:           'Exam Mode',
+    subtitle:        'Full screen clock for the classroom',
+    labelSubject:    'Subject',
+    placeholder:     'E.g. Mathematics, Physics…',
+    labelDuration:   'Exam duration',
+    hour:            (n: number) => `${n} hour${n !== 1 ? 's' : ''}`,
+    min:             (m: number) => `${m} min`,
+    showSeconds:     'Show seconds',
+    showDate:        'Show date',
+    startBtn:        'Start exam',
+    durationPrefix:  'Duration:',
+    editBtn:         'Edit',
+    exitFullscreen:  'Exit full screen',
+    fullscreen:      'Full screen',
+  },
+} as const;
 
 /* ─── Helpers ────────────────────────────────────────────────── */
 function formatTime(date: Date, showSeconds: boolean): string {
@@ -33,8 +74,9 @@ function formatTime(date: Date, showSeconds: boolean): string {
   return `${h}:${m}:${s}`;
 }
 
-function formatDate(date: Date): string {
-  return date.toLocaleDateString('fr-FR', {
+function formatDate(date: Date, lang: Lang): string {
+  const locale = lang === 'en' ? 'en-GB' : 'fr-FR';
+  return date.toLocaleDateString(locale, {
     weekday: 'long',
     day: 'numeric',
     month: 'long',
@@ -91,15 +133,18 @@ function ToggleRow({ label, checked, onChange }: { label: string; checked: boole
 
 /* ─── Main component ─────────────────────────────────────────── */
 export default function ExamenPageClient() {
-  const [config, setConfig] = useState<ExamConfig>(DEFAULT_CONFIG);
-  const [isStarted, setIsStarted] = useState(false);
+  const [lang, setLang]             = useState<Lang>('fr');
+  const [config, setConfig]         = useState<ExamConfig>(DEFAULT_CONFIG);
+  const [isStarted, setIsStarted]   = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [isFullscreen, setIsFullscreen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  /* Load config from localStorage */
+  /* Detect language + load config from localStorage */
   useEffect(() => {
     try {
+      const storedLang = localStorage.getItem(STORAGE_LANG);
+      if (storedLang === 'en') setLang('en');
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
         const parsed = JSON.parse(stored) as Partial<ExamConfig>;
@@ -142,6 +187,8 @@ export default function ExamenPageClient() {
     }
   }, []);
 
+  const t = LABELS[lang];
+
   /* ── Config panel ── */
   if (!isStarted) {
     return (
@@ -172,7 +219,7 @@ export default function ExamenPageClient() {
             }}
           >
             <ArrowLeft size={14} />
-            Retour à l'horloge
+            {t.backLink}
           </Link>
 
           {/* Header */}
@@ -190,10 +237,10 @@ export default function ExamenPageClient() {
               <GraduationCap size={26} color="#ffffff" />
             </div>
             <h1 style={{ fontSize: '26px', fontWeight: 700, color: '#111827', marginBottom: '6px' }}>
-              Mode Examen
+              {t.title}
             </h1>
             <p style={{ fontSize: '15px', color: '#6b7280' }}>
-              Horloge plein écran pour la salle de classe
+              {t.subtitle}
             </p>
           </div>
 
@@ -217,11 +264,11 @@ export default function ExamenPageClient() {
                 letterSpacing: '0.07em',
                 marginBottom: '8px',
               }}>
-                Matière
+                {t.labelSubject}
               </label>
               <input
                 type="text"
-                placeholder="Ex : Mathématiques, Physique…"
+                placeholder={t.placeholder}
                 value={config.subject}
                 onChange={(e) => setConfig(c => ({ ...c, subject: e.target.value }))}
                 style={{
@@ -252,7 +299,7 @@ export default function ExamenPageClient() {
                 letterSpacing: '0.07em',
                 marginBottom: '8px',
               }}>
-                Durée de l'épreuve
+                {t.labelDuration}
               </label>
               <div style={{ display: 'flex', gap: '10px' }}>
                 <select
@@ -273,7 +320,7 @@ export default function ExamenPageClient() {
                   }}
                 >
                   {Array.from({ length: 13 }, (_, i) => (
-                    <option key={i} value={i}>{i} heure{i !== 1 ? 's' : ''}</option>
+                    <option key={i} value={i}>{t.hour(i)}</option>
                   ))}
                 </select>
                 <select
@@ -294,7 +341,7 @@ export default function ExamenPageClient() {
                   }}
                 >
                   {[0, 15, 30, 45].map(m => (
-                    <option key={m} value={m}>{m} min</option>
+                    <option key={m} value={m}>{t.min(m)}</option>
                   ))}
                 </select>
               </div>
@@ -310,12 +357,12 @@ export default function ExamenPageClient() {
               borderTop: '1px solid #f3f4f6',
             }}>
               <ToggleRow
-                label="Afficher les secondes"
+                label={t.showSeconds}
                 checked={config.showSeconds}
                 onChange={(v) => setConfig(c => ({ ...c, showSeconds: v }))}
               />
               <ToggleRow
-                label="Afficher la date"
+                label={t.showDate}
                 checked={config.showDate}
                 onChange={(v) => setConfig(c => ({ ...c, showDate: v }))}
               />
@@ -342,7 +389,7 @@ export default function ExamenPageClient() {
               onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.98)'; }}
               onMouseUp={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}
             >
-              Démarrer l'examen
+              {t.startBtn}
             </button>
           </div>
         </div>
@@ -391,7 +438,7 @@ export default function ExamenPageClient() {
           marginBottom: '32px',
           letterSpacing: '0.03em',
         }}>
-          Durée : {durationStr}
+          {t.durationPrefix} {durationStr}
         </p>
       )}
 
@@ -417,7 +464,7 @@ export default function ExamenPageClient() {
           textTransform: 'capitalize',
           letterSpacing: '0.01em',
         }}>
-          {formatDate(currentTime)}
+          {formatDate(currentTime, lang)}
         </p>
       )}
 
@@ -450,12 +497,12 @@ export default function ExamenPageClient() {
           onMouseLeave={(e) => { e.currentTarget.style.background = '#f3f4f6'; }}
         >
           <Pencil size={13} />
-          Modifier
+          {t.editBtn}
         </button>
 
         <button
           onClick={handleFullscreenToggle}
-          title={isFullscreen ? 'Quitter le plein écran' : 'Plein écran'}
+          title={isFullscreen ? t.exitFullscreen : t.fullscreen}
           style={{
             width: '38px',
             height: '38px',
