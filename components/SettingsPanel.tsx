@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import {
-  X, ChevronDown, ChevronUp, Upload,
+  X, ChevronDown, ChevronUp, Upload, Code2,
 } from 'lucide-react';
 import { FONT_CATEGORIES, loadAllFonts } from '@/lib/googleFonts';
 import type { Settings } from '@/lib/useSettings';
@@ -73,6 +73,7 @@ const LABELS = {
     landscapes: 'Paysages',
     aesthetic: 'Aesthetic',
     uploadBg: 'Importer une image',
+    embedBtn: 'Intégrer sur votre site',
   },
   en: {
     title: 'SETTINGS',
@@ -89,6 +90,7 @@ const LABELS = {
     landscapes: 'Landscapes',
     aesthetic: 'Aesthetic',
     uploadBg: 'Upload an image',
+    embedBtn: 'Embed on your website',
   },
 } as const;
 
@@ -562,6 +564,7 @@ interface SettingsPanelProps {
   updateShowDate: (v: boolean) => void;
   updateShowSeconds: (v: boolean) => void;
   updateLanguage: (v: 'fr' | 'en') => void;
+  onEmbedOpen?: () => void;
 }
 
 export default function SettingsPanel({
@@ -577,6 +580,7 @@ export default function SettingsPanel({
   updateShowDate,
   updateShowSeconds,
   updateLanguage,
+  onEmbedOpen,
 }: SettingsPanelProps) {
   const [fontExpanded, setFontExpanded] = useState(false);
   const [bgExpanded, setBgExpanded] = useState(false);
@@ -870,6 +874,41 @@ export default function SettingsPanel({
             </ParamRow>
           </div>
         </div>
+
+        {/* ── Séparateur + bouton Intégrer ── */}
+        <div style={{ height: '1px', background: 'rgba(255,255,255,0.10)', margin: '12px 0' }} />
+        <button
+          onClick={onEmbedOpen ?? undefined}
+          style={{
+            width: '100%',
+            borderRadius: '50px',
+            padding: '10px 20px',
+            fontSize: '14px',
+            fontWeight: 400,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+            cursor: 'pointer',
+            background: 'rgba(255,255,255,0.08)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+            border: '1px solid rgba(255,255,255,0.15)',
+            color: 'rgba(255,255,255,0.85)',
+            transition: 'background 150ms ease, border-color 150ms ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'rgba(255,255,255,0.12)';
+            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.20)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
+            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)';
+          }}
+        >
+          <Code2 size={16} strokeWidth={1.5} />
+          {t.embedBtn}
+        </button>
       </section>
     </>
   );
