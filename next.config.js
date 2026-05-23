@@ -40,6 +40,20 @@ const nextConfig = {
           },
         ],
       },
+      /* Page widget — autorise l'iframe depuis n'importe quel domaine */
+      {
+        source: '/widget',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'ALLOWALL',
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: "frame-ancestors *",
+          },
+        ],
+      },
       /* Autorise l'intégration en iframe (Notion, autres sites) */
       {
         source: '/:path*',

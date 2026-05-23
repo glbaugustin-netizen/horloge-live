@@ -10,8 +10,9 @@ import SeoContent from '@/components/SeoContent';
 import { useSettings } from '@/lib/useSettings';
 
 /* Chargés en différé — absents du bundle initial (économise ~80 KB) */
-const Sidebar = dynamic(() => import('@/components/Sidebar'), { ssr: false, loading: () => null });
+const Sidebar       = dynamic(() => import('@/components/Sidebar'),       { ssr: false, loading: () => null });
 const SettingsPanel = dynamic(() => import('@/components/SettingsPanel'), { ssr: false, loading: () => null });
+const EmbedModal    = dynamic(() => import('@/components/EmbedModal'),    { ssr: false, loading: () => null });
 
 /* ─────────────────────────────────────────────────────────────
    Bouton icône rond — barre du bas desktop
@@ -153,7 +154,8 @@ export default function ClockPageClient() {
   } = useSettings();
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen]   = useState(false);
+  const [embedOpen, setEmbedOpen]       = useState(false);
 
   /* Suivi état plein écran (Échap natif du navigateur) */
   useEffect(() => {
@@ -324,6 +326,26 @@ export default function ClockPageClient() {
               {label}
             </Link>
           ))}
+
+          {/* Lien Intégrer */}
+          <button
+            onClick={() => setEmbedOpen(true)}
+            style={{
+              fontSize: '12px',
+              fontWeight: 400,
+              color: 'rgba(255,255,255,0.40)',
+              textDecoration: 'none',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              padding: 0,
+              transition: 'color 150ms ease',
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.70)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.40)'; }}
+          >
+            {settings.language === 'en' ? 'Embed' : 'Intégrer'}
+          </button>
         </div>
       )}
 
@@ -363,6 +385,14 @@ export default function ClockPageClient() {
         updateShowDate={updateShowDate}
         updateShowSeconds={updateShowSeconds}
         updateLanguage={updateLanguage}
+        onEmbedOpen={() => { setSettingsOpen(false); setEmbedOpen(true); }}
+      />
+
+      {/* ── Modale Embed ── */}
+      <EmbedModal
+        isOpen={embedOpen}
+        onClose={() => setEmbedOpen(false)}
+        language={settings.language}
       />
     </div>
 
