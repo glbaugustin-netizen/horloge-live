@@ -2,9 +2,11 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
-import { Menu, Settings2, Maximize2, Minimize2, User } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
 import Clock from '@/components/Clock';
+import BottomBar from '@/components/BottomBar';
 import MobileNav from '@/components/MobileNav';
 import SeoContent from '@/components/SeoContent';
 import { useSettings } from '@/lib/useSettings';
@@ -13,69 +15,6 @@ import { useSettings } from '@/lib/useSettings';
 const Sidebar       = dynamic(() => import('@/components/Sidebar'),       { ssr: false, loading: () => null });
 const SettingsPanel = dynamic(() => import('@/components/SettingsPanel'), { ssr: false, loading: () => null });
 const EmbedModal    = dynamic(() => import('@/components/EmbedModal'),    { ssr: false, loading: () => null });
-
-/* ─────────────────────────────────────────────────────────────
-   Bouton icône rond — barre du bas desktop
-───────────────────────────────────────────────────────────── */
-function IconButton({
-  children,
-  onClick,
-  active = false,
-  href,
-  title,
-}: {
-  children: React.ReactNode;
-  onClick?: () => void;
-  active?: boolean;
-  href?: string;
-  title?: string;
-}) {
-  const style: React.CSSProperties = {
-    width: '44px',
-    height: '44px',
-    borderRadius: '50px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    cursor: 'pointer',
-    border: `1px solid ${active ? 'var(--glass-border-accent)' : 'var(--glass-border)'}`,
-    background: active ? 'var(--glass-bg-accent)' : 'var(--glass-bg)',
-    backdropFilter: 'var(--glass-blur)',
-    WebkitBackdropFilter: 'var(--glass-blur)',
-    color: active ? 'var(--color-accent)' : 'rgba(255,255,255,0.80)',
-    transition: 'background 150ms ease, border-color 150ms ease',
-    textDecoration: 'none',
-    flexShrink: 0,
-  };
-
-  if (href) {
-    return (
-      <Link href={href} style={style} title={title}>
-        {children}
-      </Link>
-    );
-  }
-
-  return (
-    <button
-      onClick={onClick}
-      style={style}
-      title={title}
-      onMouseEnter={(e) => {
-        const el = e.currentTarget;
-        el.style.background = active ? 'rgba(79,195,247,0.30)' : 'var(--glass-bg-hover)';
-        el.style.borderColor = active ? 'rgba(79,195,247,0.65)' : 'var(--glass-border-active)';
-      }}
-      onMouseLeave={(e) => {
-        const el = e.currentTarget;
-        el.style.background = active ? 'var(--glass-bg-accent)' : 'var(--glass-bg)';
-        el.style.borderColor = active ? 'var(--glass-border-accent)' : 'var(--glass-border)';
-      }}
-    >
-      {children}
-    </button>
-  );
-}
 
 /* ─────────────────────────────────────────────────────────────
    Hint plein écran
@@ -152,10 +91,23 @@ export default function ClockPageClient() {
     updateShowSeconds,
     updateLanguage,
   } = useSettings();
+  const router = useRouter();
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [sidebarOpen, setSidebarOpen]   = useState(false);
-  const [embedOpen, setEmbedOpen]       = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [embedOpen,   setEmbedOpen]   = useState(false);
+  const [accountHref, setAccountHref] = useState('/connexion');
+
+  /* Suivi état de connexion Firebase */
+  useEffect(() => {
+    let unsub: (() => void) | null = null;
+    import('@/lib/firebase').then(({ auth, onAuthStateChanged }) => {
+      unsub = onAuthStateChanged(auth, (user) => {
+        setAccountHref(user ? '/compte' : '/connexion');
+      });
+    }).catch(() => {});
+    return () => { unsub?.(); };
+  }, []);
 
   /* Suivi état plein écran (Échap natif du navigateur) */
   useEffect(() => {
@@ -254,29 +206,14 @@ export default function ClockPageClient() {
             zIndex: 30,
           }}
         >
-          <IconButton
-            onClick={() => setSettingsOpen(true)}
-            title={settings.language === 'fr' ? 'Paramètres' : 'Settings'}
-          >
-            <Settings2 size={20} strokeWidth={1.5} />
-          </IconButton>
-
-          <IconButton
-            onClick={toggleFullscreen}
-            active={isFullscreen}
-            title={settings.language === 'fr' ? 'Plein écran' : 'Fullscreen'}
-          >
-            {isFullscreen
-              ? <Minimize2 size={20} strokeWidth={1.5} />
-              : <Maximize2 size={20} strokeWidth={1.5} />}
-          </IconButton>
-
-          <IconButton
-            href="/connexion"
-            title={settings.language === 'fr' ? 'Mon compte' : 'My account'}
-          >
-            <User size={20} strokeWidth={1.5} />
-          </IconButton>
+          <BottomBar
+            onSettingsClick={() => setSettingsOpen(true)}
+            onAccountClick={() => router.push(accountHref)}
+            isFullscreen={isFullscreen}
+            onFullscreenToggle={toggleFullscreen}
+            isAuthenticated={accountHref === '/compte'}
+            language={settings.language}
+          />
         </div>
       )}
 

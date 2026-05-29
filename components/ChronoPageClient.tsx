@@ -3,10 +3,11 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import {
-  Menu, Settings2, Maximize2, Minimize2, User,
-  Play, Pause, RotateCcw, Flag,
+  Menu, Play, Pause, RotateCcw, Flag,
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
+import BottomBar from '@/components/BottomBar';
 import MobileNav from '@/components/MobileNav';
 import { useSettings } from '@/lib/useSettings';
 import { saveSession } from '@/lib/useHistory';
@@ -232,46 +233,6 @@ function PillButton({
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   Bouton icône bas desktop (identique à ClockPageClient)
-═══════════════════════════════════════════════════════════════ */
-function IconButton({
-  children, onClick, active = false, href, title,
-}: {
-  children: React.ReactNode; onClick?: () => void;
-  active?: boolean; href?: string; title?: string;
-}) {
-  const style: React.CSSProperties = {
-    width: '44px', height: '44px', borderRadius: '50px',
-    display: 'flex', alignItems: 'center', justifyContent: 'center',
-    cursor: 'pointer',
-    border: `1px solid ${active ? 'var(--glass-border-accent)' : 'var(--glass-border)'}`,
-    background: active ? 'var(--glass-bg-accent)' : 'var(--glass-bg)',
-    backdropFilter: 'var(--glass-blur)', WebkitBackdropFilter: 'var(--glass-blur)',
-    color: active ? 'var(--color-accent)' : 'rgba(255,255,255,0.80)',
-    transition: 'background 150ms ease, border-color 150ms ease',
-    textDecoration: 'none', flexShrink: 0,
-  };
-  if (href) return <Link href={href} style={style} title={title}>{children}</Link>;
-  return (
-    <button
-      onClick={onClick} style={style} title={title}
-      onMouseEnter={(e) => {
-        const el = e.currentTarget;
-        el.style.background = active ? 'rgba(79,195,247,0.30)' : 'var(--glass-bg-hover)';
-        el.style.borderColor = active ? 'rgba(79,195,247,0.65)' : 'var(--glass-border-active)';
-      }}
-      onMouseLeave={(e) => {
-        const el = e.currentTarget;
-        el.style.background = active ? 'var(--glass-bg-accent)' : 'var(--glass-bg)';
-        el.style.borderColor = active ? 'var(--glass-border-accent)' : 'var(--glass-border)';
-      }}
-    >
-      {children}
-    </button>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════════
    Hint plein écran
 ═══════════════════════════════════════════════════════════════ */
 function FullscreenHint({ language, onExit }: { language: 'fr' | 'en'; onExit: () => void }) {
@@ -323,7 +284,8 @@ export default function ChronoPageClient() {
     updateFormat, updateMirror, updateShowDate, updateShowSeconds, updateLanguage,
   } = useSettings();
 
-  const t = LABELS[settings.language];
+  const t      = LABELS[settings.language];
+  const router = useRouter();
 
   /* ── UI state ── */
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -495,24 +457,14 @@ export default function ChronoPageClient() {
             transform: 'translateX(-50%)', gap: '12px', zIndex: 30,
           }}
         >
-          <IconButton
-            onClick={() => setSettingsOpen(true)}
-            title={settings.language === 'fr' ? 'Paramètres' : 'Settings'}
-          >
-            <Settings2 size={20} strokeWidth={1.5} />
-          </IconButton>
-          <IconButton
-            onClick={toggleFullscreen}
-            active={isFullscreen}
-            title={settings.language === 'fr' ? 'Plein écran' : 'Fullscreen'}
-          >
-            {isFullscreen
-              ? <Minimize2 size={20} strokeWidth={1.5} />
-              : <Maximize2 size={20} strokeWidth={1.5} />}
-          </IconButton>
-          <IconButton href={accountHref} title={settings.language === 'fr' ? 'Mon compte' : 'My account'}>
-            <User size={20} strokeWidth={1.5} />
-          </IconButton>
+          <BottomBar
+            onSettingsClick={() => setSettingsOpen(true)}
+            onAccountClick={() => router.push(accountHref)}
+            isFullscreen={isFullscreen}
+            onFullscreenToggle={toggleFullscreen}
+            isAuthenticated={accountHref === '/compte'}
+            language={settings.language}
+          />
         </div>
       )}
 

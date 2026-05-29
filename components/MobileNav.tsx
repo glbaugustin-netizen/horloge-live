@@ -2,11 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import {
-  Settings2, Maximize2, Minimize2, User,
-  Clock, Timer, AlarmClock, Globe, GraduationCap,
-} from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
+import { Clock, Timer, AlarmClock, Globe, GraduationCap } from 'lucide-react';
+import BottomBar from '@/components/BottomBar';
 
 interface MobileNavProps {
   language?: 'fr' | 'en';
@@ -50,25 +48,6 @@ const BAR_BASE: React.CSSProperties = {
   zIndex: 30,
 };
 
-function iconBtnStyle(active: boolean): React.CSSProperties {
-  return {
-    width: '40px',
-    height: '40px',
-    borderRadius: '50px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    cursor: 'pointer',
-    background: active ? 'var(--glass-bg-accent)' : 'var(--glass-bg)',
-    border: `1px solid ${active ? 'var(--glass-border-accent)' : 'var(--glass-border)'}`,
-    backdropFilter: 'var(--glass-blur)',
-    WebkitBackdropFilter: 'var(--glass-blur)',
-    color: active ? 'var(--color-accent)' : 'rgba(255,255,255,0.80)',
-    textDecoration: 'none',
-    flexShrink: 0,
-  };
-}
-
 /* ─── Composant ───────────────────────────────────────────────── */
 
 export default function MobileNav({
@@ -78,6 +57,7 @@ export default function MobileNav({
   onFullscreenToggle,
 }: MobileNavProps) {
   const pathname = usePathname();
+  const router   = useRouter();
   const items    = NAV_ITEMS[language];
 
   const [accountHref, setAccountHref] = useState('/connexion');
@@ -95,31 +75,14 @@ export default function MobileNav({
     <>
       {/* ── Barre 1 — Actions (Settings | Fullscreen | Account) ── */}
       <div className="sm:hidden flex" style={{ ...BAR_BASE, bottom: '56px' }}>
-        <button
-          onClick={onSettingsOpen}
-          style={iconBtnStyle(false)}
-          title={language === 'fr' ? 'Paramètres' : 'Settings'}
-        >
-          <Settings2 size={20} strokeWidth={1.5} />
-        </button>
-
-        <button
-          onClick={onFullscreenToggle}
-          style={iconBtnStyle(isFullscreen)}
-          title={language === 'fr' ? 'Plein écran' : 'Fullscreen'}
-        >
-          {isFullscreen
-            ? <Minimize2 size={20} strokeWidth={1.5} />
-            : <Maximize2 size={20} strokeWidth={1.5} />}
-        </button>
-
-        <Link
-          href={accountHref}
-          style={iconBtnStyle(pathname === '/compte' || pathname === '/connexion')}
-          title={language === 'fr' ? 'Mon compte' : 'My account'}
-        >
-          <User size={20} strokeWidth={1.5} />
-        </Link>
+        <BottomBar
+          onSettingsClick={onSettingsOpen}
+          onAccountClick={() => router.push(accountHref)}
+          isFullscreen={isFullscreen}
+          onFullscreenToggle={onFullscreenToggle}
+          isAuthenticated={accountHref === '/compte'}
+          language={language}
+        />
       </div>
 
       {/* ── Barre 2 — Navigation (Horloge | Chrono | Minuteur | Monde | Examen) ── */}
