@@ -16,21 +16,21 @@ export const metadata: Metadata = {
   },
   description:
     "Horloge en ligne live et aesthetic — affiche l'heure exacte en temps réel, gratuite et personnalisable. Plus de 60 polices, fonds aesthetic, paysages. Plein écran en un clic. Sur mobile et PC.",
-  metadataBase: new URL('https://horloge-live.com'),
+  metadataBase: new URL('https://www.horloge-live.com'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     type: 'website',
     locale: 'fr_FR',
-    url: 'https://horloge-live.com',
+    url: 'https://www.horloge-live.com',
     siteName: 'horloge-live.com',
     title: 'Horloge en ligne — Heure exacte, aesthetic, live et personnalisable | horloge-live.com',
     description:
       "Horloge en ligne live et aesthetic — affiche l'heure exacte en temps réel, gratuite et personnalisable. Plus de 60 polices, fonds aesthetic, paysages. Plein écran en un clic.",
     images: [
       {
-        url: 'https://horloge-live.com/og-image.webp',
+        url: 'https://www.horloge-live.com/og-image.webp',
         width: 1200,
         height: 630,
         alt: 'Horloge en ligne gratuite et personnalisable — horloge-live.com',
@@ -59,7 +59,7 @@ const webApplicationJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
   name: 'Horloge en ligne',
-  url: 'https://horloge-live.com',
+  url: 'https://www.horloge-live.com',
   description:
     'Horloge en ligne gratuite, personnalisable et en plein écran. Affiche l\'heure exacte en temps réel, synchronisée avec votre navigateur. Sans installation, sans inscription.',
   applicationCategory: 'UtilityApplication',
@@ -79,7 +79,7 @@ const webApplicationJsonLd = {
   publisher: {
     '@type': 'Person',
     name: 'Augustin GLB',
-    url: 'https://horloge-live.com',
+    url: 'https://www.horloge-live.com',
   },
 };
 

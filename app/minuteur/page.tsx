@@ -5,17 +5,17 @@ export const metadata: Metadata = {
   title: 'Minuteur en ligne gratuit | horloge-live.com',
   description:
     'Minuteur en ligne gratuit. Définissez une durée, lancez le compte à rebours et recevez une alerte sonore à la fin. Sur mobile et ordinateur.',
-  alternates: { canonical: 'https://horloge-live.com/minuteur' },
+  alternates: { canonical: 'https://www.horloge-live.com/minuteur' },
   robots: { index: true, follow: true },
   openGraph: {
     type: 'website',
     title: 'Minuteur en ligne gratuit | horloge-live.com',
     description:
       'Minuteur en ligne gratuit. Définissez une durée, lancez le compte à rebours et recevez une alerte sonore à la fin. Sur mobile et ordinateur.',
-    url: 'https://horloge-live.com/minuteur',
+    url: 'https://www.horloge-live.com/minuteur',
     images: [
       {
-        url: 'https://horloge-live.com/og-image.webp',
+        url: 'https://www.horloge-live.com/og-image.webp',
         width: 1200,
         height: 630,
         alt: 'Horloge en ligne gratuite et personnalisable — horloge-live.com',
