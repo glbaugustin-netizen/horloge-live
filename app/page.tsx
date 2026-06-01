@@ -6,15 +6,15 @@ export const metadata: Metadata = {
   title: 'Horloge en ligne — Heure exacte, aesthetic, live et personnalisable | horloge-live.com',
   description:
     "Horloge en ligne live et aesthetic — affiche l'heure exacte en temps réel, gratuite et personnalisable. Plus de 60 polices, fonds aesthetic, paysages. Plein écran en un clic. Sur mobile et PC.",
-  alternates: { canonical: 'https://www.horloge-live.com/' },
+  alternates: { canonical: 'https://horloge-live.com/' },
   openGraph: {
     title: 'Horloge en ligne — Heure exacte, aesthetic, live et personnalisable | horloge-live.com',
     description:
       "Horloge en ligne live et aesthetic — affiche l'heure exacte en temps réel, gratuite et personnalisable. Plus de 60 polices, fonds aesthetic, paysages. Plein écran en un clic.",
-    url: 'https://www.horloge-live.com/',
+    url: 'https://horloge-live.com/',
     images: [
       {
-        url: 'https://www.horloge-live.com/og-image.webp',
+        url: 'https://horloge-live.com/og-image.webp',
         width: 1200,
         height: 630,
         alt: 'Horloge en ligne gratuite et personnalisable — horloge-live.com',

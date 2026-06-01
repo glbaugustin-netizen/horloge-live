@@ -6,4 +6,4 @@ Disallow: /mentions-legales
 Disallow: /cgu
 Disallow: /confidentialite
 
-Sitemap: https://www.horloge-live.com/sitemap.xml
+Sitemap: https://horloge-live.com/sitemap.xml
