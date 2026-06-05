@@ -3,12 +3,12 @@ import ClockPageClient from '@/components/ClockPageClient';
 
 /* ─── Métadonnées SEO ─────────────────────────────────────── */
 export const metadata: Metadata = {
-  title: 'Horloge en ligne — Heure exacte, aesthetic, live et personnalisable | horloge-live.com',
+  title: 'Horloge en ligne aesthetic & live',
   description:
     "Horloge en ligne live et aesthetic — affiche l'heure exacte en temps réel, gratuite et personnalisable. Plus de 60 polices, fonds aesthetic, paysages. Plein écran en un clic. Sur mobile et PC.",
   alternates: { canonical: 'https://horloge-live.com/' },
   openGraph: {
-    title: 'Horloge en ligne — Heure exacte, aesthetic, live et personnalisable | horloge-live.com',
+    title: 'Horloge en ligne aesthetic & live | horloge-live.com',
     description:
       "Horloge en ligne live et aesthetic — affiche l'heure exacte en temps réel, gratuite et personnalisable. Plus de 60 polices, fonds aesthetic, paysages. Plein écran en un clic.",
     url: 'https://horloge-live.com/',
