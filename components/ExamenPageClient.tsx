@@ -31,7 +31,7 @@ const STORAGE_LANG    = 'horloge-live.com-language';
 const LABELS = {
   fr: {
     backLink:        "Retour à l'horloge",
-    title:           'Mode Examen',
+    title:           'Horloge plein écran pour la classe et les examens',
     subtitle:        'Horloge plein écran pour la salle de classe',
     labelSubject:    'Matière',
     placeholder:     'Ex : Mathématiques, Physique…',
@@ -48,7 +48,7 @@ const LABELS = {
   },
   en: {
     backLink:        'Back to clock',
-    title:           'Exam Mode',
+    title:           'Full screen clock for classroom and exams',
     subtitle:        'Full screen clock for the classroom',
     labelSubject:    'Subject',
     placeholder:     'E.g. Mathematics, Physics…',
