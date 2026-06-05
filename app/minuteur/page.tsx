@@ -33,7 +33,6 @@ export const metadata: Metadata = {
 
 /* ── Styles liquid glass — section SEO ───────────────────────── */
 const sectionStyle: React.CSSProperties = {
-  background: '#0D1B2A',
   padding: '56px 24px 72px',
 };
 const wrapStyle: React.CSSProperties = {
