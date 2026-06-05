@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   },
 };
 
-/* Styles partagés pour la section SEO */
+/* ── Styles liquid glass — section SEO ───────────────────────── */
 const sectionStyle: React.CSSProperties = {
   background: '#0D1B2A',
   padding: '56px 24px 72px',
@@ -42,26 +42,41 @@ const wrapStyle: React.CSSProperties = {
 };
 const h1Style: React.CSSProperties = {
   fontSize: '28px',
-  fontWeight: 600,
-  color: '#ffffff',
-  lineHeight: 1.25,
-  margin: '0 0 40px',
+  fontWeight: 300,
+  color: '#FFFFFF',
+  letterSpacing: '0.05em',
+  margin: '0 0 24px',
+};
+const cardStyle: React.CSSProperties = {
+  background: 'rgba(255, 255, 255, 0.08)',
+  backdropFilter: 'blur(20px)',
+  WebkitBackdropFilter: 'blur(20px)',
+  border: '1px solid rgba(255, 255, 255, 0.15)',
+  borderRadius: '16px',
+  padding: '20px 24px',
+  marginBottom: '16px',
+};
+const cardLastStyle: React.CSSProperties = {
+  background: 'rgba(255, 255, 255, 0.08)',
+  backdropFilter: 'blur(20px)',
+  WebkitBackdropFilter: 'blur(20px)',
+  border: '1px solid rgba(255, 255, 255, 0.15)',
+  borderRadius: '16px',
+  padding: '20px 24px',
+  marginBottom: 0,
 };
 const h2Style: React.CSSProperties = {
   fontSize: '18px',
-  fontWeight: 600,
-  color: '#ffffff',
+  fontWeight: 400,
+  color: '#FFFFFF',
   margin: '0 0 12px',
 };
 const pStyle: React.CSSProperties = {
   fontSize: '15px',
-  lineHeight: '1.75',
-  color: 'rgba(255,255,255,0.65)',
-  margin: '0 0 36px',
-};
-const pLastStyle: React.CSSProperties = {
-  ...pStyle,
-  margin: '0',
+  fontWeight: 400,
+  color: 'rgba(255, 255, 255, 0.70)',
+  lineHeight: '1.7',
+  margin: 0,
 };
 
 export default function MinuteurPage() {
@@ -73,22 +88,26 @@ export default function MinuteurPage() {
         <div style={wrapStyle}>
           <h1 style={h1Style}>Minuteur en ligne gratuit</h1>
 
-          <h2 style={h2Style}>Comment utiliser le minuteur en ligne&nbsp;?</h2>
-          <p style={pStyle}>
-            Saisissez la durée souhaitée dans les champs heures, minutes et secondes,
-            puis cliquez sur Fixer pour initialiser le minuteur. Appuyez sur Démarrer
-            pour lancer le compte à rebours. Une alarme sonore se déclenche
-            automatiquement à la fin. Vous pouvez mettre en pause à tout moment et
-            réinitialiser pour repartir de la durée fixée.
-          </p>
+          <div style={cardStyle}>
+            <h2 style={h2Style}>Comment utiliser le minuteur en ligne&nbsp;?</h2>
+            <p style={pStyle}>
+              Saisissez la durée souhaitée dans les champs heures, minutes et secondes,
+              puis cliquez sur Fixer pour initialiser le minuteur. Appuyez sur Démarrer
+              pour lancer le compte à rebours. Une alarme sonore se déclenche
+              automatiquement à la fin. Vous pouvez mettre en pause à tout moment et
+              réinitialiser pour repartir de la durée fixée.
+            </p>
+          </div>
 
-          <h2 style={h2Style}>Un minuteur en ligne pour toutes les situations</h2>
-          <p style={pLastStyle}>
-            Parfait pour la cuisine, les sessions de travail Pomodoro, les examens,
-            les activités sportives ou les présentations. Le minuteur fonctionne
-            entièrement dans votre navigateur, sans installation ni inscription.
-            Gratuit et sans publicité.
-          </p>
+          <div style={cardLastStyle}>
+            <h2 style={h2Style}>Un minuteur en ligne pour toutes les situations</h2>
+            <p style={pStyle}>
+              Parfait pour la cuisine, les sessions de travail Pomodoro, les examens,
+              les activités sportives ou les présentations. Le minuteur fonctionne
+              entièrement dans votre navigateur, sans installation ni inscription.
+              Gratuit et sans publicité.
+            </p>
+          </div>
         </div>
       </section>
     </>
