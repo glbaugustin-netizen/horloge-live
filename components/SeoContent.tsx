@@ -10,7 +10,7 @@ const LABELS: Record<Lang, {
   about: string;
 }> = {
   fr: {
-    h1: 'Horloge en ligne aesthetic — Heure exacte, live et personnalisable',
+    h1: 'Heure aesthetic en ligne — Horloge live, exacte et personnalisable',
     h2_1: 'Quelle heure est-il en ce moment ?',
     p1: "Notre horloge en ligne live affiche l'heure exacte en heures, minutes et secondes, synchronisée en temps réel avec votre navigateur. Gratuite et sans installation, elle fonctionne sur ordinateur, tablette et mobile. Consultez l'heure précise à tout moment.",
     h2_2: 'Personnalisez votre horloge en ligne',
