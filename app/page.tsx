@@ -5,7 +5,7 @@ import ClockPageClient from '@/components/ClockPageClient';
 export const metadata: Metadata = {
   title: 'Heure aesthetic en ligne — Horloge live & personnalisable',
   description:
-    "Affichez une heure aesthetic en ligne, en temps réel. Horloge gratuite avec plus de 60 polices, fonds aesthetic et paysages. Plein écran en un clic, sur mobile et PC.",
+    "Affichez une heure aesthetic en ligne, en temps réel. Horloge gratuite avec 60+ polices, fonds aesthetic et paysages. Plein écran en un clic.",
   alternates: { canonical: 'https://horloge-live.com/' },
   openGraph: {
     title: 'Horloge en ligne aesthetic & live | horloge-live.com',
