@@ -79,6 +79,11 @@ const LABELS = {
     focusMode: 'Mode Focus',
     focusEnable: 'Activer',
     focusDisable: 'Désactiver',
+    flipStyle: 'Style Flip',
+    flipThemeSec: 'THÈME FLIP',
+    flipDark: 'Noir',
+    flipLight: 'Blanc',
+    flipFontDisabled: 'Non disponible en mode flip',
   },
   en: {
     title: 'SETTINGS',
@@ -99,6 +104,11 @@ const LABELS = {
     focusMode: 'Focus Mode',
     focusEnable: 'Enable',
     focusDisable: 'Disable',
+    flipStyle: 'Flip Style',
+    flipThemeSec: 'FLIP THEME',
+    flipDark: 'Dark',
+    flipLight: 'Light',
+    flipFontDisabled: 'Not available in flip mode',
   },
 } as const;
 
@@ -122,6 +132,27 @@ const focusPillActiveStyle: React.CSSProperties = {
   border: '1px solid rgba(79, 195, 247, 0.50)',
   borderRadius: '50px',
   padding: '6px 14px',
+  fontSize: '13px',
+  color: '#B3E5FC',
+  cursor: 'pointer',
+};
+
+/* ── Styles boutons pill sélecteur thème flip ───────────────── */
+const flipPillStyle: React.CSSProperties = {
+  background: 'rgba(255, 255, 255, 0.08)',
+  border: '1px solid rgba(255, 255, 255, 0.15)',
+  borderRadius: '50px',
+  padding: '8px 20px',
+  fontSize: '13px',
+  color: 'rgba(255, 255, 255, 0.70)',
+  cursor: 'pointer',
+};
+
+const flipPillActiveStyle: React.CSSProperties = {
+  background: 'rgba(79, 195, 247, 0.22)',
+  border: '1px solid rgba(79, 195, 247, 0.50)',
+  borderRadius: '50px',
+  padding: '8px 20px',
   fontSize: '13px',
   color: '#B3E5FC',
   cursor: 'pointer',
@@ -597,6 +628,10 @@ interface SettingsPanelProps {
   updateShowDate: (v: boolean) => void;
   updateShowSeconds: (v: boolean) => void;
   updateLanguage: (v: 'fr' | 'en') => void;
+  flipMode: boolean;
+  setFlipMode: (v: boolean) => void;
+  flipTheme: 'dark' | 'light';
+  setFlipTheme: (v: 'dark' | 'light') => void;
   onEmbedOpen?: () => void;
 }
 
@@ -613,6 +648,10 @@ export default function SettingsPanel({
   updateShowDate,
   updateShowSeconds,
   updateLanguage,
+  flipMode,
+  setFlipMode,
+  flipTheme,
+  setFlipTheme,
   onEmbedOpen,
 }: SettingsPanelProps) {
   const [fontExpanded, setFontExpanded] = useState(false);
@@ -774,8 +813,11 @@ export default function SettingsPanel({
           {/* ════ COLONNE GAUCHE ════ */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
 
-            {/* Police */}
-            <div>
+            {/* Police — désactivée en mode flip */}
+            <div
+              title={flipMode ? t.flipFontDisabled : undefined}
+              style={flipMode ? { opacity: 0.35, pointerEvents: 'none', cursor: 'not-allowed' } : undefined}
+            >
               <ExpandButton
                 label={t.font}
                 expanded={fontExpanded}
@@ -843,24 +885,55 @@ export default function SettingsPanel({
                 <span>200px</span>
               </div>
             </div>
+
+            {divider}
+
+            {/* Style Flip */}
+            <ParamRow label={t.flipStyle}>
+              <Toggle value={flipMode} onChange={setFlipMode} />
+            </ParamRow>
           </div>
 
           {/* ════ COLONNE DROITE ════ */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
 
-            {/* Arrière-plan */}
+            {/* Arrière-plan / Thème Flip */}
             <div>
-              <ExpandButton
-                label={t.background}
-                expanded={bgExpanded}
-                onClick={() => setBgExpanded((v) => !v)}
-              />
-              {bgExpanded && (
-                <BgGallery
-                  currentBg={settings.background}
-                  onSelect={updateBackground}
-                  labels={t}
-                />
+              {flipMode ? (
+                /* ── Sélecteur thème flip ── */
+                <div>
+                  <SectionTitle>{t.flipThemeSec}</SectionTitle>
+                  <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+                    <button
+                      onClick={() => setFlipTheme('dark')}
+                      style={flipTheme === 'dark' ? flipPillActiveStyle : flipPillStyle}
+                    >
+                      ● {t.flipDark}
+                    </button>
+                    <button
+                      onClick={() => setFlipTheme('light')}
+                      style={flipTheme === 'light' ? flipPillActiveStyle : flipPillStyle}
+                    >
+                      ● {t.flipLight}
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                /* ── Sélecteur arrière-plan normal ── */
+                <>
+                  <ExpandButton
+                    label={t.background}
+                    expanded={bgExpanded}
+                    onClick={() => setBgExpanded((v) => !v)}
+                  />
+                  {bgExpanded && (
+                    <BgGallery
+                      currentBg={settings.background}
+                      onSelect={updateBackground}
+                      labels={t}
+                    />
+                  )}
+                </>
               )}
             </div>
 

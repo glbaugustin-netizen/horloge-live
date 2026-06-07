@@ -15,6 +15,7 @@ import { useSettings } from '@/lib/useSettings';
 const Sidebar       = dynamic(() => import('@/components/Sidebar'),       { ssr: false, loading: () => null });
 const SettingsPanel = dynamic(() => import('@/components/SettingsPanel'), { ssr: false, loading: () => null });
 const EmbedModal    = dynamic(() => import('@/components/EmbedModal'),    { ssr: false, loading: () => null });
+const FlipClock     = dynamic(() => import('@/components/FlipClock'),     { ssr: false, loading: () => null });
 
 /* ─────────────────────────────────────────────────────────────
    Hint plein écran
@@ -90,6 +91,10 @@ export default function ClockPageClient() {
     updateShowDate,
     updateShowSeconds,
     updateLanguage,
+    flipMode,
+    setFlipMode,
+    flipTheme,
+    setFlipTheme,
   } = useSettings();
   const router = useRouter();
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -115,6 +120,17 @@ export default function ClockPageClient() {
     document.addEventListener('fullscreenchange', onFsChange);
     return () => document.removeEventListener('fullscreenchange', onFsChange);
   }, []);
+
+  /* Fond body selon mode flip */
+  useEffect(() => {
+    if (flipMode) {
+      document.body.style.backgroundColor = flipTheme === 'dark' ? '#0A0A0A' : '#FFFFFF';
+      document.body.style.backgroundImage = 'none';
+    } else {
+      document.body.style.backgroundColor = '';
+      document.body.style.backgroundImage = '';
+    }
+  }, [flipMode, flipTheme]);
 
   /* Touche F → bascule plein écran (sauf si focus input) */
   useEffect(() => {
@@ -183,14 +199,23 @@ export default function ClockPageClient() {
           → géré par la classe CSS .clock-centered dans globals.css
       ── */}
       <div className="clock-centered" style={{ zIndex: 10 }}>
-        <div style={settings.mirror ? { transform: 'scaleX(-1)' } : undefined}>
-          <Clock
-            format={settings.format}
-            showDate={settings.showDate}
+        {flipMode ? (
+          <FlipClock
+            theme={flipTheme}
             showSeconds={settings.showSeconds}
+            format={settings.format}
             language={settings.language}
           />
-        </div>
+        ) : (
+          <div style={settings.mirror ? { transform: 'scaleX(-1)' } : undefined}>
+            <Clock
+              format={settings.format}
+              showDate={settings.showDate}
+              showSeconds={settings.showSeconds}
+              language={settings.language}
+            />
+          </div>
+        )}
       </div>
 
       {/* ── 3 icônes bas centre — desktop/tablet uniquement ── */}
@@ -322,6 +347,10 @@ export default function ClockPageClient() {
         updateShowDate={updateShowDate}
         updateShowSeconds={updateShowSeconds}
         updateLanguage={updateLanguage}
+        flipMode={flipMode}
+        setFlipMode={setFlipMode}
+        flipTheme={flipTheme}
+        setFlipTheme={setFlipTheme}
         onEmbedOpen={() => { setSettingsOpen(false); setEmbedOpen(true); }}
       />
 

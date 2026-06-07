@@ -18,6 +18,12 @@ const KEYS = {
 
 const FOCUS_KEY = 'horloge-live-focus-mode' as const;
 
+const FLIP_KEYS = {
+  flipMode:          'horloge-live-flip-mode',
+  flipTheme:         'horloge-live-flip-theme',
+  preFlipBackground: 'horloge-live-pre-flip-background',
+} as const;
+
 export interface Settings {
   font:       string;
   fontSize:   number;
@@ -111,7 +117,9 @@ function getMobileUrl(bg: string): string {
 export function useSettings() {
   const [settings,   setSettings]   = useState<Settings>(DEFAULTS);
   const [isHydrated, setIsHydrated] = useState(false);
-  const [focusMode,  setFocusModeState] = useState(false);
+  const [focusMode,  setFocusModeState]  = useState(false);
+  const [flipMode,   setFlipModeState]   = useState(false);
+  const [flipTheme,  setFlipThemeState]  = useState<'dark' | 'light'>('dark');
 
   // Appelé par useSync quand les prefs Firestore arrivent (localStorage déjà mis à jour)
   const handleFirestoreLoad = useCallback(() => {
@@ -137,6 +145,13 @@ export function useSettings() {
     try {
       const fm = localStorage.getItem(FOCUS_KEY) === 'true';
       setFocusModeState(fm);
+    } catch { /* noop */ }
+    // Lecture du mode flip
+    try {
+      const fl = localStorage.getItem(FLIP_KEYS.flipMode) === 'true';
+      setFlipModeState(fl);
+      const ft = localStorage.getItem(FLIP_KEYS.flipTheme);
+      setFlipThemeState(ft === 'light' ? 'light' : 'dark');
     } catch { /* noop */ }
   }, []);
 
@@ -176,6 +191,43 @@ export function useSettings() {
     } catch { /* localStorage non disponible (mode privé strict) */ }
   }, []);
 
+  /* ── Mode flip ── */
+  const setFlipMode = useCallback((value: boolean) => {
+    if (value) {
+      // Sauvegarder le fond actuel avant activation
+      let currentBg = '';
+      try { currentBg = localStorage.getItem(KEYS.background) ?? ''; } catch { /* noop */ }
+      try { localStorage.setItem(FLIP_KEYS.preFlipBackground, currentBg); } catch { /* noop */ }
+      // Appliquer le fond flip (dark #0A0A0A, light #FFFFFF)
+      let ft: 'dark' | 'light' = 'dark';
+      try { ft = localStorage.getItem(FLIP_KEYS.flipTheme) === 'light' ? 'light' : 'dark'; } catch { /* noop */ }
+      updateBackground(ft === 'dark' ? '#0A0A0A' : '#FFFFFF');
+      setFlipModeState(true);
+      try { localStorage.setItem(FLIP_KEYS.flipMode, 'true'); } catch { /* noop */ }
+    } else {
+      // Restaurer le fond sauvegardé
+      let preFl = '';
+      try { preFl = localStorage.getItem(FLIP_KEYS.preFlipBackground) ?? ''; } catch { /* noop */ }
+      if (preFl) {
+        updateBackground(preFl);
+        try { localStorage.setItem(FLIP_KEYS.preFlipBackground, ''); } catch { /* noop */ }
+      }
+      setFlipModeState(false);
+      try { localStorage.setItem(FLIP_KEYS.flipMode, 'false'); } catch { /* noop */ }
+    }
+  }, [updateBackground]);
+
+  const setFlipTheme = useCallback((value: 'dark' | 'light') => {
+    setFlipThemeState(value);
+    try { localStorage.setItem(FLIP_KEYS.flipTheme, value); } catch { /* noop */ }
+    // Si flip actif, mettre à jour le fond immédiatement
+    try {
+      if (localStorage.getItem(FLIP_KEYS.flipMode) === 'true') {
+        updateBackground(value === 'dark' ? '#0A0A0A' : '#FFFFFF');
+      }
+    } catch { /* noop */ }
+  }, [updateBackground]);
+
   return {
     settings,
     isHydrated,
@@ -190,5 +242,9 @@ export function useSettings() {
     updateLanguage,
     focusMode,
     setFocusMode,
+    flipMode,
+    setFlipMode,
+    flipTheme,
+    setFlipTheme,
   };
 }
