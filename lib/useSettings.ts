@@ -16,6 +16,8 @@ const KEYS = {
   language:     'horloge-live.com-language',
 } as const;
 
+const FOCUS_KEY = 'horloge-live-focus-mode' as const;
+
 export interface Settings {
   font:       string;
   fontSize:   number;
@@ -109,6 +111,7 @@ function getMobileUrl(bg: string): string {
 export function useSettings() {
   const [settings,   setSettings]   = useState<Settings>(DEFAULTS);
   const [isHydrated, setIsHydrated] = useState(false);
+  const [focusMode,  setFocusModeState] = useState(false);
 
   // Appelé par useSync quand les prefs Firestore arrivent (localStorage déjà mis à jour)
   const handleFirestoreLoad = useCallback(() => {
@@ -130,6 +133,11 @@ export function useSettings() {
     applyToCssVariables(merged);
     if (merged.font !== 'Inter') loadFont(merged.font);
     setIsHydrated(true);
+    // Lecture du mode focus
+    try {
+      const fm = localStorage.getItem(FOCUS_KEY) === 'true';
+      setFocusModeState(fm);
+    } catch { /* noop */ }
   }, []);
 
   /* ── Mise à jour d'un réglage ── */
@@ -161,6 +169,13 @@ export function useSettings() {
   const updateShowSeconds = useCallback((val: boolean)       => updateSetting('showSeconds', val), [updateSetting]);
   const updateLanguage    = useCallback((lang: 'fr' | 'en')  => updateSetting('language',   lang), [updateSetting]);
 
+  const setFocusMode = useCallback((value: boolean) => {
+    setFocusModeState(value);
+    try {
+      localStorage.setItem(FOCUS_KEY, String(value));
+    } catch { /* localStorage non disponible (mode privé strict) */ }
+  }, []);
+
   return {
     settings,
     isHydrated,
@@ -173,5 +188,7 @@ export function useSettings() {
     updateShowDate,
     updateShowSeconds,
     updateLanguage,
+    focusMode,
+    setFocusMode,
   };
 }

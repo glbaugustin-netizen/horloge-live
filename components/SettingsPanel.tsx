@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import {
   X, ChevronDown, ChevronUp, Upload, Code2,
 } from 'lucide-react';
@@ -57,6 +57,8 @@ const TEXT_COLORS = [
   '#FFAB91',
 ] as const;
 
+const FOCUS_KEY = 'horloge-live-focus-mode' as const;
+
 const LABELS = {
   fr: {
     title: 'PARAMÈTRES',
@@ -74,6 +76,9 @@ const LABELS = {
     aesthetic: 'Aesthetic',
     uploadBg: 'Importer une image',
     embedBtn: 'Intégrer sur votre site',
+    focusMode: 'Mode Focus',
+    focusEnable: 'Activer',
+    focusDisable: 'Désactiver',
   },
   en: {
     title: 'SETTINGS',
@@ -91,8 +96,36 @@ const LABELS = {
     aesthetic: 'Aesthetic',
     uploadBg: 'Upload an image',
     embedBtn: 'Embed on your website',
+    focusMode: 'Focus Mode',
+    focusEnable: 'Enable',
+    focusDisable: 'Disable',
   },
 } as const;
+
+/* ── Styles bouton pill Mode Focus ─────────────────────────── */
+const focusPillStyle: React.CSSProperties = {
+  background: 'rgba(255, 255, 255, 0.08)',
+  backdropFilter: 'blur(20px)',
+  WebkitBackdropFilter: 'blur(20px)',
+  border: '1px solid rgba(255, 255, 255, 0.15)',
+  borderRadius: '50px',
+  padding: '6px 14px',
+  fontSize: '13px',
+  color: 'rgba(255, 255, 255, 0.70)',
+  cursor: 'pointer',
+};
+
+const focusPillActiveStyle: React.CSSProperties = {
+  background: 'rgba(79, 195, 247, 0.22)',
+  backdropFilter: 'blur(20px)',
+  WebkitBackdropFilter: 'blur(20px)',
+  border: '1px solid rgba(79, 195, 247, 0.50)',
+  borderRadius: '50px',
+  padding: '6px 14px',
+  fontSize: '13px',
+  color: '#B3E5FC',
+  cursor: 'pointer',
+};
 
 type PanelLabels = typeof LABELS[keyof typeof LABELS];
 
@@ -584,6 +617,7 @@ export default function SettingsPanel({
 }: SettingsPanelProps) {
   const [fontExpanded, setFontExpanded] = useState(false);
   const [bgExpanded, setBgExpanded] = useState(false);
+  const [focusMode, setFocusModeLocal] = useState(false);
 
   const t = LABELS[settings.language];
 
@@ -591,6 +625,49 @@ export default function SettingsPanel({
   useEffect(() => {
     if (isOpen) loadAllFonts();
   }, [isOpen]);
+
+  /* Lire le mode focus depuis localStorage au montage */
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(FOCUS_KEY) === 'true';
+      setFocusModeLocal(stored);
+    } catch { /* noop */ }
+  }, []);
+
+  /* Écouter la sortie plein écran via Échap */
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement && focusMode) {
+        setFocusModeLocal(false);
+        try { localStorage.setItem(FOCUS_KEY, 'false'); } catch { /* noop */ }
+        document.body.style.backgroundColor = '';
+        document.body.style.backgroundImage = '';
+        document.body.style.color = '';
+      }
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, [focusMode]);
+
+  /* Activer / désactiver le mode focus */
+  const handleFocusMode = useCallback(() => {
+    if (!focusMode) {
+      setFocusModeLocal(true);
+      try { localStorage.setItem(FOCUS_KEY, 'true'); } catch { /* noop */ }
+      onClose();
+      document.body.style.backgroundColor = '#0A0A0A';
+      document.body.style.backgroundImage = 'none';
+      document.body.style.color = '#FFFFFF';
+      try { document.documentElement.requestFullscreen(); } catch { /* refus navigateur */ }
+    } else {
+      setFocusModeLocal(false);
+      try { localStorage.setItem(FOCUS_KEY, 'false'); } catch { /* noop */ }
+      document.body.style.backgroundColor = '';
+      document.body.style.backgroundImage = '';
+      document.body.style.color = '';
+      if (document.fullscreenElement) document.exitFullscreen();
+    }
+  }, [focusMode, onClose]);
 
   const divider = (
     <div
@@ -871,6 +948,19 @@ export default function SettingsPanel({
                   </button>
                 ))}
               </div>
+            </ParamRow>
+
+            {/* Séparateur Mode Focus */}
+            <div style={{ height: '1px', background: 'rgba(255, 255, 255, 0.10)', margin: '4px 0' }} />
+
+            {/* Mode Focus */}
+            <ParamRow label={t.focusMode}>
+              <button
+                onClick={handleFocusMode}
+                style={focusMode ? focusPillActiveStyle : focusPillStyle}
+              >
+                {focusMode ? t.focusDisable : t.focusEnable}
+              </button>
             </ParamRow>
           </div>
         </div>

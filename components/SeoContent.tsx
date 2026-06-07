@@ -16,7 +16,7 @@ const LABELS: Record<Lang, {
     h2_2: 'Personnalisez votre horloge en ligne',
     p2: "Choisissez parmi plus de 60 polices de caractères, modifiez la couleur du texte, et définissez une image de fond aesthetic, un paysage ou une couleur unie. Format 12h/24h, mode miroir, affichage de la date — tout est paramétrable sur cette horloge en ligne modifiable. Vos préférences sont sauvegardées automatiquement.",
     h2_3: "Affichez l'horloge en plein écran",
-    p3: "Passez en mode plein écran d'un simple clic pour afficher votre horloge sur tout l'écran. Idéal pour une horloge en ligne plein écran aesthetic en salle de classe, en réunion ou comme horloge de bureau sur un second moniteur. Appuyez sur F ou sur l'icône dédiée — Échap pour quitter.",
+    p3: "Passez en mode plein écran d'un simple clic pour afficher votre horloge sur tout l'écran. Idéal pour les salles de réunion, la gestion du temps en classe ou comme horloge de bureau sur un second moniteur. Activez le mode focus depuis les paramètres pour un affichage épuré fond noir, sans distraction. Appuyez sur la touche F ou cliquez sur l'icône dédiée — appuyez sur Échap pour quitter.",
     h2_4: "Horloge plein écran pour la classe et les examens",
     p4: "Le mode plein écran affiche l'heure en grand sur tout l'écran, parfait pour la projection en salle de classe. Idéal pour les examens, les activités minutées ou simplement garder le temps visible pour tous les élèves. Fonctionne sur tableau blanc interactif, ordinateur et tablette.",
     h2_faq: "Questions fréquentes sur l'horloge en ligne",
@@ -31,7 +31,7 @@ const LABELS: Record<Lang, {
       },
       {
         q: "Comment afficher l'horloge en plein écran ?",
-        a: "Cliquez sur l'icône plein écran en bas de la page ou appuyez sur la touche F de votre clavier. L'horloge occupe tout l'écran. Pour quitter le mode plein écran, appuyez sur la touche Échap.",
+        a: "Cliquez sur l'icône plein écran en bas de la page ou appuyez sur la touche F de votre clavier. L'horloge occupe alors tout l'écran. Pour un affichage sans distraction, activez le mode focus depuis les paramètres avant de passer en plein écran. Pour quitter, appuyez sur Échap.",
       },
       {
         q: "L'horloge en ligne est-elle gratuite et sans inscription ?",
@@ -51,7 +51,7 @@ const LABELS: Record<Lang, {
     h2_2: 'Customize your online clock',
     p2: 'Choose from over 60 fonts, change the text color, and set an aesthetic background, landscape photo or solid color. 12h/24h format, mirror mode, date display — everything is customizable on this modifiable online clock. Your preferences are saved automatically.',
     h2_3: 'Display the clock in full screen',
-    p3: 'Go full screen in one click to display your clock on the entire screen. Perfect for an aesthetic full screen online clock in a classroom, meeting room or as a desktop clock on a second monitor. Press F or click the dedicated icon — press Esc to exit.',
+    p3: 'Switch to fullscreen mode in one click to display your clock across the entire screen. Perfect for meeting rooms, classroom time management, or as a desk clock on a second monitor. Enable focus mode from settings for a distraction-free black background display. Press F or click the dedicated icon — press Esc to exit.',
     h2_4: 'Full screen clock for the classroom and exams',
     p4: 'Full screen mode displays the time large across the entire screen, perfect for classroom projection. Ideal for exams, timed activities or simply keeping time visible for all students. Works on interactive whiteboards, computers and tablets.',
     h2_faq: 'Frequently asked questions about the online clock',
@@ -66,7 +66,7 @@ const LABELS: Record<Lang, {
       },
       {
         q: 'How do I display the clock in full screen?',
-        a: 'Click the full screen icon at the bottom of the page or press the F key on your keyboard. The clock then fills the entire screen. To exit full screen mode, press the Escape key.',
+        a: 'Click the fullscreen icon at the bottom of the page or press F on your keyboard. The clock fills the entire screen. For a distraction-free display, enable focus mode from settings before going fullscreen. Press Esc to exit.',
       },
       {
         q: 'Is the online clock free and without registration?',
