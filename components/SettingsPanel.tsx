@@ -628,10 +628,10 @@ interface SettingsPanelProps {
   updateShowDate: (v: boolean) => void;
   updateShowSeconds: (v: boolean) => void;
   updateLanguage: (v: 'fr' | 'en') => void;
-  flipMode: boolean;
-  setFlipMode: (v: boolean) => void;
-  flipTheme: 'dark' | 'light';
-  setFlipTheme: (v: 'dark' | 'light') => void;
+  flipMode?: boolean;
+  setFlipMode?: (v: boolean) => void;
+  flipTheme?: 'dark' | 'light';
+  setFlipTheme?: (v: 'dark' | 'light') => void;
   onEmbedOpen?: () => void;
 }
 
@@ -648,9 +648,9 @@ export default function SettingsPanel({
   updateShowDate,
   updateShowSeconds,
   updateLanguage,
-  flipMode,
+  flipMode = false,
   setFlipMode,
-  flipTheme,
+  flipTheme = 'dark',
   setFlipTheme,
   onEmbedOpen,
 }: SettingsPanelProps) {
@@ -890,7 +890,7 @@ export default function SettingsPanel({
 
             {/* Style Flip */}
             <ParamRow label={t.flipStyle}>
-              <Toggle value={flipMode} onChange={setFlipMode} />
+              <Toggle value={flipMode} onChange={(v) => setFlipMode?.(v)} />
             </ParamRow>
           </div>
 
@@ -905,13 +905,13 @@ export default function SettingsPanel({
                   <SectionTitle>{t.flipThemeSec}</SectionTitle>
                   <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
                     <button
-                      onClick={() => setFlipTheme('dark')}
+                      onClick={() => setFlipTheme?.('dark')}
                       style={flipTheme === 'dark' ? flipPillActiveStyle : flipPillStyle}
                     >
                       ● {t.flipDark}
                     </button>
                     <button
-                      onClick={() => setFlipTheme('light')}
+                      onClick={() => setFlipTheme?.('light')}
                       style={flipTheme === 'light' ? flipPillActiveStyle : flipPillStyle}
                     >
                       ● {t.flipLight}
