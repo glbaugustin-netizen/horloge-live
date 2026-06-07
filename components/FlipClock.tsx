@@ -193,11 +193,9 @@ function FlipDigit({
   state: DigitState;
   theme: 'dark' | 'light';
 }) {
-  const cardBg    = theme === 'dark' ? '#2A2A2A' : '#E0E0E0';
-  const textColor = theme === 'dark' ? '#FFFFFF'  : '#0D1B2A';
-  const foldColor = theme === 'dark'
-    ? 'rgba(0,0,0,0.40)'
-    : 'rgba(255,255,255,0.60)';
+  const cardBg    = theme === 'dark' ? '#2A2A2A' : '#1A1A1A';
+  const textColor = '#FFFFFF';
+  const foldColor = 'rgba(0,0,0,0.40)';
 
   const txt: React.CSSProperties = { color: textColor };
 
@@ -254,8 +252,8 @@ export default function FlipClock({
   language,
 }: FlipClockProps) {
   const t        = LABELS[language];
-  const sepColor = theme === 'dark' ? 'rgba(255,255,255,0.60)' : 'rgba(13,27,42,0.50)';
-  const lblColor = theme === 'dark' ? 'rgba(255,255,255,0.35)' : 'rgba(13,27,42,0.35)';
+  const sepColor = 'rgba(255,255,255,0.60)';
+  const lblColor = 'rgba(255,255,255,0.35)';
 
   /* 6 positions : [H1, H2, M1, M2, S1, S2] */
   const [digits, setDigits] = useState<DigitState[]>(() =>

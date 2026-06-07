@@ -81,8 +81,8 @@ const LABELS = {
     focusDisable: 'Désactiver',
     flipStyle: 'Style Flip',
     flipThemeSec: 'THÈME FLIP',
-    flipDark: 'Noir',
-    flipLight: 'Blanc',
+    flipDark: 'Fond noir',
+    flipLight: 'Fond blanc',
     flipFontDisabled: 'Non disponible en mode flip',
   },
   en: {
@@ -106,8 +106,8 @@ const LABELS = {
     focusDisable: 'Disable',
     flipStyle: 'Flip Style',
     flipThemeSec: 'FLIP THEME',
-    flipDark: 'Dark',
-    flipLight: 'Light',
+    flipDark: 'Dark background',
+    flipLight: 'Light background',
     flipFontDisabled: 'Not available in flip mode',
   },
 } as const;
