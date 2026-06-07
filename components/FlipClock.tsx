@@ -33,6 +33,7 @@ const FLIP_CSS = `
 .fc-wrapper {
   display: flex;
   align-items: flex-start;
+  justify-content: center;
   gap: 16px;
   user-select: none;
 }
