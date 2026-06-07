@@ -79,7 +79,11 @@ export default function Clock({
   showSeconds = false,
   language = 'fr',
 }: ClockProps) {
-  const [time, setTime] = useState<Date | null>(null);
+  /* Initialisation immédiate côté client — pas d'attente useEffect pour afficher l'heure.
+     Côté serveur : null → placeholder "00:00" (suppressHydrationWarning absorbe le delta). */
+  const [time, setTime] = useState<Date | null>(() =>
+    typeof window !== 'undefined' ? new Date() : null
+  );
 
   useEffect(() => {
     setTime(new Date());
@@ -89,7 +93,9 @@ export default function Clock({
 
   const t = TRANSLATIONS[language];
 
-  /* ── placeholder pré-rendu (avant hydratation JS) ── */
+  /* ── placeholder SSR (time = null côté serveur uniquement) ──
+     Affiche "00:00" au lieu de "--" → LCP plus représentatif.
+     suppressHydrationWarning absorbe l'écart server "00" / client heure réelle. */
   if (!time) {
     const clockStyle: React.CSSProperties = {
       fontFamily: 'var(--clock-font-family)',
@@ -104,18 +110,18 @@ export default function Clock({
         {/* Desktop placeholder */}
         <div className="hidden sm:flex items-baseline justify-center">
           <div className="flex flex-col items-center">
-            <div className="clock-size" style={clockStyle}>--</div>
+            <div className="clock-size" style={clockStyle} suppressHydrationWarning>00</div>
             <div className="clock-label mt-1">{t.hours}</div>
           </div>
           <div className="clock-size" style={{ ...clockStyle, opacity: 0.5, paddingBottom: '18px' }}>:</div>
           <div className="flex flex-col items-center">
-            <div className="clock-size" style={clockStyle}>--</div>
+            <div className="clock-size" style={clockStyle} suppressHydrationWarning>00</div>
             <div className="clock-label mt-1">{t.minutes}</div>
           </div>
           {showSeconds && <>
             <div className="clock-size" style={{ ...clockStyle, opacity: 0.5, paddingBottom: '18px' }}>:</div>
             <div className="flex flex-col items-center">
-              <div className="clock-size" style={clockStyle}>--</div>
+              <div className="clock-size" style={clockStyle} suppressHydrationWarning>00</div>
               <div className="clock-label mt-1">{t.seconds}</div>
             </div>
           </>}
@@ -123,9 +129,9 @@ export default function Clock({
         {/* Mobile placeholder */}
         <div className="sm:hidden text-center">
           <div className="flex items-baseline justify-center">
-            <div className="clock-size" style={clockStyle}>--</div>
+            <div className="clock-size" style={clockStyle} suppressHydrationWarning>00</div>
             <div className="clock-size" style={{ ...clockStyle, opacity: 0.5 }}>:</div>
-            <div className="clock-size" style={clockStyle}>--</div>
+            <div className="clock-size" style={clockStyle} suppressHydrationWarning>00</div>
           </div>
         </div>
       </div>

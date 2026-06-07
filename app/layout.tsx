@@ -132,6 +132,7 @@ export default function RootLayout({
           as="image"
           href="/backgrounds/bg-nature7.webp"
           type="image/webp"
+          fetchPriority="high"
         />
 
         {/* ── Données structurées Schema.org ── */}
