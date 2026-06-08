@@ -191,28 +191,6 @@ export default function AnalogClockPageClient() {
       : `${tDate.days[now.getDay()]}, ${tDate.months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`
     : '';
 
-  /* ── Style des pills de toggle ── */
-  const pillStyle = (active: boolean): React.CSSProperties => ({
-    display: 'inline-flex',
-    alignItems: 'center',
-    padding: '6px 14px',
-    borderRadius: '50px',
-    fontSize: '13px',
-    fontWeight: 400,
-    cursor: 'pointer',
-    userSelect: 'none',
-    transition: 'background 150ms ease, border-color 150ms ease',
-    border: `1px solid ${active ? 'rgba(79,195,247,0.60)' : 'rgba(255,255,255,0.15)'}`,
-    background: active ? 'rgba(79,195,247,0.22)' : 'rgba(255,255,255,0.08)',
-    color: active ? '#b3e5fc' : 'rgba(255,255,255,0.70)',
-    backdropFilter: 'blur(20px)',
-    WebkitBackdropFilter: 'blur(20px)',
-  });
-
-  const numbersLabel  = lang === 'fr' ? 'Chiffres' : 'Numbers';
-  const classicLabel  = lang === 'fr' ? 'Classique' : 'Classic';
-  const format24Label = '24h';
-
   return (
     <>
       <div className="relative overflow-hidden" style={{ height: '100svh', minHeight: '100vh' }}>
@@ -266,34 +244,6 @@ export default function AnalogClockPageClient() {
             </p>
           )}
         </div>
-
-        {/* ── Toggles analogiques — mobile uniquement, au-dessus de la barre actions ── */}
-        {!isFullscreen && (
-          <div
-            className="flex sm:hidden"
-            style={{
-              position: 'fixed', bottom: '72px', left: 0, right: 0,
-              zIndex: 25, gap: '8px', justifyContent: 'center',
-              padding: '0 16px',
-            }}
-          >
-            <button onClick={() => setShowNumbers(!showNumbers)} style={pillStyle(showNumbers)}>
-              {numbersLabel}
-            </button>
-            <button
-              onClick={() => setAnalogStyle(analogStyle === 'classic' ? 'minimal' : 'classic')}
-              style={pillStyle(analogStyle === 'classic')}
-            >
-              {classicLabel}
-            </button>
-            <button
-              onClick={() => setAnalogFormat(analogFormat === '24h' ? '12h' : '24h')}
-              style={pillStyle(analogFormat === '24h')}
-            >
-              {format24Label}
-            </button>
-          </div>
-        )}
 
         {/* ── Barre d'icônes bas centre — desktop/tablet ── */}
         {!isFullscreen && (
