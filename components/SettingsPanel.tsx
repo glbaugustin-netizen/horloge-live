@@ -646,7 +646,23 @@ interface SettingsPanelProps {
   onEmbedOpen?: () => void;
   /** Props optionnelles — page /horloge-aiguille uniquement */
   analogOptions?: AnalogOptions;
+  /** Options grisées et non cliquables (ex: /horloge-aiguille) */
+  disabledOptions?: {
+    seconds?: boolean;
+    mirror?: boolean;
+    format?: boolean;
+    fontSize?: boolean;
+    flipStyle?: boolean;
+    fontChoice?: boolean;
+  };
 }
+
+const disabledStyle: React.CSSProperties = {
+  opacity: 0.35,
+  pointerEvents: 'none',
+  cursor: 'not-allowed',
+  userSelect: 'none',
+};
 
 export default function SettingsPanel({
   isOpen,
@@ -667,6 +683,7 @@ export default function SettingsPanel({
   setFlipTheme,
   onEmbedOpen,
   analogOptions,
+  disabledOptions,
 }: SettingsPanelProps) {
   const [fontExpanded, setFontExpanded] = useState(false);
   const [bgExpanded, setBgExpanded] = useState(false);
@@ -868,10 +885,12 @@ export default function SettingsPanel({
               </>
             )}
 
-            {/* Police — désactivée en mode flip */}
+            {/* Police — désactivée en mode flip ou sur /horloge-aiguille */}
             <div
               title={flipMode ? t.flipFontDisabled : undefined}
-              style={flipMode ? { opacity: 0.35, pointerEvents: 'none', cursor: 'not-allowed' } : undefined}
+              style={flipMode
+                ? { opacity: 0.35, pointerEvents: 'none', cursor: 'not-allowed' }
+                : disabledOptions?.fontChoice ? disabledStyle : undefined}
             >
               <ExpandButton
                 label={t.font}
@@ -891,7 +910,7 @@ export default function SettingsPanel({
             {divider}
 
             {/* Taille du texte */}
-            <div>
+            <div style={disabledOptions?.fontSize ? disabledStyle : undefined}>
               <div
                 style={{
                   display: 'flex',
@@ -944,9 +963,11 @@ export default function SettingsPanel({
             {divider}
 
             {/* Style Flip */}
-            <ParamRow label={t.flipStyle}>
-              <Toggle value={flipMode} onChange={(v) => setFlipMode?.(v)} />
-            </ParamRow>
+            <div style={disabledOptions?.flipStyle ? disabledStyle : undefined}>
+              <ParamRow label={t.flipStyle}>
+                <Toggle value={flipMode} onChange={(v) => setFlipMode?.(v)} />
+              </ParamRow>
+            </div>
           </div>
 
           {/* ════ COLONNE DROITE ════ */}
@@ -1016,17 +1037,21 @@ export default function SettingsPanel({
             {divider}
 
             {/* Format 12h / 24h */}
-            <ParamRow label={t.format}>
-              <Toggle
-                value={settings.format === '12h'}
-                onChange={(v) => updateFormat(v ? '12h' : '24h')}
-              />
-            </ParamRow>
+            <div style={disabledOptions?.format ? disabledStyle : undefined}>
+              <ParamRow label={t.format}>
+                <Toggle
+                  value={settings.format === '12h'}
+                  onChange={(v) => updateFormat(v ? '12h' : '24h')}
+                />
+              </ParamRow>
+            </div>
 
             {/* Mode miroir */}
-            <ParamRow label={t.mirror}>
-              <Toggle value={settings.mirror} onChange={updateMirror} />
-            </ParamRow>
+            <div style={disabledOptions?.mirror ? disabledStyle : undefined}>
+              <ParamRow label={t.mirror}>
+                <Toggle value={settings.mirror} onChange={updateMirror} />
+              </ParamRow>
+            </div>
 
             {/* Afficher la date */}
             <ParamRow label={t.showDate}>
@@ -1034,9 +1059,11 @@ export default function SettingsPanel({
             </ParamRow>
 
             {/* Afficher les secondes */}
-            <ParamRow label={t.showSeconds}>
-              <Toggle value={settings.showSeconds} onChange={updateShowSeconds} />
-            </ParamRow>
+            <div style={disabledOptions?.seconds ? disabledStyle : undefined}>
+              <ParamRow label={t.showSeconds}>
+                <Toggle value={settings.showSeconds} onChange={updateShowSeconds} />
+              </ParamRow>
+            </div>
 
             {/* Langue */}
             <ParamRow label={t.language}>

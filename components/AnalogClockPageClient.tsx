@@ -360,6 +360,14 @@ export default function AnalogClockPageClient() {
             clockTheme,
             onClockThemeChange: handleClockTheme,
           }}
+          disabledOptions={{
+            seconds: true,
+            mirror: true,
+            format: true,
+            fontSize: true,
+            flipStyle: true,
+            fontChoice: true,
+          }}
         />
       </div>
     </>
