@@ -60,6 +60,18 @@ export function useSync(
     let cancelled   = false;
     let unsubscribe: (() => void) | null = null;
 
+    // ⚡ Perf : ne charger Firebase que si l'utilisateur a déjà une session.
+    // Les visiteurs anonymes (pas de clé firebase:authUser:* en localStorage)
+    // évitent ainsi le parsing du SDK Firebase (~300 KB) au chargement initial.
+    const hasFirebaseSession =
+      typeof localStorage !== 'undefined' &&
+      Object.keys(localStorage).some((key) => key.startsWith('firebase:authUser'));
+
+    if (!hasFirebaseSession) {
+      // Pas de session connue — Firebase sera chargé au clic sur l'icône compte.
+      return;
+    }
+
     import('@/lib/firebase')
       .then(({ auth, onAuthStateChanged, savePrefsToFirestore, loadPrefsFromFirestore }) => {
         if (cancelled) return;
