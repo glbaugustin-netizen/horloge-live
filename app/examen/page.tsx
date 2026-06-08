@@ -32,5 +32,27 @@ export const metadata: Metadata = {
 };
 
 export default function ExamenPage() {
-  return <ExamenPageClient />;
+  return (
+    <>
+      <ExamenPageClient />
+      {/* Maillage interne — indexable, visible en bas de page */}
+      <p style={{
+        background: '#f8fafc',
+        color: '#6b7280',
+        fontSize: '13px',
+        textAlign: 'center',
+        padding: '12px 24px',
+        borderTop: '1px solid #e5e7eb',
+        lineHeight: 1.6,
+      }}>
+        Découvrez aussi notre{' '}
+        <a href="/horloge-aiguille" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>
+          horloge à aiguilles en ligne
+        </a>
+        , notre <a href="/" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>horloge numérique</a>,
+        l&apos;<a href="/monde" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>heure dans le monde</a>{' '}
+        et notre <a href="/chrono" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>chronomètre en ligne</a>.
+      </p>
+    </>
+  );
 }

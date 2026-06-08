@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Clock, Timer, AlarmClock, Globe, GraduationCap, X, User } from 'lucide-react';
+import { Clock, Timer, AlarmClock, Globe, GraduationCap, Clock3, X, User } from 'lucide-react';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -13,18 +13,20 @@ interface SidebarProps {
 
 const NAV_ITEMS = {
   fr: [
-    { href: '/',        Icon: Clock,           label: 'Horloge'      },
-    { href: '/chrono',  Icon: Timer,           label: 'Chronomètre'  },
-    { href: '/minuteur',Icon: AlarmClock,      label: 'Minuteur'     },
-    { href: '/monde',   Icon: Globe,           label: 'Monde'        },
-    { href: '/examen',  Icon: GraduationCap,   label: 'Mode Examen'  },
+    { href: '/',                  Icon: Clock,          label: 'Horloge'            },
+    { href: '/chrono',            Icon: Timer,          label: 'Chronomètre'        },
+    { href: '/minuteur',          Icon: AlarmClock,     label: 'Minuteur'           },
+    { href: '/monde',             Icon: Globe,          label: 'Monde'              },
+    { href: '/examen',            Icon: GraduationCap,  label: 'Mode Examen'        },
+    { href: '/horloge-aiguille',  Icon: Clock3,         label: 'Horloge analogique' },
   ],
   en: [
-    { href: '/',        Icon: Clock,           label: 'Clock'        },
-    { href: '/chrono',  Icon: Timer,           label: 'Stopwatch'    },
-    { href: '/minuteur',Icon: AlarmClock,      label: 'Timer'        },
-    { href: '/monde',   Icon: Globe,           label: 'World'        },
-    { href: '/examen',  Icon: GraduationCap,   label: 'Exam Mode'    },
+    { href: '/',                  Icon: Clock,          label: 'Clock'              },
+    { href: '/chrono',            Icon: Timer,          label: 'Stopwatch'          },
+    { href: '/minuteur',          Icon: AlarmClock,     label: 'Timer'              },
+    { href: '/monde',             Icon: Globe,          label: 'World'              },
+    { href: '/examen',            Icon: GraduationCap,  label: 'Exam Mode'          },
+    { href: '/horloge-aiguille',  Icon: Clock3,         label: 'Analog Clock'       },
   ],
 };
 

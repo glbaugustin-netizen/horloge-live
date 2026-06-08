@@ -182,6 +182,49 @@ export default function SeoContent({ language }: { language: Lang }) {
       >
         {t.about}
       </p>
+
+      {/* Maillage interne */}
+      <p style={{ ...pStyle, fontSize: '14px', marginTop: '16px' }}>
+        {language === 'fr' ? (
+          <>
+            Découvrez aussi notre{' '}
+            <a href="/horloge-aiguille" style={{ color: 'var(--color-accent)', textDecoration: 'underline' }}>
+              horloge à aiguilles en ligne
+            </a>
+            , le{' '}
+            <a href="/chrono" style={{ color: 'var(--color-accent)', textDecoration: 'underline' }}>
+              chronomètre en ligne
+            </a>
+            , le{' '}
+            <a href="/minuteur" style={{ color: 'var(--color-accent)', textDecoration: 'underline' }}>
+              minuteur en ligne
+            </a>{' '}
+            et l&apos;
+            <a href="/monde" style={{ color: 'var(--color-accent)', textDecoration: 'underline' }}>
+              heure dans le monde
+            </a>.
+          </>
+        ) : (
+          <>
+            Also discover our{' '}
+            <a href="/horloge-aiguille" style={{ color: 'var(--color-accent)', textDecoration: 'underline' }}>
+              analog clock online
+            </a>
+            , our{' '}
+            <a href="/chrono" style={{ color: 'var(--color-accent)', textDecoration: 'underline' }}>
+              online stopwatch
+            </a>
+            , our{' '}
+            <a href="/minuteur" style={{ color: 'var(--color-accent)', textDecoration: 'underline' }}>
+              online timer
+            </a>{' '}
+            and{' '}
+            <a href="/monde" style={{ color: 'var(--color-accent)', textDecoration: 'underline' }}>
+              world clock
+            </a>.
+          </>
+        )}
+      </p>
     </section>
   );
 }

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Clock, Timer, AlarmClock, Globe, GraduationCap } from 'lucide-react';
+import { Clock, Timer, AlarmClock, Globe, GraduationCap, Clock3 } from 'lucide-react';
 import BottomBar from '@/components/BottomBar';
 
 interface MobileNavProps {
@@ -15,18 +15,20 @@ interface MobileNavProps {
 
 const NAV_ITEMS = {
   fr: [
-    { href: '/',        Icon: Clock,          label: 'Horloge'  },
-    { href: '/chrono',  Icon: Timer,          label: 'Chrono'   },
-    { href: '/minuteur',Icon: AlarmClock,     label: 'Minuteur' },
-    { href: '/monde',   Icon: Globe,          label: 'Monde'    },
-    { href: '/examen',  Icon: GraduationCap,  label: 'Examen'   },
+    { href: '/',                 Icon: Clock,         label: 'Horloge'  },
+    { href: '/chrono',           Icon: Timer,         label: 'Chrono'   },
+    { href: '/minuteur',         Icon: AlarmClock,    label: 'Minuteur' },
+    { href: '/monde',            Icon: Globe,         label: 'Monde'    },
+    { href: '/examen',           Icon: GraduationCap, label: 'Examen'   },
+    { href: '/horloge-aiguille', Icon: Clock3,        label: 'Aiguille' },
   ],
   en: [
-    { href: '/',        Icon: Clock,          label: 'Clock'    },
-    { href: '/chrono',  Icon: Timer,          label: 'Chrono'   },
-    { href: '/minuteur',Icon: AlarmClock,     label: 'Timer'    },
-    { href: '/monde',   Icon: Globe,          label: 'World'    },
-    { href: '/examen',  Icon: GraduationCap,  label: 'Exam'     },
+    { href: '/',                 Icon: Clock,         label: 'Clock'    },
+    { href: '/chrono',           Icon: Timer,         label: 'Chrono'   },
+    { href: '/minuteur',         Icon: AlarmClock,    label: 'Timer'    },
+    { href: '/monde',            Icon: Globe,         label: 'World'    },
+    { href: '/examen',           Icon: GraduationCap, label: 'Exam'     },
+    { href: '/horloge-aiguille', Icon: Clock3,        label: 'Analog'   },
   ],
 };
 
@@ -95,7 +97,7 @@ export default function MobileNav({
               key={href}
               href={href}
               style={{
-                flex: '0 0 20%',
+                flex: '0 0 auto',
                 minWidth: '64px',
                 height: '100%',
                 display: 'flex',
