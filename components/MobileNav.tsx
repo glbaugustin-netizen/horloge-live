@@ -23,7 +23,8 @@ const BAR_STYLE: React.CSSProperties = {
   backdropFilter: 'blur(20px)',
   WebkitBackdropFilter: 'blur(20px)',
   borderTop: '1px solid rgba(255, 255, 255, 0.15)',
-  display: 'flex',
+  /* display géré par la classe Tailwind (flex + sm:hidden)
+     pour que sm:hidden puisse l'écraser sans conflit de spécificité */
   justifyContent: 'space-around',
   alignItems: 'center',
   zIndex: 30,
@@ -50,9 +51,9 @@ export default function MobileNav({
     return () => { unsub?.(); };
   }, []);
 
+  // flex sm:hidden : display:flex sur mobile, display:none sur desktop ≥640px
   return (
-    /* sm:hidden → visible uniquement sur mobile */
-    <div className="sm:hidden" style={BAR_STYLE}>
+    <div className="flex sm:hidden" style={BAR_STYLE}>
       <BottomBar
         onSettingsClick={onSettingsOpen}
         onAccountClick={() => router.push(accountHref)}

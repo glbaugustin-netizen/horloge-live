@@ -270,46 +270,12 @@ export default function AnalogClockPageClient() {
           )}
         </div>
 
-        {/* ── Toggles analogiques — desktop/tablet, bas gauche ──
-            Positionnés au-dessus des liens footer (bottom 72px)       */}
+        {/* ── Toggles analogiques — mobile uniquement, au-dessus de la barre actions ── */}
         {!isFullscreen && (
           <div
-            className="hidden sm:flex"
+            className="flex sm:hidden"
             style={{
-              position: 'absolute', bottom: '72px', left: '24px',
-              zIndex: 30, gap: '8px', flexWrap: 'wrap',
-            }}
-          >
-            <button
-              onClick={() => setShowNumbers(!showNumbers)}
-              style={pillStyle(showNumbers)}
-              title={lang === 'fr' ? 'Afficher les chiffres' : 'Show numbers'}
-            >
-              {numbersLabel}
-            </button>
-            <button
-              onClick={() => setAnalogStyle(analogStyle === 'classic' ? 'minimal' : 'classic')}
-              style={pillStyle(analogStyle === 'classic')}
-              title={lang === 'fr' ? 'Aiguilles classiques' : 'Classic hands'}
-            >
-              {classicLabel}
-            </button>
-            <button
-              onClick={() => setAnalogFormat(analogFormat === '24h' ? '12h' : '24h')}
-              style={pillStyle(analogFormat === '24h')}
-              title={lang === 'fr' ? 'Mode 24h' : '24h mode'}
-            >
-              {format24Label}
-            </button>
-          </div>
-        )}
-
-        {/* ── Toggles analogiques — mobile, au-dessus des 2 barres ── */}
-        {!isFullscreen && (
-          <div
-            className="sm:hidden flex"
-            style={{
-              position: 'fixed', bottom: '112px', left: 0, right: 0,
+              position: 'fixed', bottom: '72px', left: 0, right: 0,
               zIndex: 25, gap: '8px', justifyContent: 'center',
               padding: '0 16px',
             }}
