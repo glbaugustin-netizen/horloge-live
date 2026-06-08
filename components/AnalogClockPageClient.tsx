@@ -243,7 +243,7 @@ export default function AnalogClockPageClient() {
           />
 
           {/* Date */}
-          {formattedDate && (
+          {settings.showDate && formattedDate && (
             <p suppressHydrationWarning style={{
               fontSize: '18px', fontWeight: 400,
               color: 'rgba(255,255,255,0.50)',
