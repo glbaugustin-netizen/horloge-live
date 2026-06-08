@@ -13,9 +13,10 @@ const MAX_SESSIONS = 50;
 
 export async function saveSession(session: SessionRecord): Promise<void> {
   try {
-    const { auth, db } = await import('@/lib/firebase');
+    const { auth, getDb } = await import('@/lib/firebase');
     const user = auth.currentUser;
     if (!user) return;
+    const db = await getDb();
 
     const { collection, addDoc, getDocs, query, orderBy, deleteDoc, Timestamp } =
       await import('firebase/firestore');
@@ -37,9 +38,10 @@ export async function saveSession(session: SessionRecord): Promise<void> {
 
 export async function fetchHistory(): Promise<SessionDoc[]> {
   try {
-    const { auth, db } = await import('@/lib/firebase');
+    const { auth, getDb } = await import('@/lib/firebase');
     const user = auth.currentUser;
     if (!user) return [];
+    const db = await getDb();
 
     const { collection, getDocs, query, orderBy, limit } =
       await import('firebase/firestore');

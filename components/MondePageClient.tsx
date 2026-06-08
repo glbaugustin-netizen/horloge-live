@@ -478,7 +478,7 @@ export default function MondePageClient() {
   useEffect(() => {
     let unsub: (() => void) | null = null;
 
-    import('@/lib/firebase').then(async ({ auth, onAuthStateChanged, db }) => {
+    import('@/lib/firebase').then(async ({ auth, onAuthStateChanged, getDb }) => {
       const { doc, getDoc } = await import('firebase/firestore');
 
       unsub = onAuthStateChanged(auth, async (user) => {
@@ -487,6 +487,7 @@ export default function MondePageClient() {
 
         if (user) {
           try {
+            const db   = await getDb();
             const ref  = doc(db, 'users', user.uid, 'worldClock', 'main');
             const snap = await getDoc(ref);
             if (snap.exists()) {
@@ -509,10 +510,11 @@ export default function MondePageClient() {
     setCustomZones(newZones);
     setAddModalOpen(false);
     try {
-      const { auth, db }   = await import('@/lib/firebase');
+      const { auth, getDb } = await import('@/lib/firebase');
       const { doc, setDoc } = await import('firebase/firestore');
       const user = auth.currentUser;
       if (!user) return;
+      const db = await getDb();
       await setDoc(doc(db, 'users', user.uid, 'worldClock', 'main'), { zones: newZones }, { merge: true });
     } catch (e) { console.error('[MondePageClient] addZone:', e); }
   };
@@ -522,10 +524,11 @@ export default function MondePageClient() {
     const newZones = customZones.filter(z => z !== tz);
     setCustomZones(newZones);
     try {
-      const { auth, db }   = await import('@/lib/firebase');
+      const { auth, getDb } = await import('@/lib/firebase');
       const { doc, setDoc } = await import('firebase/firestore');
       const user = auth.currentUser;
       if (!user) return;
+      const db = await getDb();
       await setDoc(doc(db, 'users', user.uid, 'worldClock', 'main'), { zones: newZones }, { merge: true });
     } catch (e) { console.error('[MondePageClient] removeZone:', e); }
   };

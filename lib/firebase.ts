@@ -2,8 +2,8 @@
  * lib/firebase.ts
  * Initialisation Firebase + helpers Auth + Firestore préférences.
  *
- * Les clés sont lues depuis les variables d'environnement NEXT_PUBLIC_*
- * définies dans .env.local (voir .env.local pour les instructions).
+ * ⚡ Perf : Firestore SDK (~150 KB) est lazy-loadé via getDb().
+ *    Seul firebase/auth est chargé immédiatement à l'import.
  */
 
 import { initializeApp, getApps } from 'firebase/app';
@@ -19,13 +19,6 @@ import {
   type User,
   type AuthError,
 } from 'firebase/auth';
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDoc,
-  serverTimestamp,
-} from 'firebase/firestore';
 
 /* ── Configuration ────────────────────────────────────────────── */
 const firebaseConfig = {
@@ -40,7 +33,12 @@ const firebaseConfig = {
 /* Singleton — évite le doublon lors du hot-reload Next.js */
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 export const auth = getAuth(app);
-export const db   = getFirestore(app);
+
+/* ── Firestore : lazy — SDK chargé uniquement si nécessaire ──── */
+export const getDb = async () => {
+  const { getFirestore } = await import('firebase/firestore');
+  return getFirestore(app);
+};
 
 /* ── Auth helpers ─────────────────────────────────────────────── */
 
@@ -82,6 +80,8 @@ export async function savePrefsToFirestore(
   uid: string,
   prefs: FirestorePrefs,
 ): Promise<void> {
+  const db = await getDb();
+  const { doc, setDoc } = await import('firebase/firestore');
   const ref = doc(db, 'users', uid, 'preferences', 'main');
   await setDoc(ref, prefs, { merge: true });
 }
@@ -93,6 +93,8 @@ export async function savePrefsToFirestore(
 export async function loadPrefsFromFirestore(
   uid: string,
 ): Promise<FirestorePrefs | null> {
+  const db = await getDb();
+  const { doc, getDoc } = await import('firebase/firestore');
   const ref  = doc(db, 'users', uid, 'preferences', 'main');
   const snap = await getDoc(ref);
   return snap.exists() ? (snap.data() as FirestorePrefs) : null;
@@ -103,6 +105,8 @@ export async function loadPrefsFromFirestore(
  * Chemin : /users/{uid}/data/consent
  */
 export async function saveConsentToFirestore(uid: string): Promise<void> {
+  const db = await getDb();
+  const { doc, setDoc, serverTimestamp } = await import('firebase/firestore');
   const ref = doc(db, 'users', uid, 'data', 'consent');
   await setDoc(ref, {
     acceptedAt: serverTimestamp(),
