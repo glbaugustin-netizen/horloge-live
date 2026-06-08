@@ -3,6 +3,14 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
 
+  experimental: {
+    // Améliore le tree-shaking de ces packages : Next.js transforme les imports
+    // barrel (index.js) en imports directs vers les modules sources.
+    // lucide-react : évite de bundler les ~1000 icônes non utilisées.
+    // firebase/auth : réduit le sous-ensemble Auth chargé initialement.
+    optimizePackageImports: ['lucide-react', 'firebase/auth'],
+  },
+
   images: {
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 31_536_000,
