@@ -135,11 +135,7 @@ export default function HorlogeAiguillePage() {
       <AnalogClockPageClient />
 
       {/* ── Section SEO — rendu serveur, scrollable sous l'horloge ── */}
-      <section
-        style={{
-          background: 'rgba(0, 0, 0, 0.20)',
-        }}
-      >
+      <section>
         <div style={{ maxWidth: '720px', margin: '0 auto', padding: '48px 24px 64px' }}>
 
           {/* H1 — centré, au-dessus des cartes */}
