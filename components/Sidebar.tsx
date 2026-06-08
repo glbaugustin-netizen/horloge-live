@@ -3,11 +3,11 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Clock, Timer, AlarmClock, Globe, GraduationCap, Clock3, X, User } from 'lucide-react';
+import { Clock, Timer, AlarmClock, Globe, GraduationCap, Clock3, Menu, X, User } from 'lucide-react';
 
 interface SidebarProps {
-  isOpen: boolean;
-  onClose: () => void;
+  isOpen?: boolean;      // contrôle externe (desktop) — optionnel
+  onClose?: () => void;  // callback externe fermeture — optionnel
   language?: 'fr' | 'en';
 }
 
@@ -30,11 +30,35 @@ const NAV_ITEMS = {
   ],
 };
 
-export default function Sidebar({ isOpen, onClose, language = 'fr' }: SidebarProps) {
-  const pathname = usePathname();
-  const items    = NAV_ITEMS[language];
+/* ─────────────────────────────────────────────────────────────
+   Composant Sidebar
+   — Desktop : contrôlé par le page client via isOpen / onClose
+   — Mobile  : auto-contrôlé via état interne + bouton hamburger
+───────────────────────────────────────────────────────────── */
 
+export default function Sidebar({ isOpen: externalOpen, onClose, language = 'fr' }: SidebarProps) {
+  const pathname    = usePathname();
+  const items       = NAV_ITEMS[language];
+
+  /* ── États ─────────────────────────────────────────────────── */
+  const [open,     setOpen]     = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [accountHref, setAccountHref] = useState('/connexion');
+
+  /* Sync état externe (desktop) → état interne */
+  useEffect(() => {
+    if (externalOpen !== undefined) setOpen(externalOpen);
+  }, [externalOpen]);
+
+  /* Détection mobile pour largeur responsive */
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 640);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
+  /* Firebase auth */
   useEffect(() => {
     let unsub: (() => void) | null = null;
     import('@/lib/firebase').then(({ auth, onAuthStateChanged }) => {
@@ -45,13 +69,47 @@ export default function Sidebar({ isOpen, onClose, language = 'fr' }: SidebarPro
     return () => { unsub?.(); };
   }, []);
 
+  /* ── Handlers ──────────────────────────────────────────────── */
+  const handleClose = () => {
+    setOpen(false);
+    onClose?.();
+  };
+
+  /* ─────────────────────────────────────────────────────────── */
+
   return (
     <>
+      {/* ── Bouton hamburger — visible sur mobile uniquement ── */}
+      <button
+        className="sm:hidden"
+        onClick={() => setOpen(true)}
+        aria-label="Ouvrir le menu"
+        style={{
+          position: 'fixed',
+          top: '24px',
+          left: '24px',
+          zIndex: 50,
+          width: '40px',
+          height: '40px',
+          borderRadius: '50px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: 'rgba(255, 255, 255, 0.08)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 255, 255, 0.15)',
+          cursor: 'pointer',
+          color: 'rgba(255,255,255,0.80)',
+        }}
+      >
+        <Menu size={20} strokeWidth={1.5} />
+      </button>
+
       {/* ── Overlay — clic ferme la sidebar ── */}
       <div
-        className="hidden sm:block"
         aria-hidden="true"
-        onClick={onClose}
+        onClick={handleClose}
         style={{
           position: 'fixed',
           inset: 0,
@@ -59,31 +117,33 @@ export default function Sidebar({ isOpen, onClose, language = 'fr' }: SidebarPro
           backdropFilter: 'blur(2px)',
           WebkitBackdropFilter: 'blur(2px)',
           zIndex: 35,
-          opacity: isOpen ? 1 : 0,
+          opacity: open ? 1 : 0,
           transition: 'opacity 200ms ease',
-          pointerEvents: isOpen ? 'auto' : 'none',
+          pointerEvents: open ? 'auto' : 'none',
         }}
       />
 
       {/* ── Panneau sidebar ── */}
       <aside
-        className="hidden sm:flex"
         style={{
           position: 'fixed',
           top: 0,
           left: 0,
           height: '100vh',
-          width: '240px',
+          /* Mobile : plein écran, Desktop : 240px */
+          width: isMobile ? '100%' : '240px',
           background: 'rgba(255, 255, 255, 0.08)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          borderRight: '1px solid rgba(255, 255, 255, 0.15)',
+          /* Mobile : pas de border-right */
+          borderRight: isMobile ? 'none' : '1px solid rgba(255, 255, 255, 0.15)',
           padding: '24px 16px',
           zIndex: 50,
+          display: 'flex',
           flexDirection: 'column',
           gap: '6px',
-          transform: isOpen ? 'translateX(0)' : 'translateX(-100%)',
-          transition: isOpen
+          transform: open ? 'translateX(0)' : 'translateX(-100%)',
+          transition: open
             ? 'transform 300ms ease-out'
             : 'transform 250ms ease-in',
         }}
@@ -91,7 +151,7 @@ export default function Sidebar({ isOpen, onClose, language = 'fr' }: SidebarPro
         {/* Bouton fermeture (X) */}
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '8px' }}>
           <button
-            onClick={onClose}
+            onClick={handleClose}
             aria-label="Fermer le menu"
             style={{
               width: '28px',
@@ -126,7 +186,7 @@ export default function Sidebar({ isOpen, onClose, language = 'fr' }: SidebarPro
             <Link
               key={href}
               href={href}
-              onClick={onClose}
+              onClick={handleClose}
               style={{
                 borderRadius: '50px',
                 padding: '10px 16px',
@@ -169,13 +229,13 @@ export default function Sidebar({ isOpen, onClose, language = 'fr' }: SidebarPro
 
         {/* Lien Mon compte — poussé en bas */}
         {(() => {
-          const accountLabel  = language === 'fr' ? 'Mon compte' : 'My account';
+          const accountLabel   = language === 'fr' ? 'Mon compte' : 'My account';
           const isAccountActive = pathname === '/compte' || pathname === '/connexion';
           return (
             <div style={{ marginTop: 'auto', paddingTop: '12px', borderTop: '1px solid rgba(255,255,255,0.10)' }}>
               <Link
                 href={accountHref}
-                onClick={onClose}
+                onClick={handleClose}
                 style={{
                   borderRadius: '50px',
                   padding: '10px 16px',
