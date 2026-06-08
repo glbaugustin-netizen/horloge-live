@@ -622,6 +622,8 @@ interface AnalogOptions {
   onAnalogStyleChange: (val: 'classic' | 'minimal') => void;
   analogFormat: '12h' | '24h';
   onAnalogFormatChange: (val: '12h' | '24h') => void;
+  clockTheme: 'glass' | 'white';
+  onClockThemeChange: (val: 'glass' | 'white') => void;
 }
 
 interface SettingsPanelProps {
@@ -851,6 +853,13 @@ export default function SettingsPanel({
                     <Toggle
                       value={analogOptions.analogFormat === '24h'}
                       onChange={(val) => analogOptions.onAnalogFormatChange(val ? '24h' : '12h')}
+                    />
+                  </ParamRow>
+
+                  <ParamRow label={settings.language === 'fr' ? 'Cadran blanc' : 'White dial'}>
+                    <Toggle
+                      value={analogOptions.clockTheme === 'white'}
+                      onChange={(val) => analogOptions.onClockThemeChange(val ? 'white' : 'glass')}
                     />
                   </ParamRow>
                 </div>

@@ -18,6 +18,7 @@ const SettingsPanel = dynamic(() => import('@/components/SettingsPanel'), { ssr:
 const LS_NUMBERS = 'horloge-live-analog-numbers';
 const LS_STYLE   = 'horloge-live-analog-style';
 const LS_FORMAT  = 'horloge-live-analog-format';
+const LS_THEME   = 'horloge-live-analog-theme';
 
 /* ── Traductions date ── */
 const DATE_LABELS = {
@@ -103,6 +104,10 @@ export default function AnalogClockPageClient() {
     if (typeof window === 'undefined') return '12h';
     return (localStorage.getItem(LS_FORMAT) as '12h' | '24h') || '12h';
   });
+  const [clockTheme, setClockThemeState] = useState<'glass' | 'white'>(() => {
+    if (typeof window === 'undefined') return 'glass';
+    return (localStorage.getItem(LS_THEME) as 'glass' | 'white') || 'glass';
+  });
 
   /* ── Taille responsive du cadran ── */
   const [clockSize, setClockSize] = useState(300);
@@ -182,6 +187,11 @@ export default function AnalogClockPageClient() {
     try { localStorage.setItem(LS_FORMAT, v); } catch { /* noop */ }
   }, []);
 
+  const handleClockTheme = useCallback((v: 'glass' | 'white') => {
+    setClockThemeState(v);
+    try { localStorage.setItem(LS_THEME, v); } catch { /* noop */ }
+  }, []);
+
   /* ── Date formatée ── */
   const lang = settings.language;
   const tDate = DATE_LABELS[lang];
@@ -229,6 +239,7 @@ export default function AnalogClockPageClient() {
             style={analogStyle}
             format={analogFormat}
             language={lang}
+            clockTheme={clockTheme}
           />
 
           {/* Date */}
@@ -346,6 +357,8 @@ export default function AnalogClockPageClient() {
             onAnalogStyleChange: setAnalogStyle,
             analogFormat,
             onAnalogFormatChange: setAnalogFormat,
+            clockTheme,
+            onClockThemeChange: handleClockTheme,
           }}
         />
       </div>

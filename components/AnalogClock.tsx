@@ -11,6 +11,7 @@ interface AnalogClockProps {
   style?: 'classic' | 'minimal'; // classic = aiguilles avec contrepoids
   format?: '12h' | '24h';
   language?: 'fr' | 'en';
+  clockTheme?: 'glass' | 'white'; // défaut : 'glass'
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -38,6 +39,7 @@ export default function AnalogClock({
   style = 'classic',
   format = '12h',
   language = 'fr',
+  clockTheme = 'glass',
 }: AnalogClockProps) {
   const [time, setTime] = useState(new Date());
 
@@ -45,6 +47,35 @@ export default function AnalogClock({
     const interval = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(interval);
   }, []);
+
+  /* ── Palette selon le thème ── */
+  const colors = clockTheme === 'white' ? {
+    dialFill:    '#FFFFFF',
+    dialStroke:  'rgba(13, 27, 42, 0.15)',
+    dialGlow:    'none',
+    tickHour:    'rgba(13, 27, 42, 0.70)',
+    tickMinute:  'rgba(13, 27, 42, 0.35)',
+    numbers:     'rgba(13, 27, 42, 0.85)',
+    handHour:    '#0D1B2A',
+    handMinute:  '#0D1B2A',
+    handSecond:  '#E53E3E',
+    pivot:       '#E53E3E',
+    pivotInner:  '#FFFFFF',
+    shadow:      'drop-shadow(0 4px 24px rgba(0,0,0,0.15))',
+  } : {
+    dialFill:    'rgba(255, 255, 255, 0.08)',
+    dialStroke:  'rgba(255, 255, 255, 0.15)',
+    dialGlow:    'rgba(255, 255, 255, 0.05)',
+    tickHour:    'rgba(255, 255, 255, 0.70)',
+    tickMinute:  'rgba(255, 255, 255, 0.35)',
+    numbers:     'rgba(255, 255, 255, 0.85)',
+    handHour:    'rgba(255, 255, 255, 0.95)',
+    handMinute:  'rgba(255, 255, 255, 0.95)',
+    handSecond:  '#4FC3F7',
+    pivot:       '#4FC3F7',
+    pivotInner:  '#FFFFFF',
+    shadow:      'drop-shadow(0 4px 24px rgba(0,0,0,0.3))',
+  };
 
   const cx = size / 2;
   const cy = size / 2;
@@ -88,23 +119,25 @@ export default function AnalogClock({
       width={size}
       height={size}
       viewBox={`0 0 ${size} ${size}`}
-      style={{ filter: 'drop-shadow(0 4px 24px rgba(0,0,0,0.30))' }}
+      style={{ filter: colors.shadow }}
       aria-label={language === 'fr' ? 'Horloge analogique' : 'Analog clock'}
     >
-      {/* ── 1. Cadran — liquid glass ── */}
+      {/* ── 1. Cadran ── */}
       <circle
         cx={cx} cy={cy} r={r}
-        fill="rgba(255, 255, 255, 0.08)"
-        stroke="rgba(255, 255, 255, 0.15)"
+        fill={colors.dialFill}
+        stroke={colors.dialStroke}
         strokeWidth={1}
       />
-      {/* Légère lueur intérieure */}
-      <circle
-        cx={cx} cy={cy} r={r * 0.97}
-        fill="none"
-        stroke="rgba(255, 255, 255, 0.05)"
-        strokeWidth={r * 0.06}
-      />
+      {/* Légère lueur intérieure (ignorée en thème white via 'none') */}
+      {colors.dialGlow !== 'none' && (
+        <circle
+          cx={cx} cy={cy} r={r * 0.97}
+          fill="none"
+          stroke={colors.dialGlow}
+          strokeWidth={r * 0.06}
+        />
+      )}
 
       {/* ── 2. Graduations (60 traits) ── */}
       {Array.from({ length: 60 }, (_, i) => {
@@ -120,7 +153,7 @@ export default function AnalogClock({
           <line
             key={i}
             x1={x1} y1={y1} x2={x2} y2={y2}
-            stroke={isHour ? 'rgba(255,255,255,0.70)' : 'rgba(255,255,255,0.35)'}
+            stroke={isHour ? colors.tickHour : colors.tickMinute}
             strokeWidth={isHour ? 2 : 1}
             strokeLinecap="round"
           />
@@ -143,7 +176,7 @@ export default function AnalogClock({
             fontSize={size * 0.072}
             fontWeight="300"
             fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-            fill="rgba(255, 255, 255, 0.85)"
+            fill={colors.numbers}
           >
             {num}
           </text>
@@ -154,7 +187,7 @@ export default function AnalogClock({
       <line
         x1={hourBwd.x} y1={hourBwd.y}
         x2={hourFwd.x} y2={hourFwd.y}
-        stroke="rgba(255, 255, 255, 0.95)"
+        stroke={colors.handHour}
         strokeWidth={hourW}
         strokeLinecap="round"
       />
@@ -163,23 +196,23 @@ export default function AnalogClock({
       <line
         x1={minBwd.x} y1={minBwd.y}
         x2={minFwd.x} y2={minFwd.y}
-        stroke="rgba(255, 255, 255, 0.95)"
+        stroke={colors.handMinute}
         strokeWidth={minW}
         strokeLinecap="round"
       />
 
-      {/* ── 6. Aiguille des secondes — accent #4FC3F7 ── */}
+      {/* ── 6. Aiguille des secondes ── */}
       <line
         x1={secBwd.x} y1={secBwd.y}
         x2={secFwd.x} y2={secFwd.y}
-        stroke="#4FC3F7"
+        stroke={colors.handSecond}
         strokeWidth={size * 0.008}
         strokeLinecap="round"
       />
 
       {/* ── 7. Centre (pivot) ── */}
-      <circle cx={cx} cy={cy} r={size * 0.025} fill="rgba(255,255,255,0.90)" />
-      <circle cx={cx} cy={cy} r={size * 0.012} fill="#4FC3F7" />
+      <circle cx={cx} cy={cy} r={size * 0.025} fill={colors.pivot} />
+      <circle cx={cx} cy={cy} r={size * 0.012} fill={colors.pivotInner} />
     </svg>
   );
 }
