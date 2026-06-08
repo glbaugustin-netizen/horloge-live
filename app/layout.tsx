@@ -117,16 +117,9 @@ export default function RootLayout({
   return (
     <html lang="fr" className={inter.variable}>
       <head>
-        {/* ── Anti-FOUC : applique les CSS vars AVANT le premier rendu ── */}
-        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-        <script dangerouslySetInnerHTML={{ __html: foucScript }} />
-
-        {/* ── Préconnexion Google Fonts (polices alternatives) ── */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-
-        {/* ── Préchargement image de fond par défaut (LCP) ── */}
+        {/* ── 1. PRELOAD IMAGE LCP — EN PREMIER, avant tout autre tag ──
+            Le navigateur découvre et planifie le téléchargement de l'image
+            de fond le plus tôt possible dans le parsing HTML. ── */}
         <link
           rel="preload"
           as="image"
@@ -135,7 +128,16 @@ export default function RootLayout({
           fetchPriority="high"
         />
 
-        {/* ── Données structurées Schema.org ── */}
+        {/* ── 2. Anti-FOUC : applique les CSS vars AVANT le premier rendu ── */}
+        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+        <script dangerouslySetInnerHTML={{ __html: foucScript }} />
+
+        {/* ── 3. Préconnexion Google Fonts (polices alternatives) ── */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+
+        {/* ── 4. Données structurées Schema.org ── */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
