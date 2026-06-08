@@ -138,8 +138,6 @@ export default function HorlogeAiguillePage() {
       <section
         style={{
           background: 'rgba(0, 0, 0, 0.20)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
           borderTop: '1px solid rgba(255, 255, 255, 0.10)',
         }}
       >
