@@ -138,7 +138,6 @@ export default function HorlogeAiguillePage() {
       <section
         style={{
           background: 'rgba(0, 0, 0, 0.20)',
-          borderTop: '1px solid rgba(255, 255, 255, 0.10)',
         }}
       >
         <div style={{ maxWidth: '720px', margin: '0 auto', padding: '48px 24px 64px' }}>
