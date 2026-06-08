@@ -90,28 +90,25 @@ export default function AnalogClockPageClient() {
   const [sidebarOpen,  setSidebarOpen]  = useState(false);
   const [accountHref,  setAccountHref]  = useState('/connexion');
 
-  /* ── Paramètres spécifiques à cette page ── */
-  const [showNumbers,  setShowNumbersState]  = useState(true);
-  const [analogStyle,  setAnalogStyleState]  = useState<'classic' | 'minimal'>('classic');
-  const [analogFormat, setAnalogFormatState] = useState<'12h' | '24h'>('12h');
+  /* ── Paramètres spécifiques à cette page (lazy init depuis localStorage) ── */
+  const [showNumbers,  setShowNumbersState]  = useState<boolean>(() => {
+    if (typeof window === 'undefined') return true;
+    return localStorage.getItem(LS_NUMBERS) !== 'false';
+  });
+  const [analogStyle,  setAnalogStyleState]  = useState<'classic' | 'minimal'>(() => {
+    if (typeof window === 'undefined') return 'classic';
+    return (localStorage.getItem(LS_STYLE) as 'classic' | 'minimal') || 'classic';
+  });
+  const [analogFormat, setAnalogFormatState] = useState<'12h' | '24h'>(() => {
+    if (typeof window === 'undefined') return '12h';
+    return (localStorage.getItem(LS_FORMAT) as '12h' | '24h') || '12h';
+  });
 
   /* ── Taille responsive du cadran ── */
   const [clockSize, setClockSize] = useState(300);
 
   /* ── Date courante ── */
   const [now, setNow] = useState<Date | null>(null);
-
-  /* ── Hydratation localStorage ── */
-  useEffect(() => {
-    try {
-      const n = localStorage.getItem(LS_NUMBERS);
-      if (n !== null) setShowNumbersState(n !== 'false');
-      const s = localStorage.getItem(LS_STYLE);
-      if (s === 'minimal') setAnalogStyleState('minimal');
-      const f = localStorage.getItem(LS_FORMAT);
-      if (f === '24h') setAnalogFormatState('24h');
-    } catch { /* localStorage indisponible */ }
-  }, []);
 
   /* ── Date tick ── */
   useEffect(() => {
@@ -392,6 +389,14 @@ export default function AnalogClockPageClient() {
           updateShowDate={updateShowDate}
           updateShowSeconds={updateShowSeconds}
           updateLanguage={updateLanguage}
+          analogOptions={{
+            showNumbers,
+            onShowNumbersChange: setShowNumbers,
+            analogStyle,
+            onAnalogStyleChange: setAnalogStyle,
+            analogFormat,
+            onAnalogFormatChange: setAnalogFormat,
+          }}
         />
       </div>
 

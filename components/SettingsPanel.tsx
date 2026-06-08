@@ -615,6 +615,15 @@ function ColorPalette({
    SettingsPanel principal
 ═══════════════════════════════════════════════════════════════ */
 
+interface AnalogOptions {
+  showNumbers: boolean;
+  onShowNumbersChange: (val: boolean) => void;
+  analogStyle: 'classic' | 'minimal';
+  onAnalogStyleChange: (val: 'classic' | 'minimal') => void;
+  analogFormat: '12h' | '24h';
+  onAnalogFormatChange: (val: '12h' | '24h') => void;
+}
+
 interface SettingsPanelProps {
   isOpen: boolean;
   onClose: () => void;
@@ -633,6 +642,8 @@ interface SettingsPanelProps {
   flipTheme?: 'dark' | 'light';
   setFlipTheme?: (v: 'dark' | 'light') => void;
   onEmbedOpen?: () => void;
+  /** Props optionnelles — page /horloge-aiguille uniquement */
+  analogOptions?: AnalogOptions;
 }
 
 export default function SettingsPanel({
@@ -653,6 +664,7 @@ export default function SettingsPanel({
   flipTheme = 'dark',
   setFlipTheme,
   onEmbedOpen,
+  analogOptions,
 }: SettingsPanelProps) {
   const [fontExpanded, setFontExpanded] = useState(false);
   const [bgExpanded, setBgExpanded] = useState(false);
@@ -812,6 +824,40 @@ export default function SettingsPanel({
 
           {/* ════ COLONNE GAUCHE ════ */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+
+            {/* ── Section horloge analogique (page /horloge-aiguille uniquement) ── */}
+            {analogOptions && (
+              <>
+                <div>
+                  <SectionTitle>
+                    {settings.language === 'fr' ? 'Horloge analogique' : 'Analog clock'}
+                  </SectionTitle>
+
+                  <ParamRow label={settings.language === 'fr' ? 'Afficher les chiffres' : 'Show numbers'}>
+                    <Toggle
+                      value={analogOptions.showNumbers}
+                      onChange={analogOptions.onShowNumbersChange}
+                    />
+                  </ParamRow>
+
+                  <ParamRow label={settings.language === 'fr' ? 'Aiguilles classiques' : 'Classic hands'}>
+                    <Toggle
+                      value={analogOptions.analogStyle === 'classic'}
+                      onChange={(val) => analogOptions.onAnalogStyleChange(val ? 'classic' : 'minimal')}
+                    />
+                  </ParamRow>
+
+                  <ParamRow label={settings.language === 'fr' ? 'Mode 24h' : '24h mode'}>
+                    <Toggle
+                      value={analogOptions.analogFormat === '24h'}
+                      onChange={(val) => analogOptions.onAnalogFormatChange(val ? '24h' : '12h')}
+                    />
+                  </ParamRow>
+                </div>
+
+                {divider}
+              </>
+            )}
 
             {/* Police — désactivée en mode flip */}
             <div
