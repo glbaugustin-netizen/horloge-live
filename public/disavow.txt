@@ -1,0 +1,45 @@
+# Fichier Disavow — horloge-live.com
+# Mis à jour le 9 juin 2026
+# Domaines spam identifiés via Ahrefs
+
+domain:rankio.agency
+domain:linkspro.agency
+domain:seogrow.pro
+domain:fiverr-seo-for-small-businesses.site
+domain:rankgrowth.agency
+domain:rank-now.website
+domain:seodaro.com
+domain:rankxlinks.shop
+domain:buyseobacklinks.shop
+domain:linkrankpro.shop
+domain:ranklinkerpro.shop
+domain:seorankflow.shop
+domain:pbnseolinks.shop
+domain:toplinkranker.shop
+domain:linkseopro.shop
+domain:premiumseolinks.shop
+domain:seolinkpro.shop
+domain:authoritybacklinks.shop
+domain:ranklinkx.shop
+domain:linkrankboost.shop
+domain:ranklinkpro.shop
+domain:primeseo.xyz
+domain:seopxl-traffic-growth-lab.shop
+domain:seopxl-organic-boost-lab.shop
+domain:seopxl-performance-authority-engine.shop
+domain:rglinks.org
+domain:sideenhancer.online
+domain:seogeko.shop
+domain:jameslinks.agency
+domain:high-traffic-backlinks.site
+domain:rankapex.shop
+domain:rankpeak.shop
+domain:rankcrown.shop
+domain:ranksupreme.shop
+domain:linkbooster.website
+domain:geko-backlinks.site
+domain:netranko.shop
+domain:stackscope.dev
+domain:seorankoo.site
+domain:high-quality-backlinks.site
+domain:crunch.id
