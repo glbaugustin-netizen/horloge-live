@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import ConnexionPageClient from '@/components/ConnexionPageClient';
 
 export const metadata: Metadata = {
-  title: 'Mon compte | horloge-live.com',
+  title: { absolute: 'Mon compte | horloge-live.com' },
   robots: { index: false, follow: false },
 };
 

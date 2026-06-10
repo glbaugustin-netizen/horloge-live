@@ -3,7 +3,7 @@ import ClockPageClient from '@/components/ClockPageClient';
 
 /* ─── Métadonnées SEO ─────────────────────────────────────── */
 export const metadata: Metadata = {
-  title: 'Horloge en ligne aesthetic live — Gratuite & personnalisable | horloge-live.com',
+  title: { absolute: 'Horloge en ligne aesthetic live — Gratuite & personnalisable | horloge-live.com' },
   description:
     'Affichez l\'heure exacte avec notre horloge en ligne aesthetic. 60 polices, fonds aesthetic, plein écran. Gratuite, sans pub, sans inscription.',
   alternates: { canonical: 'https://horloge-live.com/' },

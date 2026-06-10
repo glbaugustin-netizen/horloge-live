@@ -4,7 +4,7 @@ import MondePageClient from '@/components/MondePageClient';
 
 /* ─── Métadonnées SEO ─────────────────────────────────────── */
 export const metadata: Metadata = {
-  title: 'Horloge mondiale en ligne — Heure exacte & gratuite | horloge-live.com',
+  title: { absolute: 'Horloge mondiale en ligne — Heure exacte & gratuite | horloge-live.com' },
   description:
     "Affichez l'heure exacte dans le monde entier avec notre horloge mondiale en ligne. Fuseaux horaires, heure Paris, aesthetic et gratuit. Sans pub, sans inscription.",
   alternates: { canonical: 'https://horloge-live.com/monde' },

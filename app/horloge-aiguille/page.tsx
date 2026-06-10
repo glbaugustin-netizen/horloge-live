@@ -4,7 +4,7 @@ import AnalogClockPageClient from '@/components/AnalogClockPageClient';
 
 /* ─── Métadonnées SEO ─────────────────────────────────────── */
 export const metadata: Metadata = {
-  title: 'Horloge à aiguilles en ligne — Heure France analogique | horloge-live.com',
+  title: { absolute: 'Horloge à aiguilles en ligne — Heure France analogique | horloge-live.com' },
   description:
     'Horloge à aiguilles en ligne gratuite, en temps réel. Affichage analogique avec heures, minutes et secondes. Mode 12h/24h, plein écran, heure Paris.',
   alternates: { canonical: 'https://horloge-live.com/horloge-aiguille' },

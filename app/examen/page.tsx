@@ -4,7 +4,7 @@ import ExamenPageClient from '@/components/ExamenPageClient';
 
 /* ─── Métadonnées SEO ─────────────────────────────────────── */
 export const metadata: Metadata = {
-  title: 'Horloge examen en ligne — Plein écran, fond blanc & gratuite | horloge-live.com',
+  title: { absolute: 'Horloge examen en ligne — Plein écran, fond blanc & gratuite | horloge-live.com' },
   description:
     "Horloge pour examen en ligne gratuite. Affichez l'heure en grand, fond blanc, nom de matière et durée. Plein écran pour la classe, le bac et les concours. Sans pub.",
   alternates: { canonical: 'https://horloge-live.com/examen' },
