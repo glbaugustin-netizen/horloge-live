@@ -4,7 +4,7 @@ import ChronoPageClient from '@/components/ChronoPageClient';
 
 /* ─── Métadonnées SEO ─────────────────────────────────────── */
 export const metadata: Metadata = {
-  title: 'Chronomètre en ligne gratuit — Plein écran & aesthetic | horloge-live.com',
+  title: { absolute: 'Chronomètre en ligne gratuit — Plein écran & aesthetic | horloge-live.com' },
   description:
     "Chronomètre en ligne gratuit avec tours, plein écran et style aesthetic. Précis à la milliseconde, sans pub, sans inscription. Sur mobile et ordinateur.",
   alternates: { canonical: 'https://horloge-live.com/chrono' },
