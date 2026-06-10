@@ -4,14 +4,14 @@ import MinuteurPageClient from '@/components/MinuteurPageClient';
 
 /* ─── Métadonnées SEO ─────────────────────────────────────── */
 export const metadata: Metadata = {
-  title: { absolute: 'Minuteur en ligne gratuit — Plein écran & aesthetic | horloge-live.com' },
+  title: { absolute: 'Minuteur en ligne gratuit | horloge-live.com' },
   description:
     "Minuteur en ligne gratuit avec alarme sonore, plein écran et style aesthetic. Compte à rebours précis, sans pub, sans inscription. Sur mobile et ordinateur.",
   alternates: { canonical: 'https://horloge-live.com/minuteur' },
   robots: { index: true, follow: true },
   openGraph: {
     type: 'website',
-    title: 'Minuteur en ligne gratuit — Plein écran & aesthetic | horloge-live.com',
+    title: 'Minuteur en ligne gratuit | horloge-live.com',
     description:
       "Minuteur en ligne gratuit avec alarme sonore, plein écran et style aesthetic. Compte à rebours précis, sans pub, sans inscription. Sur mobile et ordinateur.",
     url: 'https://horloge-live.com/minuteur',
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Minuteur en ligne gratuit — Plein écran & aesthetic | horloge-live.com',
+    title: 'Minuteur en ligne gratuit | horloge-live.com',
     description:
       "Minuteur en ligne gratuit avec alarme sonore, plein écran et style aesthetic. Compte à rebours précis, sans pub, sans inscription. Sur mobile et ordinateur.",
   },
@@ -116,7 +116,9 @@ const faqJsonLd = {
 };
 
 /* ─── Styles liquid glass ─────────────────────────────────── */
-const card: CSSProperties = {
+const seoSection: CSSProperties = { padding: '56px 24px 72px' };
+
+const glassCard: CSSProperties = {
   background: 'rgba(255, 255, 255, 0.08)',
   backdropFilter: 'blur(20px)',
   WebkitBackdropFilter: 'blur(20px)',
@@ -126,7 +128,16 @@ const card: CSSProperties = {
   marginBottom: '12px',
 };
 
-const h2Sty: CSSProperties = {
+const h1Style: CSSProperties = {
+  fontSize: '28px',
+  fontWeight: 500,
+  color: '#FFFFFF',
+  textAlign: 'center',
+  marginBottom: '32px',
+  lineHeight: 1.3,
+};
+
+const h2Style: CSSProperties = {
   fontSize: '18px',
   fontWeight: 500,
   color: 'rgba(255, 255, 255, 0.90)',
@@ -134,7 +145,7 @@ const h2Sty: CSSProperties = {
   marginTop: 0,
 };
 
-const h3Sty: CSSProperties = {
+const h3Style: CSSProperties = {
   fontSize: '15px',
   fontWeight: 500,
   color: 'rgba(255, 255, 255, 0.80)',
@@ -142,17 +153,12 @@ const h3Sty: CSSProperties = {
   marginTop: '20px',
 };
 
-const pSty: CSSProperties = {
+const bodyText: CSSProperties = {
   fontSize: '15px',
   fontWeight: 400,
   color: 'rgba(255, 255, 255, 0.70)',
   lineHeight: 1.7,
   margin: 0,
-};
-
-const linkSty: CSSProperties = {
-  color: 'rgba(79, 195, 247, 0.85)',
-  textDecoration: 'underline',
 };
 
 /* ─────────────────────────────────────────────────────────────
@@ -175,25 +181,18 @@ export default function MinuteurPage() {
       <MinuteurPageClient />
 
       {/* ── Section SEO — rendu serveur ── */}
-      <section style={{ padding: '56px 24px 72px' }} aria-label="À propos du minuteur en ligne">
+      <section style={seoSection} aria-label="À propos du minuteur en ligne">
         <div style={{ maxWidth: '720px', margin: '0 auto' }}>
 
           {/* H1 */}
-          <h1 style={{
-            fontSize: '28px',
-            fontWeight: 500,
-            color: '#FFFFFF',
-            textAlign: 'center',
-            marginBottom: '32px',
-            lineHeight: 1.3,
-          }}>
+          <h1 style={h1Style}>
             Minuteur en ligne gratuit — Compte à rebours aesthetic et plein écran
           </h1>
 
           {/* H2 #1 — Présentation */}
-          <div style={card}>
-            <h2 style={h2Sty}>Un minuteur en ligne gratuit et simple d&apos;utilisation</h2>
-            <p style={pSty}>
+          <div style={glassCard}>
+            <h2 style={h2Style}>Un minuteur en ligne gratuit et simple d&apos;utilisation</h2>
+            <p style={bodyText}>
               Notre minuteur en ligne lance un compte à rebours précis à la seconde, avec une alarme
               sonore à la fin. Gratuit, sans installation et sans inscription, il fonctionne
               directement dans votre navigateur sur ordinateur, tablette et mobile. Saisissez les
@@ -202,9 +201,9 @@ export default function MinuteurPage() {
           </div>
 
           {/* H2 #2 — Classe et enfants */}
-          <div style={card}>
-            <h2 style={h2Sty}>Minuteur en ligne pour la classe et les enfants</h2>
-            <p style={pSty}>
+          <div style={glassCard}>
+            <h2 style={h2Style}>Minuteur en ligne pour la classe et les enfants</h2>
+            <p style={bodyText}>
               Projetez le minuteur en plein écran sur votre tableau blanc interactif pour gérer le
               temps des activités en classe. L&apos;affichage épuré et les grands chiffres garantissent
               une lisibilité maximale pour les élèves depuis tous les rangs. Idéal aussi comme
@@ -214,9 +213,9 @@ export default function MinuteurPage() {
           </div>
 
           {/* H2 #3 — Plein écran */}
-          <div style={card}>
-            <h2 style={h2Sty}>Minuteur en ligne plein écran — Pour les réunions et le télétravail</h2>
-            <p style={pSty}>
+          <div style={glassCard}>
+            <h2 style={h2Style}>Minuteur en ligne plein écran — Pour les réunions et le télétravail</h2>
+            <p style={bodyText}>
               Passez en mode plein écran d&apos;un clic pour afficher le compte à rebours en grand sur
               tout votre écran. Parfait pour minuter des présentations, des ateliers, des réunions
               ou des sessions de travail en télétravail. Le minuteur reste visible depuis n&apos;importe
@@ -226,9 +225,9 @@ export default function MinuteurPage() {
           </div>
 
           {/* H2 #4 — Aesthetic */}
-          <div style={card}>
-            <h2 style={h2Sty}>Minuteur aesthetic — Timer en ligne pour vos sessions study</h2>
-            <p style={pSty}>
+          <div style={glassCard}>
+            <h2 style={h2Style}>Minuteur aesthetic — Timer en ligne pour vos sessions study</h2>
+            <p style={bodyText}>
               Le minuteur de horloge-live.com s&apos;inscrit dans le même univers visuel aesthetic que le
               reste du site : fond d&apos;écran personnalisable, typographie soignée et interface liquid
               glass. Parfait pour vos sessions de travail study, de révision ou de deep work — un
@@ -239,40 +238,40 @@ export default function MinuteurPage() {
           </div>
 
           {/* H2 #5 — FAQ */}
-          <div style={card}>
-            <h2 style={h2Sty}>Questions fréquentes sur le minuteur en ligne</h2>
+          <div style={glassCard}>
+            <h2 style={h2Style}>Questions fréquentes sur le minuteur en ligne</h2>
 
-            <h3 style={h3Sty}>Comment utiliser le minuteur en ligne ?</h3>
-            <p style={pSty}>
+            <h3 style={h3Style}>Comment utiliser le minuteur en ligne ?</h3>
+            <p style={bodyText}>
               Saisissez les heures, minutes et secondes souhaitées dans les champs de saisie.
               Cliquez sur Fixer pour valider la durée, puis sur Démarrer pour lancer le compte à
               rebours. À zéro, une alarme sonore retentit automatiquement. Utilisez Pause pour
               suspendre et Réinitialiser pour remettre à la durée initiale.
             </p>
 
-            <h3 style={h3Sty}>Le minuteur en ligne est-il gratuit ?</h3>
-            <p style={pSty}>
+            <h3 style={h3Style}>Le minuteur en ligne est-il gratuit ?</h3>
+            <p style={bodyText}>
               Oui. Le minuteur de horloge-live.com est entièrement gratuit, sans publicité et sans
               inscription. Toutes les fonctionnalités — alarme sonore, plein écran, personnalisation
               aesthetic — sont accessibles immédiatement.
             </p>
 
-            <h3 style={h3Sty}>Peut-on afficher le minuteur en plein écran ?</h3>
-            <p style={pSty}>
+            <h3 style={h3Style}>Peut-on afficher le minuteur en plein écran ?</h3>
+            <p style={bodyText}>
               Oui. Cliquez sur l&apos;icône plein écran en bas de la page ou appuyez sur la touche F.
               Le compte à rebours occupe alors tout l&apos;écran — idéal pour la classe, les réunions ou
               le sport. Appuyez sur Échap pour quitter le plein écran.
             </p>
 
-            <h3 style={h3Sty}>Le minuteur sonne-t-il quand le temps est écoulé ?</h3>
-            <p style={pSty}>
+            <h3 style={h3Style}>Le minuteur sonne-t-il quand le temps est écoulé ?</h3>
+            <p style={bodyText}>
               Oui. Une alarme sonore se déclenche automatiquement quand le compte à rebours atteint
               zéro. Sur mobile, une vibration accompagne le signal sonore. L&apos;affichage clignote
               également pour signaler visuellement la fin du temps imparti.
             </p>
 
-            <h3 style={h3Sty}>Peut-on utiliser le minuteur en ligne pour 1 minute ou des durées courtes ?</h3>
-            <p style={pSty}>
+            <h3 style={h3Style}>Peut-on utiliser le minuteur en ligne pour 1 minute ou des durées courtes ?</h3>
+            <p style={bodyText}>
               Oui. Le minuteur accepte toutes les durées, de quelques secondes à plusieurs heures.
               Pour un minuteur 1 minute, saisissez simplement 00h 01m 00s et cliquez sur Démarrer.
               Idéal pour les activités rapides, les tours de jeu ou les exercices de respiration.
@@ -280,24 +279,24 @@ export default function MinuteurPage() {
           </div>
 
           {/* Maillage interne */}
-          <div style={card}>
-            <p style={pSty}>
+          <div style={glassCard}>
+            <p style={bodyText}>
               Découvrez aussi notre{' '}
-              <a href="/" style={linkSty}>horloge en ligne aesthetic</a>,
+              <a href="/" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>horloge en ligne aesthetic</a>,
               notre{' '}
-              <a href="/chrono" style={linkSty}>chronomètre en ligne</a>,
+              <a href="/chrono" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>chronomètre en ligne</a>,
               notre{' '}
-              <a href="/horloge-aiguille" style={linkSty}>horloge à aiguilles en ligne</a>,
+              <a href="/horloge-aiguille" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>horloge à aiguilles en ligne</a>,
               l&apos;
-              <a href="/monde" style={linkSty}>heure dans le monde</a>{' '}
+              <a href="/monde" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>heure dans le monde</a>{' '}
               et l&apos;
-              <a href="/examen" style={linkSty}>horloge mode examen</a>.
+              <a href="/examen" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>horloge mode examen</a>.
             </p>
           </div>
 
           {/* Footer microcopy */}
           <p style={{
-            ...pSty,
+            ...bodyText,
             textAlign: 'center',
             fontSize: '13px',
             opacity: 0.5,
