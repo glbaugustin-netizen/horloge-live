@@ -10,7 +10,7 @@
 Horloge en ligne aesthetic live — Gratuite & personnalisable | horloge-live.com
 
 **Meta description :**
-Affichez l'heure exacte en temps réel avec notre horloge en ligne aesthetic. Plus de 60 polices, fonds aesthetic ou paysages, mode plein écran. Gratuite, sans pub, sans inscription.
+Affichez l'heure exacte avec notre horloge en ligne aesthetic. 60 polices, fonds aesthetic, plein écran. Gratuite, sans pub, sans inscription.
 
 ---
 
