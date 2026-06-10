@@ -60,6 +60,8 @@ const webApplicationJsonLd = {
   '@type': 'WebApplication',
   name: 'Horloge en ligne',
   url: 'https://horloge-live.com',
+  datePublished: '2026-01-01',
+  dateModified: '2026-06-10',
   description:
     'Horloge en ligne gratuite, personnalisable et en plein écran. Affiche l\'heure exacte en temps réel, synchronisée avec votre navigateur. Sans installation, sans inscription.',
   applicationCategory: 'UtilityApplication',

@@ -30,6 +30,7 @@ export const metadata: Metadata = {
 const faqJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
+  dateModified: '2026-06-10',
   mainEntity: [
     {
       '@type': 'Question',
