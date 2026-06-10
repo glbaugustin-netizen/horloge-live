@@ -14,6 +14,8 @@ interface ExamConfig {
   durationMinutes: number;
   showSeconds: boolean;
   showDate: boolean;
+  startTime: string;   // HH:MM:SS — vide = heure courante au lancement
+  showEndTime: boolean;
 }
 
 const DEFAULT_CONFIG: ExamConfig = {
@@ -22,6 +24,8 @@ const DEFAULT_CONFIG: ExamConfig = {
   durationMinutes: 0,
   showSeconds: true,
   showDate: true,
+  startTime: '',
+  showEndTime: true,
 };
 
 const STORAGE_KEY     = 'horloge-live.com-examen-config';
@@ -36,12 +40,15 @@ const LABELS = {
     labelSubject:    'Matière',
     placeholder:     'Ex : Mathématiques, Physique…',
     labelDuration:   "Durée de l'épreuve",
+    labelStartTime:  'Heure de début',
     hour:            (n: number) => `${n} heure${n !== 1 ? 's' : ''}`,
     min:             (m: number) => `${m} min`,
     showSeconds:     'Afficher les secondes',
     showDate:        'Afficher la date',
+    showEndTime:     "Afficher la fin de l'examen",
     startBtn:        "Démarrer l'examen",
     durationPrefix:  'Durée :',
+    endTimePrefix:   "Fin de l'examen à",
     editBtn:         'Modifier',
     exitFullscreen:  'Quitter le plein écran',
     fullscreen:      'Plein écran',
@@ -53,12 +60,15 @@ const LABELS = {
     labelSubject:    'Subject',
     placeholder:     'E.g. Mathematics, Physics…',
     labelDuration:   'Exam duration',
+    labelStartTime:  'Start time',
     hour:            (n: number) => `${n} hour${n !== 1 ? 's' : ''}`,
     min:             (m: number) => `${m} min`,
     showSeconds:     'Show seconds',
     showDate:        'Show date',
+    showEndTime:     'Show exam end time',
     startBtn:        'Start exam',
     durationPrefix:  'Duration:',
+    endTimePrefix:   'Exam ends at',
     editBtn:         'Edit',
     exitFullscreen:  'Exit full screen',
     fullscreen:      'Full screen',
@@ -89,6 +99,34 @@ function formatDuration(hours: number, minutes: number): string {
   if (hours > 0) return `${hours}h`;
   if (minutes > 0) return `${minutes} min`;
   return '';
+}
+
+function computeEndTime(
+  startTime: string,
+  durationHours: number,
+  durationMinutes: number,
+  showSeconds: boolean,
+): string {
+  let h: number, m: number, s: number;
+  if (startTime) {
+    const parts = startTime.split(':');
+    h = parseInt(parts[0] ?? '0', 10) || 0;
+    m = parseInt(parts[1] ?? '0', 10) || 0;
+    s = parseInt(parts[2] ?? '0', 10) || 0;
+  } else {
+    const now = new Date();
+    h = now.getHours();
+    m = now.getMinutes();
+    s = now.getSeconds();
+  }
+  const totalSec = h * 3600 + m * 60 + s + durationHours * 3600 + durationMinutes * 60;
+  const endH = Math.floor(totalSec / 3600) % 24;
+  const endM = Math.floor((totalSec % 3600) / 60);
+  const endS = totalSec % 60;
+  const hh = endH.toString().padStart(2, '0');
+  const mm = endM.toString().padStart(2, '0');
+  if (!showSeconds) return `${hh}h${mm}`;
+  return `${hh}h${mm}:${endS.toString().padStart(2, '0')}`;
 }
 
 /* ─── Toggle component ───────────────────────────────────────── */
@@ -138,6 +176,7 @@ export default function ExamenPageClient() {
   const [isStarted, setIsStarted]   = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [endTime, setEndTime]       = useState('');
   const containerRef = useRef<HTMLDivElement>(null);
 
   /* Detect language + load config from localStorage */
@@ -176,6 +215,12 @@ export default function ExamenPageClient() {
 
   const handleStart = () => {
     setCurrentTime(new Date());
+    setEndTime(computeEndTime(
+      config.startTime,
+      config.durationHours,
+      config.durationMinutes,
+      config.showSeconds,
+    ));
     setIsStarted(true);
   };
 
@@ -347,6 +392,46 @@ export default function ExamenPageClient() {
               </div>
             </div>
 
+            {/* Heure de début */}
+            <div style={{ marginBottom: '22px' }}>
+              <label style={{
+                display: 'block',
+                fontSize: '12px',
+                fontWeight: 600,
+                color: '#6b7280',
+                textTransform: 'uppercase',
+                letterSpacing: '0.07em',
+                marginBottom: '8px',
+              }}>
+                {t.labelStartTime}
+              </label>
+              <input
+                type="time"
+                step="1"
+                value={config.startTime}
+                onChange={(e) => setConfig(c => ({ ...c, startTime: e.target.value }))}
+                style={{
+                  width: '100%',
+                  padding: '11px 14px',
+                  fontSize: '15px',
+                  borderRadius: '10px',
+                  border: '1.5px solid #e5e7eb',
+                  background: '#f9fafb',
+                  color: config.startTime ? '#111827' : '#9ca3af',
+                  outline: 'none',
+                  boxSizing: 'border-box',
+                  transition: 'border-color 150ms ease',
+                }}
+                onFocus={(e) => { e.currentTarget.style.borderColor = '#1a1a2e'; }}
+                onBlur={(e) => { e.currentTarget.style.borderColor = '#e5e7eb'; }}
+              />
+              <p style={{ fontSize: '12px', color: '#9ca3af', marginTop: '4px' }}>
+                {lang === 'fr'
+                  ? 'Laisser vide pour utiliser l\'heure courante au lancement'
+                  : 'Leave empty to use current time at start'}
+              </p>
+            </div>
+
             {/* Toggles */}
             <div style={{
               display: 'flex',
@@ -365,6 +450,11 @@ export default function ExamenPageClient() {
                 label={t.showDate}
                 checked={config.showDate}
                 onChange={(v) => setConfig(c => ({ ...c, showDate: v }))}
+              />
+              <ToggleRow
+                label={t.showEndTime}
+                checked={config.showEndTime}
+                onChange={(v) => setConfig(c => ({ ...c, showEndTime: v }))}
               />
             </div>
 
@@ -430,17 +520,29 @@ export default function ExamenPageClient() {
         </p>
       )}
 
-      {/* Duration badge */}
-      {durationStr && (
-        <p style={{
-          fontSize: '14px',
-          color: '#9ca3af',
-          marginBottom: '32px',
-          letterSpacing: '0.03em',
-        }}>
-          {t.durationPrefix} {durationStr}
-        </p>
-      )}
+      {/* Duration badge + end time */}
+      <div style={{ marginBottom: '32px', textAlign: 'center' }}>
+        {durationStr && (
+          <p style={{
+            fontSize: '14px',
+            color: '#9ca3af',
+            letterSpacing: '0.03em',
+            marginBottom: config.showEndTime && endTime ? '6px' : 0,
+          }}>
+            {t.durationPrefix} {durationStr}
+          </p>
+        )}
+        {config.showEndTime && endTime && (
+          <p style={{
+            fontSize: '15px',
+            fontWeight: 500,
+            color: '#374151',
+            letterSpacing: '0.01em',
+          }}>
+            {t.endTimePrefix} {endTime}
+          </p>
+        )}
+      </div>
 
       {/* Time */}
       <div style={{
