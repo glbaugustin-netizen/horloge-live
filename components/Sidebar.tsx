@@ -81,7 +81,7 @@ export default function Sidebar({ isOpen: externalOpen, onClose, language = 'fr'
     <>
       {/* ── Bouton hamburger — visible sur mobile uniquement ── */}
       <button
-        className="sm:hidden"
+        className="flex sm:hidden"
         onClick={() => setOpen(true)}
         aria-label="Ouvrir le menu"
         style={{
@@ -92,7 +92,6 @@ export default function Sidebar({ isOpen: externalOpen, onClose, language = 'fr'
           width: '40px',
           height: '40px',
           borderRadius: '50px',
-          display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           background: 'rgba(255, 255, 255, 0.08)',
