@@ -236,210 +236,120 @@ export default function ExamenPageClient() {
 
   /* ── Config panel ── */
   if (!isStarted) {
+    const fieldLabel: React.CSSProperties = {
+      display: 'block', fontSize: '11px', fontWeight: 600, color: '#6b7280',
+      textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '5px',
+    };
+    const fieldInput: React.CSSProperties = {
+      width: '100%', padding: '9px 12px', fontSize: '14px', borderRadius: '10px',
+      border: '1.5px solid #e5e7eb', background: '#f9fafb', color: '#111827',
+      outline: 'none', boxSizing: 'border-box', transition: 'border-color 150ms ease',
+    };
     return (
       <div
         style={{
-          minHeight: '100svh',
+          height: '100svh',
+          overflowY: 'auto',
           background: '#f9fafb',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '24px',
+          padding: '16px',
           fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
         }}
       >
-        <div style={{ width: '100%', maxWidth: '440px' }}>
+        <div style={{ width: '100%', maxWidth: '420px' }}>
 
           {/* Back link */}
           <Link
             href="/"
             style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              fontSize: '14px',
-              color: '#6b7280',
-              textDecoration: 'none',
-              marginBottom: '32px',
+              display: 'inline-flex', alignItems: 'center', gap: '6px',
+              fontSize: '13px', color: '#6b7280', textDecoration: 'none',
+              marginBottom: '10px',
             }}
           >
-            <ArrowLeft size={14} />
+            <ArrowLeft size={13} />
             {t.backLink}
           </Link>
 
           {/* Header */}
-          <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '12px' }}>
             <div style={{
-              width: '56px',
-              height: '56px',
-              borderRadius: '16px',
-              background: '#1a1a2e',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              margin: '0 auto 16px',
+              width: '44px', height: '44px', borderRadius: '14px', background: '#1a1a2e',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              margin: '0 auto 10px',
             }}>
-              <GraduationCap size={26} color="#ffffff" />
+              <GraduationCap size={22} color="#ffffff" />
             </div>
-            <h1 style={{ fontSize: '26px', fontWeight: 700, color: '#111827', marginBottom: '6px' }}>
+            <h1 style={{ fontSize: '20px', fontWeight: 700, color: '#111827', margin: 0 }}>
               {t.title}
             </h1>
-            <p style={{ fontSize: '15px', color: '#6b7280' }}>
-              {t.subtitle}
-            </p>
           </div>
 
           {/* Form card */}
           <div style={{
-            background: '#ffffff',
-            borderRadius: '20px',
-            padding: '28px',
-            border: '1px solid #e5e7eb',
-            boxShadow: '0 1px 8px rgba(0,0,0,0.06)',
+            background: '#ffffff', borderRadius: '18px', padding: '16px 20px',
+            border: '1px solid #e5e7eb', boxShadow: '0 1px 8px rgba(0,0,0,0.06)',
           }}>
 
             {/* Subject */}
-            <div style={{ marginBottom: '22px' }}>
-              <label style={{
-                display: 'block',
-                fontSize: '12px',
-                fontWeight: 600,
-                color: '#6b7280',
-                textTransform: 'uppercase',
-                letterSpacing: '0.07em',
-                marginBottom: '8px',
-              }}>
-                {t.labelSubject}
-              </label>
+            <div style={{ marginBottom: '12px' }}>
+              <label style={fieldLabel}>{t.labelSubject}</label>
               <input
                 type="text"
                 placeholder={t.placeholder}
                 value={config.subject}
                 onChange={(e) => setConfig(c => ({ ...c, subject: e.target.value }))}
-                style={{
-                  width: '100%',
-                  padding: '11px 14px',
-                  fontSize: '15px',
-                  borderRadius: '10px',
-                  border: '1.5px solid #e5e7eb',
-                  background: '#f9fafb',
-                  color: '#111827',
-                  outline: 'none',
-                  boxSizing: 'border-box',
-                  transition: 'border-color 150ms ease',
-                }}
+                style={fieldInput}
                 onFocus={(e) => { e.currentTarget.style.borderColor = '#1a1a2e'; }}
                 onBlur={(e) => { e.currentTarget.style.borderColor = '#e5e7eb'; }}
               />
             </div>
 
-            {/* Duration */}
-            <div style={{ marginBottom: '22px' }}>
-              <label style={{
-                display: 'block',
-                fontSize: '12px',
-                fontWeight: 600,
-                color: '#6b7280',
-                textTransform: 'uppercase',
-                letterSpacing: '0.07em',
-                marginBottom: '8px',
-              }}>
-                {t.labelDuration}
-              </label>
-              <div style={{ display: 'flex', gap: '10px' }}>
-                <select
-                  value={config.durationHours}
-                  onChange={(e) => setConfig(c => ({ ...c, durationHours: Number(e.target.value) }))}
-                  style={{
-                    flex: 1,
-                    padding: '11px 14px',
-                    fontSize: '15px',
-                    borderRadius: '10px',
-                    border: '1.5px solid #e5e7eb',
-                    background: '#f9fafb',
-                    color: '#111827',
-                    outline: 'none',
-                    cursor: 'pointer',
-                    appearance: 'none',
-                    WebkitAppearance: 'none',
-                  }}
-                >
-                  {Array.from({ length: 13 }, (_, i) => (
-                    <option key={i} value={i}>{t.hour(i)}</option>
-                  ))}
-                </select>
-                <select
-                  value={config.durationMinutes}
-                  onChange={(e) => setConfig(c => ({ ...c, durationMinutes: Number(e.target.value) }))}
-                  style={{
-                    flex: 1,
-                    padding: '11px 14px',
-                    fontSize: '15px',
-                    borderRadius: '10px',
-                    border: '1.5px solid #e5e7eb',
-                    background: '#f9fafb',
-                    color: '#111827',
-                    outline: 'none',
-                    cursor: 'pointer',
-                    appearance: 'none',
-                    WebkitAppearance: 'none',
-                  }}
-                >
-                  {[0, 15, 30, 45].map(m => (
-                    <option key={m} value={m}>{t.min(m)}</option>
-                  ))}
-                </select>
+            {/* Duration + Start time — côte à côte */}
+            <div style={{ display: 'flex', gap: '10px', marginBottom: '12px' }}>
+              <div style={{ flex: 1 }}>
+                <label style={fieldLabel}>{t.labelDuration}</label>
+                <div style={{ display: 'flex', gap: '6px' }}>
+                  <select
+                    value={config.durationHours}
+                    onChange={(e) => setConfig(c => ({ ...c, durationHours: Number(e.target.value) }))}
+                    style={{ ...fieldInput, cursor: 'pointer', appearance: 'none', WebkitAppearance: 'none', padding: '9px 8px' }}
+                  >
+                    {Array.from({ length: 13 }, (_, i) => (
+                      <option key={i} value={i}>{t.hour(i)}</option>
+                    ))}
+                  </select>
+                  <select
+                    value={config.durationMinutes}
+                    onChange={(e) => setConfig(c => ({ ...c, durationMinutes: Number(e.target.value) }))}
+                    style={{ ...fieldInput, cursor: 'pointer', appearance: 'none', WebkitAppearance: 'none', padding: '9px 8px' }}
+                  >
+                    {[0, 15, 30, 45].map(m => (
+                      <option key={m} value={m}>{t.min(m)}</option>
+                    ))}
+                  </select>
+                </div>
               </div>
-            </div>
-
-            {/* Heure de début */}
-            <div style={{ marginBottom: '22px' }}>
-              <label style={{
-                display: 'block',
-                fontSize: '12px',
-                fontWeight: 600,
-                color: '#6b7280',
-                textTransform: 'uppercase',
-                letterSpacing: '0.07em',
-                marginBottom: '8px',
-              }}>
-                {t.labelStartTime}
-              </label>
-              <input
-                type="time"
-                step="1"
-                value={config.startTime}
-                onChange={(e) => setConfig(c => ({ ...c, startTime: e.target.value }))}
-                style={{
-                  width: '100%',
-                  padding: '11px 14px',
-                  fontSize: '15px',
-                  borderRadius: '10px',
-                  border: '1.5px solid #e5e7eb',
-                  background: '#f9fafb',
-                  color: config.startTime ? '#111827' : '#9ca3af',
-                  outline: 'none',
-                  boxSizing: 'border-box',
-                  transition: 'border-color 150ms ease',
-                }}
-                onFocus={(e) => { e.currentTarget.style.borderColor = '#1a1a2e'; }}
-                onBlur={(e) => { e.currentTarget.style.borderColor = '#e5e7eb'; }}
-              />
-              <p style={{ fontSize: '12px', color: '#9ca3af', marginTop: '4px' }}>
-                {lang === 'fr'
-                  ? 'Laisser vide pour utiliser l\'heure courante au lancement'
-                  : 'Leave empty to use current time at start'}
-              </p>
+              <div style={{ flex: 1 }}>
+                <label style={fieldLabel}>{t.labelStartTime}</label>
+                <input
+                  type="time"
+                  step="1"
+                  value={config.startTime}
+                  onChange={(e) => setConfig(c => ({ ...c, startTime: e.target.value }))}
+                  style={{ ...fieldInput, color: config.startTime ? '#111827' : '#9ca3af' }}
+                  onFocus={(e) => { e.currentTarget.style.borderColor = '#1a1a2e'; }}
+                  onBlur={(e) => { e.currentTarget.style.borderColor = '#e5e7eb'; }}
+                />
+              </div>
             </div>
 
             {/* Toggles */}
             <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '14px',
-              marginBottom: '28px',
-              paddingTop: '18px',
-              borderTop: '1px solid #f3f4f6',
+              display: 'flex', flexDirection: 'column', gap: '10px',
+              marginBottom: '14px', paddingTop: '10px', borderTop: '1px solid #f3f4f6',
             }}>
               <ToggleRow
                 label={t.showSeconds}
@@ -462,15 +372,9 @@ export default function ExamenPageClient() {
             <button
               onClick={handleStart}
               style={{
-                width: '100%',
-                padding: '14px',
-                fontSize: '16px',
-                fontWeight: 600,
-                borderRadius: '12px',
-                background: '#1a1a2e',
-                color: '#ffffff',
-                border: 'none',
-                cursor: 'pointer',
+                width: '100%', padding: '12px', fontSize: '15px', fontWeight: 600,
+                borderRadius: '11px', background: '#1a1a2e', color: '#ffffff',
+                border: 'none', cursor: 'pointer',
                 transition: 'background 150ms ease, transform 100ms ease',
                 letterSpacing: '0.01em',
               }}
