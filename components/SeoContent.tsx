@@ -1,4 +1,3 @@
-'use client';
 /* eslint-disable react/no-unescaped-entities */
 
 type Lang = 'fr' | 'en';

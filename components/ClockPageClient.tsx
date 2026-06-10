@@ -8,7 +8,6 @@ import { useRouter } from 'next/navigation';
 import Clock from '@/components/Clock';
 import BottomBar from '@/components/BottomBar';
 import MobileNav from '@/components/MobileNav';
-import SeoContent from '@/components/SeoContent';
 import { useSettings } from '@/lib/useSettings';
 
 /* Chargés en différé — absents du bundle initial (économise ~80 KB) */
@@ -362,7 +361,6 @@ export default function ClockPageClient() {
       />
     </div>
 
-    <SeoContent language={settings.language} />
     </>
   );
 }
