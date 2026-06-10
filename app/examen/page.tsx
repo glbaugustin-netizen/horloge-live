@@ -115,55 +115,50 @@ const faqJsonLd = {
   ],
 };
 
-/* ─── Styles (thème clair — cohérent avec la page examen) ─── */
-const section: CSSProperties = {
-  background: '#f9fafb',
-  borderTop: '1px solid #e5e7eb',
-  padding: '48px 24px 64px',
-  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-};
+/* ─── Styles liquid glass ─────────────────────────────────── */
+const seoSection: CSSProperties = { padding: '56px 24px 72px' };
 
-const wrap: CSSProperties = {
-  maxWidth: '720px',
-  margin: '0 auto',
-};
-
-const card: CSSProperties = {
-  background: '#ffffff',
-  border: '1px solid #e5e7eb',
+const glassCard: CSSProperties = {
+  background: 'rgba(255, 255, 255, 0.08)',
+  backdropFilter: 'blur(20px)',
+  WebkitBackdropFilter: 'blur(20px)',
+  border: '1px solid rgba(255, 255, 255, 0.15)',
   borderRadius: '16px',
-  padding: '20px 24px',
+  padding: '24px',
   marginBottom: '12px',
-  boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
 };
 
-const h2Sty: CSSProperties = {
-  fontSize: '17px',
-  fontWeight: 600,
-  color: '#111827',
-  marginBottom: '10px',
+const h1Style: CSSProperties = {
+  fontSize: '28px',
+  fontWeight: 500,
+  color: '#FFFFFF',
+  textAlign: 'center',
+  marginBottom: '32px',
+  lineHeight: 1.3,
+};
+
+const h2Style: CSSProperties = {
+  fontSize: '18px',
+  fontWeight: 500,
+  color: 'rgba(255, 255, 255, 0.90)',
+  marginBottom: '12px',
   marginTop: 0,
 };
 
-const h3Sty: CSSProperties = {
-  fontSize: '14px',
-  fontWeight: 600,
-  color: '#374151',
-  marginBottom: '6px',
-  marginTop: '18px',
+const h3Style: CSSProperties = {
+  fontSize: '15px',
+  fontWeight: 500,
+  color: 'rgba(255, 255, 255, 0.80)',
+  marginBottom: '8px',
+  marginTop: '20px',
 };
 
-const pSty: CSSProperties = {
+const bodyText: CSSProperties = {
   fontSize: '15px',
   fontWeight: 400,
-  color: '#6b7280',
+  color: 'rgba(255, 255, 255, 0.70)',
   lineHeight: 1.7,
   margin: 0,
-};
-
-const linkSty: CSSProperties = {
-  color: '#1a1a2e',
-  textDecoration: 'underline',
 };
 
 /* ─────────────────────────────────────────────────────────────
@@ -186,25 +181,18 @@ export default function ExamenPage() {
       <ExamenPageClient />
 
       {/* ── Section SEO — rendu serveur, sous le panneau config ── */}
-      <section id="examen-seo" style={section} aria-label="À propos de l'horloge pour examen">
-        <div style={wrap}>
+      <section id="examen-seo" style={seoSection} aria-label="À propos de l'horloge pour examen">
+        <div style={{ maxWidth: '720px', margin: '0 auto' }}>
 
           {/* H1 */}
-          <h1 style={{
-            fontSize: '26px',
-            fontWeight: 700,
-            color: '#111827',
-            textAlign: 'center',
-            marginBottom: '28px',
-            lineHeight: 1.3,
-          }}>
+          <h1 style={h1Style}>
             Horloge examen en ligne — Affichage plein écran pour la classe
           </h1>
 
           {/* H2 #1 */}
-          <div style={card}>
-            <h2 style={h2Sty}>Une horloge pour examen gratuite et sans distraction</h2>
-            <p style={pSty}>
+          <div style={glassCard}>
+            <h2 style={h2Style}>Une horloge pour examen gratuite et sans distraction</h2>
+            <p style={bodyText}>
               Le mode examen de horloge-live.com affiche l&apos;heure exacte en grand sur fond blanc,
               sans aucun élément superflu. Idéal pour la projection en salle de classe, les examens,
               le bac et les concours. Entrez le nom de la matière et la durée optionnels, passez en
@@ -214,9 +202,9 @@ export default function ExamenPage() {
           </div>
 
           {/* H2 #2 */}
-          <div style={card}>
-            <h2 style={h2Sty}>Horloge pour salle de classe — Afficher l&apos;heure en grand sur le tableau</h2>
-            <p style={pSty}>
+          <div style={glassCard}>
+            <h2 style={h2Style}>Horloge pour salle de classe — Afficher l&apos;heure en grand sur le tableau</h2>
+            <p style={bodyText}>
               Projetez l&apos;horloge sur votre tableau blanc interactif ou votre écran de classe en un
               clic. Le fond blanc et la typographie épurée garantissent une lisibilité maximale depuis
               tous les rangs de la salle. Compatible avec tous les ordinateurs, tablettes et projecteurs
@@ -227,9 +215,9 @@ export default function ExamenPage() {
           </div>
 
           {/* H2 #3 */}
-          <div style={card}>
-            <h2 style={h2Sty}>Horloge plein écran pour le bac, les concours et les examens officiels</h2>
-            <p style={pSty}>
+          <div style={glassCard}>
+            <h2 style={h2Style}>Horloge plein écran pour le bac, les concours et les examens officiels</h2>
+            <p style={bodyText}>
               Que ce soit pour le baccalauréat, un concours d&apos;entrée, un examen de certification ou
               une évaluation en classe, le mode examen s&apos;adapte à tous les contextes. Saisissez
               l&apos;intitulé de l&apos;épreuve — par exemple &quot;Mathématiques — 3h00&quot; — et affichez
@@ -239,9 +227,9 @@ export default function ExamenPage() {
           </div>
 
           {/* H2 #4 */}
-          <div style={card}>
-            <h2 style={h2Sty}>Horloge examen fond blanc — Simple, lisible et aesthetic</h2>
-            <p style={pSty}>
+          <div style={glassCard}>
+            <h2 style={h2Style}>Horloge examen fond blanc — Simple, lisible et aesthetic</h2>
+            <p style={bodyText}>
               Contrairement aux minuteurs d&apos;examen classiques, horloge-live.com propose un affichage
               horloge — l&apos;heure réelle, pas un compte à rebours. Le fond blanc épuré et la grande
               typographie créent un rendu aesthetic et professionnel, adapté aussi bien aux salles
@@ -251,40 +239,40 @@ export default function ExamenPage() {
           </div>
 
           {/* H2 #5 — FAQ */}
-          <div style={card}>
-            <h2 style={h2Sty}>Questions fréquentes sur l&apos;horloge pour examen</h2>
+          <div style={glassCard}>
+            <h2 style={h2Style}>Questions fréquentes sur l&apos;horloge pour examen</h2>
 
-            <h3 style={h3Sty}>Comment utiliser l&apos;horloge en mode examen ?</h3>
-            <p style={pSty}>
+            <h3 style={h3Style}>Comment utiliser l&apos;horloge en mode examen ?</h3>
+            <p style={bodyText}>
               Entrez le nom de la matière et la durée de l&apos;épreuve (optionnels), choisissez
               d&apos;afficher ou non les secondes, puis cliquez sur Démarrer. L&apos;horloge s&apos;affiche sur
               fond blanc en grand. Cliquez sur l&apos;icône plein écran ou appuyez sur F pour projeter
               sur tout l&apos;écran. Appuyez sur Échap pour quitter.
             </p>
 
-            <h3 style={h3Sty}>L&apos;horloge pour examen est-elle gratuite ?</h3>
-            <p style={pSty}>
+            <h3 style={h3Style}>L&apos;horloge pour examen est-elle gratuite ?</h3>
+            <p style={bodyText}>
               Oui. Le mode examen de horloge-live.com est entièrement gratuit, sans publicité et
               sans inscription. Toutes les fonctionnalités — fond blanc, nom de matière, durée,
               plein écran — sont accessibles immédiatement.
             </p>
 
-            <h3 style={h3Sty}>Peut-on afficher le nom de la matière sur l&apos;horloge d&apos;examen ?</h3>
-            <p style={pSty}>
+            <h3 style={h3Style}>Peut-on afficher le nom de la matière sur l&apos;horloge d&apos;examen ?</h3>
+            <p style={bodyText}>
               Oui. Avant de démarrer, saisissez le nom de la matière (ex : &quot;Mathématiques&quot;) et
               la durée de l&apos;épreuve (ex : &quot;3h00&quot;). Ces informations s&apos;affichent au-dessus de
               l&apos;horloge pendant toute la durée de l&apos;examen.
             </p>
 
-            <h3 style={h3Sty}>L&apos;horloge pour examen fonctionne-t-elle sur tableau blanc interactif ?</h3>
-            <p style={pSty}>
+            <h3 style={h3Style}>L&apos;horloge pour examen fonctionne-t-elle sur tableau blanc interactif ?</h3>
+            <p style={bodyText}>
               Oui. horloge-live.com fonctionne dans tous les navigateurs modernes, sur ordinateur,
               tablette et tableau blanc interactif. Aucune installation ni application requise —
               ouvrez simplement la page et passez en plein écran.
             </p>
 
-            <h3 style={h3Sty}>Quelle différence entre l&apos;horloge examen et un minuteur d&apos;examen ?</h3>
-            <p style={pSty}>
+            <h3 style={h3Style}>Quelle différence entre l&apos;horloge examen et un minuteur d&apos;examen ?</h3>
+            <p style={bodyText}>
               Un minuteur d&apos;examen compte à rebours jusqu&apos;à zéro. L&apos;horloge examen de
               horloge-live.com affiche l&apos;heure réelle en cours — les élèves voient l&apos;heure
               qu&apos;il est, comme sur une horloge murale, mais en grand sur l&apos;écran de la classe.
@@ -293,27 +281,27 @@ export default function ExamenPage() {
           </div>
 
           {/* Maillage interne */}
-          <div style={card}>
-            <p style={pSty}>
+          <div style={glassCard}>
+            <p style={bodyText}>
               Découvrez aussi notre{' '}
-              <a href="/" style={linkSty}>horloge en ligne aesthetic</a>,
+              <a href="/" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>horloge en ligne aesthetic</a>,
               notre{' '}
-              <a href="/horloge-aiguille" style={linkSty}>horloge à aiguilles en ligne</a>,
+              <a href="/horloge-aiguille" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>horloge à aiguilles en ligne</a>,
               le{' '}
-              <a href="/chrono" style={linkSty}>chronomètre en ligne</a>,
+              <a href="/chrono" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>chronomètre en ligne</a>,
               le{' '}
-              <a href="/minuteur" style={linkSty}>minuteur en ligne</a>{' '}
+              <a href="/minuteur" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>minuteur en ligne</a>{' '}
               et l&apos;
-              <a href="/monde" style={linkSty}>heure dans le monde</a>.
+              <a href="/monde" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>heure dans le monde</a>.
             </p>
           </div>
 
           {/* Footer microcopy */}
           <p style={{
-            ...pSty,
+            ...bodyText,
             textAlign: 'center',
             fontSize: '13px',
-            opacity: 0.6,
+            opacity: 0.5,
             marginTop: '8px',
           }}>
             horloge-live.com — horloge pour examen en ligne, gratuite et sans pub. Fond blanc,
