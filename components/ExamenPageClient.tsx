@@ -206,6 +206,12 @@ export default function ExamenPageClient() {
     return () => clearInterval(id);
   }, [isStarted]);
 
+  /* Hide SEO section while exam is running */
+  useEffect(() => {
+    const el = document.getElementById('examen-seo');
+    if (el) el.style.display = isStarted ? 'none' : '';
+  }, [isStarted]);
+
   /* Fullscreen listener */
   useEffect(() => {
     const handler = () => setIsFullscreen(!!document.fullscreenElement);

@@ -146,7 +146,7 @@ export default function ExamenPage() {
       <ExamenPageClient />
 
       {/* ── Section SEO — rendu serveur, sous le panneau config ── */}
-      <section style={section} aria-label="À propos de l'horloge pour examen">
+      <section id="examen-seo" style={section} aria-label="À propos de l'horloge pour examen">
         <div style={wrap}>
 
           {/* H1 */}
