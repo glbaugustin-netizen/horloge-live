@@ -32,6 +32,40 @@ export const metadata: Metadata = {
   },
 };
 
+/* ─── JSON-LD HowTo ──────────────────────────────────────── */
+const howToJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: "Comment utiliser l'horloge à aiguilles en ligne ?",
+  dateModified: '2026-06-10',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: "Ouvrir la page horloge à aiguilles",
+      text: 'Accédez à horloge-live.com/horloge-aiguille depuis votre navigateur, sur ordinateur, tablette ou mobile.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: 'Choisir le style du cadran',
+      text: 'Depuis les paramètres, activez ou désactivez les chiffres sur le cadran, choisissez entre aiguilles classiques (avec contrepoids) ou minimales, et sélectionnez le cadran blanc ou glass.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: 'Choisir le format 12h ou 24h',
+      text: "Activez le mode 24h depuis les paramètres pour un cadran analogique complet sur 24 heures — les aiguilles effectuent un seul tour par jour.",
+    },
+    {
+      '@type': 'HowToStep',
+      position: 4,
+      name: 'Passer en plein écran',
+      text: "Cliquez sur l'icône plein écran ou appuyez sur F pour afficher l'horloge à aiguilles sur tout l'écran. Idéal pour la classe ou les réunions. Appuyez sur Échap pour quitter.",
+    },
+  ],
+};
+
 /* ─── JSON-LD FAQPage ─────────────────────────────────────── */
 const faqJsonLd = {
   '@context': 'https://schema.org',
@@ -127,6 +161,11 @@ const linkStyle: CSSProperties = {
 export default function HorlogeAiguillePage() {
   return (
     <>
+      {/* JSON-LD HowTo */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
+      />
       {/* JSON-LD FAQPage */}
       <script
         type="application/ld+json"

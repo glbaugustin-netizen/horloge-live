@@ -32,6 +32,40 @@ export const metadata: Metadata = {
   },
 };
 
+/* ─── JSON-LD HowTo ──────────────────────────────────────── */
+const howToJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: "Comment voir l'heure dans plusieurs pays en même temps ?",
+  dateModified: '2026-06-10',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: 'Ouvrir la page horloge mondiale',
+      text: 'Accédez à horloge-live.com/monde depuis votre navigateur, sur ordinateur, tablette ou mobile.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: 'Consulter les horloges par ville',
+      text: "L'heure s'affiche automatiquement pour les principales villes du monde, synchronisée en temps réel avec chaque fuseau horaire officiel.",
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: "Comparer avec l'heure de Paris",
+      text: "L'heure de Paris (UTC+1 en hiver, UTC+2 en été) est affichée en référence pour comparer facilement avec n'importe quelle ville du monde.",
+    },
+    {
+      '@type': 'HowToStep',
+      position: 4,
+      name: 'Passer en plein écran',
+      text: "Cliquez sur l'icône plein écran ou appuyez sur F pour afficher l'horloge mondiale sur tout l'écran. Appuyez sur Échap pour quitter.",
+    },
+  ],
+};
+
 /* ─── JSON-LD FAQPage ─────────────────────────────────────── */
 const faqJsonLd = {
   '@context': 'https://schema.org',
@@ -125,6 +159,11 @@ const bodyText: CSSProperties = {
 export default function MondePage() {
   return (
     <>
+      {/* JSON-LD HowTo */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
+      />
       {/* JSON-LD FAQPage */}
       <script
         type="application/ld+json"
