@@ -32,6 +32,40 @@ export const metadata: Metadata = {
   },
 };
 
+/* ─── JSON-LD HowTo ──────────────────────────────────────── */
+const howToJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Comment utiliser le minuteur en ligne ?',
+  dateModified: '2026-06-10',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: 'Saisir la durée',
+      text: 'Entrez les heures, minutes et secondes dans les champs de saisie.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: 'Fixer la durée',
+      text: 'Cliquez sur Fixer pour valider la durée saisie.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: 'Démarrer le compte à rebours',
+      text: 'Cliquez sur Démarrer pour lancer le minuteur. À zéro, une alarme sonore retentit automatiquement.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 4,
+      name: 'Mettre en pause ou réinitialiser',
+      text: 'Utilisez Pause pour suspendre et Réinitialiser pour remettre à la durée initiale.',
+    },
+  ],
+};
+
 /* ─── JSON-LD FAQPage ─────────────────────────────────────── */
 const faqJsonLd = {
   '@context': 'https://schema.org',
@@ -127,6 +161,11 @@ const linkSty: CSSProperties = {
 export default function MinuteurPage() {
   return (
     <>
+      {/* JSON-LD HowTo */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
+      />
       {/* JSON-LD FAQPage */}
       <script
         type="application/ld+json"

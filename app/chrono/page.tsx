@@ -32,6 +32,40 @@ export const metadata: Metadata = {
   },
 };
 
+/* ─── JSON-LD HowTo ──────────────────────────────────────── */
+const howToJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Comment utiliser le chronomètre en ligne ?',
+  dateModified: '2026-06-10',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: 'Démarrer le chronomètre',
+      text: 'Cliquez sur le bouton Démarrer pour lancer le chronomètre.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: 'Enregistrer un tour',
+      text: 'Cliquez sur Tour pour enregistrer un temps intermédiaire. Le temps du tour et le temps total apparaissent dans le tableau.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: 'Mettre en pause',
+      text: 'Cliquez sur Pause pour suspendre le chronomètre, puis sur Reprendre pour continuer.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 4,
+      name: 'Réinitialiser',
+      text: 'Cliquez sur Réinitialiser pour remettre le compteur à zéro.',
+    },
+  ],
+};
+
 /* ─── JSON-LD FAQPage ─────────────────────────────────────── */
 const faqJsonLd = {
   '@context': 'https://schema.org',
@@ -127,6 +161,11 @@ const linkSty: CSSProperties = {
 export default function ChronoPage() {
   return (
     <>
+      {/* JSON-LD HowTo */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
+      />
       {/* JSON-LD FAQPage */}
       <script
         type="application/ld+json"

@@ -32,6 +32,40 @@ export const metadata: Metadata = {
   },
 };
 
+/* ─── JSON-LD HowTo ──────────────────────────────────────── */
+const howToJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: "Comment utiliser l'horloge en mode examen ?",
+  dateModified: '2026-06-10',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: "Configurer l'examen",
+      text: "Entrez le nom de la matière et la durée de l'épreuve (optionnels).",
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: "Choisir les options d'affichage",
+      text: "Activez ou désactivez l'affichage des secondes et de la date selon vos préférences.",
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: "Démarrer l'horloge",
+      text: "Cliquez sur Démarrer. L'horloge s'affiche sur fond blanc avec le nom de la matière et la durée.",
+    },
+    {
+      '@type': 'HowToStep',
+      position: 4,
+      name: 'Passer en plein écran',
+      text: "Cliquez sur l'icône plein écran ou appuyez sur F pour projeter sur tout l'écran. Appuyez sur Échap pour quitter.",
+    },
+  ],
+};
+
 /* ─── JSON-LD FAQPage ─────────────────────────────────────── */
 const faqJsonLd = {
   '@context': 'https://schema.org',
@@ -138,6 +172,11 @@ const linkSty: CSSProperties = {
 export default function ExamenPage() {
   return (
     <>
+      {/* JSON-LD HowTo */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
+      />
       {/* JSON-LD FAQPage */}
       <script
         type="application/ld+json"
