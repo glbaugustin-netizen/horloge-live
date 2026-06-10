@@ -3,9 +3,9 @@ import ClockPageClient from '@/components/ClockPageClient';
 
 /* ─── Métadonnées SEO ─────────────────────────────────────── */
 export const metadata: Metadata = {
-  title: 'Heure aesthetic en ligne — Horloge live & personnalisable',
+  title: 'Horloge en ligne aesthetic live — Gratuite & personnalisable | horloge-live.com',
   description:
-    "Affichez une heure aesthetic en ligne, en temps réel. Horloge gratuite avec 60+ polices, fonds aesthetic et paysages. Plein écran en un clic.",
+    'Affichez l\'heure exacte en temps réel avec notre horloge en ligne aesthetic. Plus de 60 polices, fonds aesthetic ou paysages, mode plein écran. Gratuite, sans pub, sans inscription.',
   alternates: { canonical: 'https://horloge-live.com/' },
   openGraph: {
     title: 'Horloge en ligne aesthetic & live | horloge-live.com',
@@ -34,39 +34,39 @@ const faqJsonLd = {
       name: "Qu'est-ce qu'une horloge en ligne aesthetic ?",
       acceptedAnswer: {
         '@type': 'Answer',
-        text: "Une horloge en ligne aesthetic est une horloge numérique personnalisable visuellement : police, fond d'écran, couleurs et style. horloge-live.com propose plus de 60 polices et des fonds aesthetic, paysages ou couleurs unies pour créer une horloge à votre image.",
+        text: "Une horloge en ligne aesthetic est une horloge numérique personnalisable visuellement : police, fond d'écran aesthetic, couleurs et style. horloge-live.com propose plus de 60 polices et des fonds aesthetic, paysages ou couleurs unies.",
       },
     },
     {
       '@type': 'Question',
-      name: "Quelle heure est-il maintenant ? Est-ce une horloge en ligne live ?",
+      name: "L'horloge affiche-t-elle l'heure exacte en temps réel ?",
       acceptedAnswer: {
         '@type': 'Answer',
-        text: "Oui. L'horloge affiche l'heure exacte en temps réel, synchronisée en direct avec votre navigateur — c'est bien une horloge live. Aucun réglage nécessaire : l'heure s'affiche dès l'ouverture de la page.",
+        text: "Oui. horloge-live.com est une horloge en ligne live synchronisée via le protocole NTP dans votre navigateur. L'heure s'affiche dès l'ouverture de la page, aucun réglage nécessaire.",
       },
     },
     {
       '@type': 'Question',
-      name: "Comment afficher l'horloge en plein écran ?",
+      name: "Comment afficher une horloge en ligne gratuite en plein écran ?",
       acceptedAnswer: {
         '@type': 'Answer',
-        text: "Cliquez sur l'icône plein écran en bas de la page ou appuyez sur la touche F de votre clavier. L'horloge occupe tout l'écran. Pour quitter le mode plein écran, appuyez sur la touche Échap.",
+        text: "Cliquez sur l'icône plein écran ou appuyez sur F. Pour un fond noir sans distraction, activez le mode focus depuis les paramètres. Appuyez sur Échap pour quitter.",
       },
     },
     {
       '@type': 'Question',
-      name: "L'horloge en ligne est-elle gratuite et sans inscription ?",
+      name: "L'horloge en ligne est-elle vraiment gratuite et sans inscription ?",
       acceptedAnswer: {
         '@type': 'Answer',
-        text: "Oui. horloge-live.com est totalement gratuit, sans publicité et sans inscription. Aucun compte n'est nécessaire pour utiliser toutes les fonctionnalités du site.",
+        text: "Oui. horloge-live.com est totalement gratuit, sans publicité, sans inscription et sans collecte de données.",
       },
     },
     {
       '@type': 'Question',
-      name: "Peut-on avoir une horloge en ligne personnalisable et modifiable ?",
+      name: "Peut-on personnaliser l'horloge avec un fond aesthetic ?",
       acceptedAnswer: {
         '@type': 'Answer',
-        text: "Oui. horloge-live.com est une horloge en ligne entièrement personnalisable et modifiable : police, taille, couleur du texte, fond aesthetic ou paysage, format 12h/24h et mode miroir. Toutes vos préférences sont sauvegardées automatiquement.",
+        text: "Oui. Choisissez parmi plus de 60 polices, modifiez la couleur du texte et définissez un fond aesthetic, paysage ou couleur unie. Toutes vos préférences sont sauvegardées automatiquement.",
       },
     },
   ],
