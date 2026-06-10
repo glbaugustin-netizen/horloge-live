@@ -74,7 +74,9 @@ const faqJsonLd = {
 };
 
 /* ─── Styles liquid glass ─────────────────────────────────── */
-const card: CSSProperties = {
+const seoSection: CSSProperties = { padding: '56px 24px 72px' };
+
+const glassCard: CSSProperties = {
   background: 'rgba(255, 255, 255, 0.08)',
   backdropFilter: 'blur(20px)',
   WebkitBackdropFilter: 'blur(20px)',
@@ -84,7 +86,16 @@ const card: CSSProperties = {
   marginBottom: '12px',
 };
 
-const h2Sty: CSSProperties = {
+const h1Style: CSSProperties = {
+  fontSize: '28px',
+  fontWeight: 500,
+  color: '#FFFFFF',
+  textAlign: 'center',
+  marginBottom: '32px',
+  lineHeight: 1.3,
+};
+
+const h2Style: CSSProperties = {
   fontSize: '18px',
   fontWeight: 500,
   color: 'rgba(255, 255, 255, 0.90)',
@@ -92,7 +103,7 @@ const h2Sty: CSSProperties = {
   marginTop: 0,
 };
 
-const h3Sty: CSSProperties = {
+const h3Style: CSSProperties = {
   fontSize: '15px',
   fontWeight: 500,
   color: 'rgba(255, 255, 255, 0.80)',
@@ -100,17 +111,12 @@ const h3Sty: CSSProperties = {
   marginTop: '20px',
 };
 
-const pSty: CSSProperties = {
+const bodyText: CSSProperties = {
   fontSize: '15px',
   fontWeight: 400,
   color: 'rgba(255, 255, 255, 0.70)',
   lineHeight: 1.7,
   margin: 0,
-};
-
-const linkSty: CSSProperties = {
-  color: 'rgba(79, 195, 247, 0.85)',
-  textDecoration: 'underline',
 };
 
 /* ─────────────────────────────────────────────────────────────
@@ -128,25 +134,17 @@ export default function MondePage() {
       <MondePageClient />
 
       {/* ── Section SEO — rendu serveur ── */}
-      <section style={{ padding: '56px 24px 72px' }} aria-label="À propos de l'horloge mondiale">
+      <section style={seoSection} aria-label="À propos de l'horloge mondiale">
         <div style={{ maxWidth: '720px', margin: '0 auto' }}>
 
           {/* H1 */}
-          <h1 style={{
-            fontSize: '28px',
-            fontWeight: 500,
-            color: '#FFFFFF',
-            textAlign: 'center',
-            marginBottom: '32px',
-            lineHeight: 1.3,
-          }}>
+          <h1 style={h1Style}>
             Horloge mondiale en ligne — Heure exacte dans tous les pays
           </h1>
 
-          {/* H2 #1 — Heure dans le monde */}
-          <div style={card}>
-            <h2 style={h2Sty}>Quelle heure est-il dans le monde en ce moment ?</h2>
-            <p style={pSty}>
+          {/* Intro */}
+          <div style={glassCard}>
+            <p style={bodyText}>
               Notre horloge mondiale en ligne affiche l&apos;heure exacte en temps réel dans les
               principales villes du monde. Synchronisée automatiquement avec votre navigateur,
               elle tient compte des fuseaux horaires et des changements d&apos;heure été/hiver pour
@@ -155,10 +153,10 @@ export default function MondePage() {
             </p>
           </div>
 
-          {/* H2 #2 — Fuseaux horaires */}
-          <div style={card}>
-            <h2 style={h2Sty}>Fuseaux horaires en ligne — Heure dans chaque pays</h2>
-            <p style={pSty}>
+          {/* H2 #1 — Fuseaux horaires */}
+          <div style={glassCard}>
+            <h2 style={h2Style}>Fuseaux horaires en ligne — Heure dans chaque pays</h2>
+            <p style={bodyText}>
               Consultez instantanément l&apos;heure locale dans les grandes capitales et villes du
               monde : heure de New York, heure de Tokyo, heure de Londres, heure de Dubaï et
               bien d&apos;autres. Chaque horloge est synchronisée en temps réel avec le fuseau
@@ -168,10 +166,10 @@ export default function MondePage() {
             </p>
           </div>
 
-          {/* H2 #3 — Heure de Paris */}
-          <div style={card}>
-            <h2 style={h2Sty}>Heure de Paris et heure de France dans le monde</h2>
-            <p style={pSty}>
+          {/* H2 #2 — Heure de Paris */}
+          <div style={glassCard}>
+            <h2 style={h2Style}>Heure de Paris et heure de France dans le monde</h2>
+            <p style={bodyText}>
               L&apos;horloge mondiale affiche en priorité l&apos;heure de Paris (fuseau Europe/Paris,
               UTC+1 en hiver et UTC+2 en été), référence officielle de l&apos;heure de France.
               Comparez facilement l&apos;heure de Paris avec celle de n&apos;importe quelle ville du
@@ -180,10 +178,10 @@ export default function MondePage() {
             </p>
           </div>
 
-          {/* H2 #4 — Aesthetic */}
-          <div style={card}>
-            <h2 style={h2Sty}>Une horloge mondiale aesthetic et personnalisable</h2>
-            <p style={pSty}>
+          {/* H2 #3 — Aesthetic */}
+          <div style={glassCard}>
+            <h2 style={h2Style}>Une horloge mondiale aesthetic et personnalisable</h2>
+            <p style={bodyText}>
               Comme toutes les pages de horloge-live.com, la page horloge mondiale respecte
               votre univers visuel : fond d&apos;écran aesthetic, paysage ou couleur unie, le tout
               dans le style liquid glass unique du site. Une horloge mondiale qui combine
@@ -192,12 +190,12 @@ export default function MondePage() {
             </p>
           </div>
 
-          {/* H2 #5 — FAQ */}
-          <div style={card}>
-            <h2 style={h2Sty}>Questions fréquentes sur l&apos;horloge mondiale en ligne</h2>
+          {/* H2 #4 — FAQ */}
+          <div style={glassCard}>
+            <h2 style={h2Style}>Questions fréquentes sur l&apos;horloge mondiale en ligne</h2>
 
-            <h3 style={h3Sty}>Qu&apos;est-ce qu&apos;une horloge mondiale en ligne ?</h3>
-            <p style={pSty}>
+            <h3 style={h3Style}>Qu&apos;est-ce qu&apos;une horloge mondiale en ligne ?</h3>
+            <p style={bodyText}>
               Une horloge mondiale en ligne est un outil qui affiche l&apos;heure actuelle dans
               plusieurs villes et pays du monde simultanément, en tenant compte des fuseaux
               horaires et des changements d&apos;heure. horloge-live.com affiche l&apos;heure en temps
@@ -205,29 +203,29 @@ export default function MondePage() {
               sans installation.
             </p>
 
-            <h3 style={h3Sty}>L&apos;horloge mondiale affiche-t-elle l&apos;heure de Paris ?</h3>
-            <p style={pSty}>
+            <h3 style={h3Style}>L&apos;horloge mondiale affiche-t-elle l&apos;heure de Paris ?</h3>
+            <p style={bodyText}>
               Oui. L&apos;heure de Paris (fuseau Europe/Paris) est affichée en référence. Elle
               correspond à l&apos;heure officielle de France : UTC+1 en hiver et UTC+2 en été, avec
               ajustement automatique lors des changements d&apos;heure.
             </p>
 
-            <h3 style={h3Sty}>Comment voir l&apos;heure dans plusieurs pays en même temps ?</h3>
-            <p style={pSty}>
+            <h3 style={h3Style}>Comment voir l&apos;heure dans plusieurs pays en même temps ?</h3>
+            <p style={bodyText}>
               La page horloge mondiale de horloge-live.com affiche simultanément l&apos;heure dans
               les principales villes du monde. Chaque horloge est synchronisée en temps réel
               avec son fuseau horaire officiel — aucun réglage nécessaire.
             </p>
 
-            <h3 style={h3Sty}>L&apos;horloge mondiale est-elle gratuite ?</h3>
-            <p style={pSty}>
+            <h3 style={h3Style}>L&apos;horloge mondiale est-elle gratuite ?</h3>
+            <p style={bodyText}>
               Oui. horloge-live.com est entièrement gratuit, sans publicité et sans inscription.
               L&apos;horloge mondiale en ligne est accessible à tous, à tout moment, sur mobile et
               ordinateur.
             </p>
 
-            <h3 style={h3Sty}>L&apos;horloge mondiale tient-elle compte de l&apos;heure d&apos;été ?</h3>
-            <p style={pSty}>
+            <h3 style={h3Style}>L&apos;horloge mondiale tient-elle compte de l&apos;heure d&apos;été ?</h3>
+            <p style={bodyText}>
               Oui. Chaque horloge est synchronisée avec les règles officielles d&apos;heure d&apos;été
               de son pays. Les changements d&apos;heure sont appliqués automatiquement — vous
               consultez toujours l&apos;heure locale exacte, quelle que soit la période de l&apos;année.
@@ -235,24 +233,24 @@ export default function MondePage() {
           </div>
 
           {/* Maillage interne */}
-          <div style={card}>
-            <p style={pSty}>
+          <div style={glassCard}>
+            <p style={bodyText}>
               Découvrez aussi notre{' '}
-              <a href="/" style={linkSty}>horloge en ligne aesthetic</a>,
+              <a href="/" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>horloge en ligne aesthetic</a>,
               notre{' '}
-              <a href="/horloge-aiguille" style={linkSty}>horloge à aiguilles en ligne</a>,
+              <a href="/horloge-aiguille" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>horloge à aiguilles en ligne</a>,
               le{' '}
-              <a href="/chrono" style={linkSty}>chronomètre en ligne</a>,
+              <a href="/chrono" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>chronomètre en ligne</a>,
               le{' '}
-              <a href="/minuteur" style={linkSty}>minuteur en ligne</a>{' '}
+              <a href="/minuteur" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>minuteur en ligne</a>{' '}
               et l&apos;
-              <a href="/examen" style={linkSty}>horloge mode examen</a>.
+              <a href="/examen" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>horloge mode examen</a>.
             </p>
           </div>
 
           {/* Footer microcopy */}
           <p style={{
-            ...pSty,
+            ...bodyText,
             textAlign: 'center',
             fontSize: '13px',
             opacity: 0.5,
