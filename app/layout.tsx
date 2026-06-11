@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import Script from 'next/script';
 import './globals.css';
 import FullscreenBodyLock from '@/components/FullscreenBodyLock';
 
@@ -140,7 +141,8 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
 
         {/* ── 4. Données structurées Schema.org ── */}
-        <script
+        <Script
+          id="ld-json-webapp"
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(webApplicationJsonLd),

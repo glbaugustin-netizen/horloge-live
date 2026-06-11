@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
+import Script from 'next/script';
 import ClockPageClient from '@/components/ClockPageClient';
 import SeoContent from '@/components/SeoContent';
 
@@ -86,7 +87,8 @@ export default function Home() {
   return (
     <>
       {/* JSON-LD FAQPage */}
-      <script
+      <Script
+        id="ld-json-home-faq"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />

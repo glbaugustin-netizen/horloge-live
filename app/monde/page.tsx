@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import type { CSSProperties } from 'react';
+import Script from 'next/script';
 import MondePageClient from '@/components/MondePageClient';
 
 /* ─── Métadonnées SEO ─────────────────────────────────────── */
@@ -160,12 +161,14 @@ export default function MondePage() {
   return (
     <>
       {/* JSON-LD HowTo */}
-      <script
+      <Script
+        id="ld-json-monde-howto"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
       />
       {/* JSON-LD FAQPage */}
-      <script
+      <Script
+        id="ld-json-monde-faq"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />

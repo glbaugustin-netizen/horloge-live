@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import type { CSSProperties } from 'react';
+import Script from 'next/script';
 import MinuteurPageClient from '@/components/MinuteurPageClient';
 
 /* ─── Métadonnées SEO ─────────────────────────────────────── */
@@ -168,12 +169,14 @@ export default function MinuteurPage() {
   return (
     <>
       {/* JSON-LD HowTo */}
-      <script
+      <Script
+        id="ld-json-minuteur-howto"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
       />
       {/* JSON-LD FAQPage */}
-      <script
+      <Script
+        id="ld-json-minuteur-faq"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />

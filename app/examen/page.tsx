@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import type { CSSProperties } from 'react';
+import Script from 'next/script';
 import ExamenPageClient from '@/components/ExamenPageClient';
 
 /* ─── Métadonnées SEO ─────────────────────────────────────── */
@@ -168,12 +169,14 @@ export default function ExamenPage() {
   return (
     <>
       {/* JSON-LD HowTo */}
-      <script
+      <Script
+        id="ld-json-examen-howto"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
       />
       {/* JSON-LD FAQPage */}
-      <script
+      <Script
+        id="ld-json-examen-faq"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />

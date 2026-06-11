@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import type { CSSProperties } from 'react';
+import Script from 'next/script';
 import AnalogClockPageClient from '@/components/AnalogClockPageClient';
 
 /* ─── Métadonnées SEO ─────────────────────────────────────── */
@@ -162,12 +163,14 @@ export default function HorlogeAiguillePage() {
   return (
     <>
       {/* JSON-LD HowTo */}
-      <script
+      <Script
+        id="ld-json-aiguille-howto"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
       />
       {/* JSON-LD FAQPage */}
-      <script
+      <Script
+        id="ld-json-aiguille-faq"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
