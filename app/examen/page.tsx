@@ -116,14 +116,15 @@ const faqJsonLd = {
   ],
 };
 
-/* ─── Styles liquid glass ─────────────────────────────────── */
-const seoSection: CSSProperties = { padding: '56px 24px 72px' };
+/* ─── Styles fond blanc (cohérent avec le mode examen) ───── */
+const seoSection: CSSProperties = {
+  padding: '56px 24px 72px',
+  background: '#FFFFFF',
+};
 
 const glassCard: CSSProperties = {
-  background: 'rgba(255, 255, 255, 0.08)',
-  backdropFilter: 'blur(20px)',
-  WebkitBackdropFilter: 'blur(20px)',
-  border: '1px solid rgba(255, 255, 255, 0.15)',
+  background: '#F5F5F5',
+  border: '1px solid #E0E0E0',
   borderRadius: '16px',
   padding: '24px',
   marginBottom: '12px',
@@ -132,7 +133,7 @@ const glassCard: CSSProperties = {
 const h1Style: CSSProperties = {
   fontSize: '28px',
   fontWeight: 500,
-  color: '#FFFFFF',
+  color: '#1A1A1A',
   textAlign: 'center',
   marginBottom: '32px',
   lineHeight: 1.3,
@@ -141,7 +142,7 @@ const h1Style: CSSProperties = {
 const h2Style: CSSProperties = {
   fontSize: '18px',
   fontWeight: 500,
-  color: 'rgba(255, 255, 255, 0.90)',
+  color: '#222222',
   marginBottom: '12px',
   marginTop: 0,
 };
@@ -149,7 +150,7 @@ const h2Style: CSSProperties = {
 const h3Style: CSSProperties = {
   fontSize: '15px',
   fontWeight: 500,
-  color: 'rgba(255, 255, 255, 0.80)',
+  color: '#333333',
   marginBottom: '8px',
   marginTop: '20px',
 };
@@ -157,7 +158,7 @@ const h3Style: CSSProperties = {
 const bodyText: CSSProperties = {
   fontSize: '15px',
   fontWeight: 400,
-  color: 'rgba(255, 255, 255, 0.70)',
+  color: '#555555',
   lineHeight: 1.7,
   margin: 0,
 };
@@ -287,15 +288,15 @@ export default function ExamenPage() {
           <div style={glassCard}>
             <p style={bodyText}>
               Découvrez aussi notre{' '}
-              <a href="/" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>horloge en ligne aesthetic</a>,
+              <a href="/" style={{ color: '#1565C0', textDecoration: 'underline' }}>horloge en ligne aesthetic</a>,
               notre{' '}
-              <a href="/horloge-aiguille" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>horloge à aiguilles en ligne</a>,
+              <a href="/horloge-aiguille" style={{ color: '#1565C0', textDecoration: 'underline' }}>horloge à aiguilles en ligne</a>,
               le{' '}
-              <a href="/chrono" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>chronomètre en ligne</a>,
+              <a href="/chrono" style={{ color: '#1565C0', textDecoration: 'underline' }}>chronomètre en ligne</a>,
               le{' '}
-              <a href="/minuteur" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>minuteur en ligne</a>{' '}
+              <a href="/minuteur" style={{ color: '#1565C0', textDecoration: 'underline' }}>minuteur en ligne</a>{' '}
               et l&apos;
-              <a href="/monde" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>heure dans le monde</a>.
+              <a href="/monde" style={{ color: '#1565C0', textDecoration: 'underline' }}>heure dans le monde</a>.
             </p>
           </div>
 
