@@ -20,6 +20,7 @@ const SOLID_COLORS = [
   { label: 'Anthracite', value: '#1A1A1A' },
   { label: 'Blanc cassé', value: '#F5F0E8' },
   { label: 'Beige', value: '#E8DCC8' },
+  { label: 'Rose kawaii', value: '#FFB7C5' },
 ] as const;
 
 const LANDSCAPE_IMAGES = [
