@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import type { CSSProperties } from 'react';
 import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 import { articles } from '@/lib/conseils';
 
 /* ─── Métadonnées SEO ─────────────────────────────────────── */
@@ -74,6 +75,17 @@ const cardLinkStyle: CSSProperties = {
   marginTop: '4px',
 };
 
+const backLinkStyle: CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px',
+  fontSize: '14px',
+  color: 'rgba(255, 255, 255, 0.60)',
+  textDecoration: 'none',
+  marginBottom: '32px',
+  width: 'fit-content',
+};
+
 /* ─────────────────────────────────────────────────────────────
    Page
 ───────────────────────────────────────────────────────────── */
@@ -81,6 +93,12 @@ export default function ConseilsPage() {
   return (
     <section>
       <div style={{ maxWidth: '960px', margin: '0 auto', padding: '64px 24px 72px' }}>
+
+        {/* Flèche retour vers l'horloge */}
+        <Link href="/" style={backLinkStyle}>
+          <ArrowLeft size={16} strokeWidth={1.5} />
+          <span>Retour à l&apos;horloge</span>
+        </Link>
 
         {/* H1 */}
         <h1 style={h1Style}>
