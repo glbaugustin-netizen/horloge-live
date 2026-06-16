@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Clock, Timer, AlarmClock, Globe, GraduationCap, Clock3, Menu, X, User } from 'lucide-react';
+import { Clock, Timer, AlarmClock, Globe, GraduationCap, BookOpen, Clock3, Menu, X, User } from 'lucide-react';
 
 interface SidebarProps {
   isOpen?: boolean;      // contrôle externe (desktop) — optionnel
@@ -18,6 +18,7 @@ const NAV_ITEMS = {
     { href: '/minuteur',          Icon: AlarmClock,     label: 'Minuteur'           },
     { href: '/monde',             Icon: Globe,          label: 'Monde'              },
     { href: '/examen',            Icon: GraduationCap,  label: 'Mode Examen'        },
+    { href: '/conseils',          Icon: BookOpen,       label: 'Conseils'           },
     { href: '/horloge-aiguille',  Icon: Clock3,         label: 'Horloge analogique' },
   ],
   en: [
@@ -26,6 +27,7 @@ const NAV_ITEMS = {
     { href: '/minuteur',          Icon: AlarmClock,     label: 'Timer'              },
     { href: '/monde',             Icon: Globe,          label: 'World'              },
     { href: '/examen',            Icon: GraduationCap,  label: 'Exam Mode'          },
+    { href: '/conseils',          Icon: BookOpen,       label: 'Tips'               },
     { href: '/horloge-aiguille',  Icon: Clock3,         label: 'Analog Clock'       },
   ],
 };

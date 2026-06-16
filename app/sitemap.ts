@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next';
+import { articles } from '@/lib/conseils';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://horloge-live.com';
@@ -41,5 +42,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.7,
     },
+    {
+      url: `${baseUrl}/conseils`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
+    ...articles.map((article) => ({
+      url: `${baseUrl}/conseils/${article.slug}`,
+      lastModified,
+      changeFrequency: 'monthly' as const,
+      priority: 0.5,
+    })),
   ];
 }
