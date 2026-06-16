@@ -2,6 +2,10 @@ import type { Metadata } from 'next';
 import type { CSSProperties } from 'react';
 import Script from 'next/script';
 import AnalogClockPageClient from '@/components/AnalogClockPageClient';
+import { articles } from '@/lib/conseils';
+
+/* ─── Lien contextuel vers /conseils ──────────────────────── */
+const conseilArticle = articles.find((a) => a.slug === 'horloge-digitale-vs-aiguilles');
 
 /* ─── Métadonnées SEO ─────────────────────────────────────── */
 export const metadata: Metadata = {
@@ -277,6 +281,18 @@ export default function HorlogeAiguillePage() {
               L&apos;horloge analogique en ligne est accessible à tous, à tout moment.
             </p>
           </div>
+
+          {/* Lien contextuel vers /conseils */}
+          {conseilArticle && (
+            <div style={{ ...glassCard, padding: '16px 24px' }}>
+              <p style={bodyText}>
+                À lire aussi :{' '}
+                <a href={`/conseils/${conseilArticle.slug}`} style={linkStyle}>
+                  {conseilArticle.title}
+                </a>
+              </p>
+            </div>
+          )}
 
           {/* Maillage interne */}
           <div style={glassCard}>

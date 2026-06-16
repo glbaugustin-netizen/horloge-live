@@ -2,6 +2,13 @@ import type { Metadata } from 'next';
 import type { CSSProperties } from 'react';
 import Script from 'next/script';
 import ExamenPageClient from '@/components/ExamenPageClient';
+import { articles } from '@/lib/conseils';
+
+/* ─── Liens contextuels vers /conseils ────────────────────── */
+const conseilSlugs = ['gerer-son-temps-pendant-un-examen', 'techniques-concentration-revisions'];
+const conseilArticles = conseilSlugs
+  .map((slug) => articles.find((a) => a.slug === slug))
+  .filter((a): a is NonNullable<typeof a> => Boolean(a));
 
 /* ─── Métadonnées SEO ─────────────────────────────────────── */
 export const metadata: Metadata = {
@@ -283,6 +290,25 @@ export default function ExamenPage() {
               Les deux approches sont complémentaires selon les préférences de l&apos;enseignant.
             </p>
           </div>
+
+          {/* Lien contextuel vers /conseils */}
+          {conseilArticles.length > 0 && (
+            <div style={{ ...glassCard, padding: '16px 24px' }}>
+              <p style={{ ...bodyText, marginBottom: '8px' }}>À lire aussi :</p>
+              <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                {conseilArticles.map((article) => (
+                  <li key={article.slug} style={{ ...bodyText, marginBottom: '4px' }}>
+                    <a
+                      href={`/conseils/${article.slug}`}
+                      style={{ color: '#1565C0', textDecoration: 'underline' }}
+                    >
+                      {article.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           {/* Maillage interne */}
           <div style={glassCard}>

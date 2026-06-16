@@ -2,6 +2,10 @@ import type { Metadata } from 'next';
 import type { CSSProperties } from 'react';
 import Script from 'next/script';
 import MondePageClient from '@/components/MondePageClient';
+import { articles } from '@/lib/conseils';
+
+/* ─── Lien contextuel vers /conseils ──────────────────────── */
+const conseilArticle = articles.find((a) => a.slug === 'decalage-horaire-reunions-internationales');
 
 /* ─── Métadonnées SEO ─────────────────────────────────────── */
 export const metadata: Metadata = {
@@ -273,6 +277,21 @@ export default function MondePage() {
               consultez toujours l&apos;heure locale exacte, quelle que soit la période de l&apos;année.
             </p>
           </div>
+
+          {/* Lien contextuel vers /conseils */}
+          {conseilArticle && (
+            <div style={{ ...glassCard, padding: '16px 24px' }}>
+              <p style={bodyText}>
+                À lire aussi :{' '}
+                <a
+                  href={`/conseils/${conseilArticle.slug}`}
+                  style={{ color: '#4FC3F7', textDecoration: 'underline' }}
+                >
+                  {conseilArticle.title}
+                </a>
+              </p>
+            </div>
+          )}
 
           {/* Maillage interne */}
           <div style={glassCard}>

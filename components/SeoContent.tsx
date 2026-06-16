@@ -1,5 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 
+import { articles } from '@/lib/conseils';
+
 type Lang = 'fr' | 'en';
 
 const LABELS: Record<Lang, {
@@ -108,6 +110,16 @@ const pStyle: React.CSSProperties = {
   lineHeight: 1.7,
 };
 
+/* ─── Liens contextuels vers /conseils ───────────────────── */
+const CONSEIL_SLUGS = [
+  'personnaliser-espace-de-travail-concentration',
+  'horloge-plein-ecran-presentations',
+  'routine-du-soir-horloge-apaisante',
+];
+const conseilLinks = CONSEIL_SLUGS
+  .map((slug) => articles.find((a) => a.slug === slug))
+  .filter((a): a is NonNullable<typeof a> => Boolean(a));
+
 function FaqItem({ question, answer }: { question: string; answer: string }) {
   return (
     <div style={{ marginBottom: '16px' }}>
@@ -173,6 +185,27 @@ export default function SeoContent({ language }: { language: Lang }) {
           ))}
         </div>
       </div>
+
+      {/* Lien contextuel vers /conseils — juste après la FAQ */}
+      {conseilLinks.length > 0 && (
+        <div style={{ ...sectionStyle, padding: '16px 24px' }}>
+          <p style={{ ...pStyle, fontSize: '14px', marginBottom: '8px' }}>
+            {language === 'fr' ? 'À lire aussi :' : 'Also worth reading:'}
+          </p>
+          <ul style={{ margin: 0, paddingLeft: '18px' }}>
+            {conseilLinks.map((article) => (
+              <li key={article.slug} style={{ ...pStyle, fontSize: '14px', marginBottom: '4px' }}>
+                <a
+                  href={`/conseils/${article.slug}`}
+                  style={{ color: 'var(--color-accent)', textDecoration: 'underline' }}
+                >
+                  {article.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <p
         style={{

@@ -2,6 +2,10 @@ import type { Metadata } from 'next';
 import type { CSSProperties } from 'react';
 import Script from 'next/script';
 import ChronoPageClient from '@/components/ChronoPageClient';
+import { articles } from '@/lib/conseils';
+
+/* ─── Lien contextuel vers /conseils ──────────────────────── */
+const conseilArticle = articles.find((a) => a.slug === 'planning-de-revisions-efficace');
 
 /* ─── Métadonnées SEO ─────────────────────────────────────── */
 export const metadata: Metadata = {
@@ -279,6 +283,21 @@ export default function ChronoPage() {
               application à installer.
             </p>
           </div>
+
+          {/* Lien contextuel vers /conseils */}
+          {conseilArticle && (
+            <div style={{ ...glassCard, padding: '16px 24px' }}>
+              <p style={bodyText}>
+                À lire aussi :{' '}
+                <a
+                  href={`/conseils/${conseilArticle.slug}`}
+                  style={{ color: '#4FC3F7', textDecoration: 'underline' }}
+                >
+                  {conseilArticle.title}
+                </a>
+              </p>
+            </div>
+          )}
 
           {/* Maillage interne */}
           <div style={glassCard}>
