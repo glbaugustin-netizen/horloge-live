@@ -309,9 +309,11 @@ export default function ChronoPage() {
               le{' '}
               <a href="/minuteur" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>minuteur en ligne</a>,
               l&apos;
-              <a href="/monde" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>heure dans le monde</a>{' '}
-              et l&apos;
-              <a href="/examen" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>horloge mode examen</a>.
+              <a href="/monde" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>heure dans le monde</a>,{' '}
+              l&apos;
+              <a href="/examen" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>horloge mode examen</a>{' '}
+              et nos{' '}
+              <a href="/conseils" style={{ color: '#4FC3F7', textDecoration: 'underline' }}>conseils pour réviser et se concentrer</a>.
             </p>
           </div>
 

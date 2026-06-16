@@ -320,9 +320,11 @@ export default function ExamenPage() {
               le{' '}
               <a href="/chrono" style={{ color: '#1565C0', textDecoration: 'underline' }}>chronomètre en ligne</a>,
               le{' '}
-              <a href="/minuteur" style={{ color: '#1565C0', textDecoration: 'underline' }}>minuteur en ligne</a>{' '}
-              et l&apos;
-              <a href="/monde" style={{ color: '#1565C0', textDecoration: 'underline' }}>heure dans le monde</a>.
+              <a href="/minuteur" style={{ color: '#1565C0', textDecoration: 'underline' }}>minuteur en ligne</a>,{' '}
+              l&apos;
+              <a href="/monde" style={{ color: '#1565C0', textDecoration: 'underline' }}>heure dans le monde</a>{' '}
+              et nos{' '}
+              <a href="/conseils" style={{ color: '#1565C0', textDecoration: 'underline' }}>conseils pour réviser et se concentrer</a>.
             </p>
           </div>
 

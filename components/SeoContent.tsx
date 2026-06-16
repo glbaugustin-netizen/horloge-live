@@ -238,10 +238,14 @@ export default function SeoContent({ language }: { language: Lang }) {
             , l&apos;
             <a href="/monde" style={{ color: 'var(--color-accent)', textDecoration: 'underline' }}>
               heure dans le monde
-            </a>{' '}
-            et l&apos;
+            </a>
+            , l&apos;
             <a href="/examen" style={{ color: 'var(--color-accent)', textDecoration: 'underline' }}>
               horloge mode examen
+            </a>{' '}
+            et nos{' '}
+            <a href="/conseils" style={{ color: 'var(--color-accent)', textDecoration: 'underline' }}>
+              conseils pour réviser et se concentrer
             </a>.
           </>
         ) : (
@@ -261,6 +265,10 @@ export default function SeoContent({ language }: { language: Lang }) {
             and{' '}
             <a href="/monde" style={{ color: 'var(--color-accent)', textDecoration: 'underline' }}>
               world clock
+            </a>
+            , as well as our{' '}
+            <a href="/conseils" style={{ color: 'var(--color-accent)', textDecoration: 'underline' }}>
+              tips for studying and staying focused
             </a>.
           </>
         )}

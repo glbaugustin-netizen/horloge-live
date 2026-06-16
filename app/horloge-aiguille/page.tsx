@@ -301,9 +301,11 @@ export default function HorlogeAiguillePage() {
               <a href="/" style={linkStyle}>horloge numérique en ligne</a>,
               notre{' '}
               <a href="/examen" style={linkStyle}>horloge pour examen</a>,
-              l&apos;<a href="/monde" style={linkStyle}>heure dans le monde</a>{' '}
-              et notre{' '}
-              <a href="/chrono" style={linkStyle}>chronomètre en ligne</a>.
+              l&apos;<a href="/monde" style={linkStyle}>heure dans le monde</a>,{' '}
+              notre{' '}
+              <a href="/chrono" style={linkStyle}>chronomètre en ligne</a>{' '}
+              et nos{' '}
+              <a href="/conseils" style={linkStyle}>conseils pour réviser et se concentrer</a>.
             </p>
           </div>
 
