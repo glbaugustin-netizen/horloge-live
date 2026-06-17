@@ -274,20 +274,6 @@ function AddCityModal({
 }) {
   const [selected, setSelected] = useState(availableCities[0]?.tz ?? '');
 
-  const inputStyle: React.CSSProperties = {
-    width:                '100%',
-    background:           'rgba(255,255,255,0.10)',
-    border:               '1px solid rgba(255,255,255,0.20)',
-    borderRadius:         '12px',
-    padding:              '10px 14px',
-    fontSize:             '14px',
-    color:                '#FFFFFF',
-    outline:              'none',
-    cursor:               'pointer',
-    appearance:           'none' as React.CSSProperties['appearance'],
-    WebkitAppearance:     'none' as React.CSSProperties['WebkitAppearance'],
-  };
-
   return (
     <div
       style={{
@@ -305,36 +291,83 @@ function AddCityModal({
     >
       <div
         style={{
-          background:           'rgba(20,20,30,0.90)',
-          backdropFilter:       'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
-          border:               '1px solid rgba(255,255,255,0.15)',
-          borderRadius:         '20px',
+          background:           'linear-gradient(160deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04))',
+          backdropFilter:       'blur(24px) saturate(160%)',
+          WebkitBackdropFilter: 'blur(24px) saturate(160%)',
+          border:               '1px solid rgba(255,255,255,0.18)',
+          boxShadow:            'inset 0 1px 1px rgba(255,255,255,0.22), 0 24px 56px rgba(0,0,0,0.45)',
+          borderRadius:         '24px',
           padding:              '24px',
-          width:                '320px',
+          width:                '340px',
           maxWidth:             '90vw',
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        <p style={{ fontSize: '15px', fontWeight: 500, color: '#FFFFFF', marginBottom: '16px' }}>
+        <p style={{ fontSize: '15px', fontWeight: 500, color: 'rgba(255,255,255,0.90)', marginBottom: '16px' }}>
           {language === 'fr' ? 'Ajouter une ville' : 'Add a city'}
         </p>
 
-        <select
-          value={selected}
-          onChange={(e) => setSelected(e.target.value)}
-          style={{ ...inputStyle, marginBottom: '20px' }}
+        {/* Liste des villes — bulles glass v2 */}
+        <div
+          style={{
+            display:              'flex',
+            flexWrap:             'wrap',
+            gap:                  '8px',
+            maxHeight:            '240px',
+            overflowY:            'auto',
+            marginBottom:         '20px',
+            padding:              '2px',
+          }}
         >
-          {availableCities.map(city => (
-            <option
-              key={city.tz}
-              value={city.tz}
-              style={{ background: '#1a1a2e', color: '#FFFFFF' }}
-            >
-              {city.name[language]}
-            </option>
-          ))}
-        </select>
+          {availableCities.map((city) => {
+            const isSelected = city.tz === selected;
+            return (
+              <button
+                key={city.tz}
+                onClick={() => setSelected(city.tz)}
+                style={{
+                  borderRadius:         '50px',
+                  padding:              '7px 16px',
+                  fontSize:             '13px',
+                  fontWeight:           isSelected ? 500 : 400,
+                  cursor:               'pointer',
+                  backdropFilter:       'blur(14px) saturate(160%)',
+                  WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+                  border:               `1px solid ${isSelected ? 'rgba(255,255,255,0.42)' : 'rgba(255,255,255,0.14)'}`,
+                  background:           isSelected
+                    ? 'linear-gradient(160deg, rgba(255,255,255,0.28), rgba(255,255,255,0.10))'
+                    : 'linear-gradient(160deg, rgba(255,255,255,0.09), rgba(255,255,255,0.03))',
+                  boxShadow:            isSelected
+                    ? 'inset 0 1px 1px rgba(255,255,255,0.60), 0 4px 14px rgba(0,0,0,0.28)'
+                    : 'inset 0 1px 1px rgba(255,255,255,0.14)',
+                  color:                isSelected ? 'rgba(255,255,255,0.97)' : 'rgba(255,255,255,0.65)',
+                  transition:           'transform 0.22s cubic-bezier(.2,.9,.3,1.4), background 180ms ease, border-color 180ms ease, box-shadow 180ms ease',
+                  whiteSpace:           'nowrap',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-1px) scale(1.03)';
+                  if (!isSelected) {
+                    e.currentTarget.style.background   = 'linear-gradient(160deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05))';
+                    e.currentTarget.style.borderColor  = 'rgba(255,255,255,0.24)';
+                    e.currentTarget.style.color        = 'rgba(255,255,255,0.85)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'scale(1)';
+                  if (!isSelected) {
+                    e.currentTarget.style.background   = 'linear-gradient(160deg, rgba(255,255,255,0.09), rgba(255,255,255,0.03))';
+                    e.currentTarget.style.borderColor  = 'rgba(255,255,255,0.14)';
+                    e.currentTarget.style.color        = 'rgba(255,255,255,0.65)';
+                  }
+                }}
+                onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.95)'; }}
+                onMouseUp={(e)   => { e.currentTarget.style.transform = 'translateY(-1px) scale(1.03)'; }}
+              >
+                {city.name[language]}
+              </button>
+            );
+          })}
+        </div>
 
         <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
           {/* Annuler */}
@@ -346,15 +379,25 @@ function AddCityModal({
               fontSize:             '14px',
               fontWeight:           400,
               cursor:               'pointer',
-              backdropFilter:       'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
+              backdropFilter:       'blur(14px) saturate(160%)',
+              WebkitBackdropFilter: 'blur(14px) saturate(160%)',
               border:               '1px solid rgba(255,255,255,0.15)',
-              background:           'rgba(255,255,255,0.08)',
-              color:                'rgba(255,255,255,0.85)',
-              transition:           'background 150ms ease',
+              background:           'linear-gradient(160deg, rgba(255,255,255,0.09), rgba(255,255,255,0.03))',
+              color:                'rgba(255,255,255,0.75)',
+              transition:           'background 180ms ease, border-color 180ms ease, transform 0.22s cubic-bezier(.2,.9,.3,1.4)',
             }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.12)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background  = 'linear-gradient(160deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05))';
+              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.25)';
+              e.currentTarget.style.transform   = 'translateY(-1px)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background  = 'linear-gradient(160deg, rgba(255,255,255,0.09), rgba(255,255,255,0.03))';
+              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)';
+              e.currentTarget.style.transform   = 'scale(1)';
+            }}
+            onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.95)'; }}
+            onMouseUp={(e)   => { e.currentTarget.style.transform = 'translateY(-1px)'; }}
           >
             {language === 'fr' ? 'Annuler' : 'Cancel'}
           </button>
@@ -367,27 +410,29 @@ function AddCityModal({
               borderRadius:         '50px',
               padding:              '9px 18px',
               fontSize:             '14px',
-              fontWeight:           400,
+              fontWeight:           500,
               cursor:               selected ? 'pointer' : 'not-allowed',
-              backdropFilter:       'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
+              backdropFilter:       'blur(14px) saturate(160%)',
+              WebkitBackdropFilter: 'blur(14px) saturate(160%)',
               border:               '1px solid rgba(255,255,255,0.40)',
-              background:           'rgba(255,255,255,0.20)',
+              background:           'linear-gradient(160deg, rgba(255,255,255,0.28), rgba(255,255,255,0.10))',
               color:                'rgba(255,255,255,0.97)',
-              boxShadow:            'inset 0 1px 1px rgba(255,255,255,0.45), 0 4px 14px rgba(0,0,0,0.22)',
+              boxShadow:            'inset 0 1px 1px rgba(255,255,255,0.55), 0 4px 14px rgba(0,0,0,0.22)',
               transition:           'background 200ms ease, border-color 200ms ease, transform 0.28s cubic-bezier(.2,.9,.3,1.5)',
             }}
             onMouseEnter={(e) => {
               if (!selected) return;
-              e.currentTarget.style.background  = 'rgba(255,255,255,0.28)';
+              e.currentTarget.style.background  = 'linear-gradient(160deg, rgba(255,255,255,0.36), rgba(255,255,255,0.16))';
               e.currentTarget.style.borderColor = 'rgba(255,255,255,0.55)';
               e.currentTarget.style.transform   = 'translateY(-2px)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background  = 'rgba(255,255,255,0.20)';
+              e.currentTarget.style.background  = 'linear-gradient(160deg, rgba(255,255,255,0.28), rgba(255,255,255,0.10))';
               e.currentTarget.style.borderColor = 'rgba(255,255,255,0.40)';
               e.currentTarget.style.transform   = 'scale(1)';
             }}
+            onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.95)'; }}
+            onMouseUp={(e)   => { e.currentTarget.style.transform = 'translateY(-2px)'; }}
           >
             {language === 'fr' ? 'Ajouter' : 'Add'}
           </button>
