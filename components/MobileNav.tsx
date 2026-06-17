@@ -19,12 +19,12 @@ const BAR_STYLE: React.CSSProperties = {
   left: 0,
   right: 0,
   height: '56px',
-  background: 'rgba(255, 255, 255, 0.08)',
-  backdropFilter: 'blur(20px)',
-  WebkitBackdropFilter: 'blur(20px)',
-  borderTop: '1px solid rgba(255, 255, 255, 0.15)',
-  /* display géré par la classe Tailwind (flex + sm:hidden)
-     pour que sm:hidden puisse l'écraser sans conflit de spécificité */
+  background: 'linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.10))',
+  backdropFilter: 'blur(20px) saturate(160%)',
+  WebkitBackdropFilter: 'blur(20px) saturate(160%)',
+  borderTop: '1px solid rgba(255,255,255,0.18)',
+  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.22), 0 -8px 28px rgba(0,0,0,0.20)',
+  /* display géré par la classe Tailwind (flex + sm:hidden) */
   justifyContent: 'space-around',
   alignItems: 'center',
   zIndex: 30,
