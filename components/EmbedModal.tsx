@@ -12,6 +12,7 @@ interface EmbedModalProps {
   isOpen: boolean;
   onClose: () => void;
   language?: Lang;
+  widgetType?: WidgetType;
 }
 
 /* ─── Données tailles ────────────────────────────────────── */
@@ -77,9 +78,8 @@ const LABEL_STYLE: React.CSSProperties = {
 };
 
 /* ─── Composant ──────────────────────────────────────────── */
-export default function EmbedModal({ isOpen, onClose, language = 'fr' }: EmbedModalProps) {
-  const [widgetType, setWidgetType] = useState<WidgetType>('clock');
-  const [size,       setSize]       = useState<Size>('medium');
+export default function EmbedModal({ isOpen, onClose, language = 'fr', widgetType = 'clock' }: EmbedModalProps) {
+  const [size, setSize] = useState<Size>('medium');
   const [copied,     setCopied]     = useState(false);
 
   const t  = LABELS[language];
@@ -177,67 +177,6 @@ export default function EmbedModal({ isOpen, onClose, language = 'fr' }: EmbedMo
           >
             <X size={14} strokeWidth={1.5} />
           </button>
-        </div>
-
-        {/* ── Sélecteur type — bulle coulissante glass v2 ── */}
-        <div>
-          <div style={LABEL_STYLE}>{t.typeLabel}</div>
-          <div style={{
-            position:     'relative',
-            display:      'flex',
-            padding:      '4px',
-            borderRadius: '50px',
-            background:   'var(--glass2-bg-recessed)',
-            border:       '1px solid rgba(255,255,255,0.10)',
-            boxShadow:    'var(--glass2-shadow-recessed)',
-          }}>
-            <div aria-hidden="true" style={{
-              position:      'absolute',
-              top:           '4px',
-              left:          '4px',
-              width:         'calc(50% - 4px)',
-              height:        'calc(100% - 8px)',
-              transform:     widgetType === 'clock' ? 'translateX(0)' : 'translateX(100%)',
-              transition:    'transform 0.42s cubic-bezier(.34,1.56,.5,1)',
-              pointerEvents: 'none',
-              zIndex:        0,
-            }}>
-              <div style={{
-                width:        '100%',
-                height:       '100%',
-                borderRadius: '50px',
-                background:   'linear-gradient(160deg, rgba(255,255,255,0.26), rgba(255,255,255,0.10))',
-                border:       '1px solid rgba(255,255,255,0.38)',
-                boxShadow:    'inset 0 1px 1px rgba(255,255,255,0.55), 0 4px 14px rgba(0,0,0,0.22)',
-              }} />
-            </div>
-            {(['clock', 'chrono'] as WidgetType[]).map((wt) => {
-              const isActive = widgetType === wt;
-              return (
-                <button
-                  key={wt}
-                  onClick={() => setWidgetType(wt)}
-                  style={{
-                    position:     'relative',
-                    zIndex:       1,
-                    flex:         1,
-                    textAlign:    'center',
-                    padding:      '8px 12px',
-                    borderRadius: '50px',
-                    fontSize:     '13px',
-                    fontWeight:   isActive ? 500 : 400,
-                    cursor:       'pointer',
-                    border:       'none',
-                    background:   'transparent',
-                    color:        isActive ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.45)',
-                    transition:   'color 200ms ease',
-                  }}
-                >
-                  {wt === 'clock' ? t.typeClock : t.typeChrono}
-                </button>
-              );
-            })}
-          </div>
         </div>
 
         {/* ── Sélecteur taille ── */}
