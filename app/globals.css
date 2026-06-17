@@ -24,6 +24,28 @@
   --glass-blur: blur(20px);
   --glass-separator: rgba(255, 255, 255, 0.10);
 
+  /* Liquid Glass v2 — neutre, style iOS 26 (test panneau paramètres uniquement) */
+  --glass2-bg: rgba(255, 255, 255, 0.14);
+  --glass2-bg-smoked: rgba(20, 20, 28, 0.40);
+  --glass2-bg-recessed: rgba(10, 10, 16, 0.45);
+  --glass2-border: rgba(255, 255, 255, 0.34);
+  --glass2-border-card: rgba(255, 255, 255, 0.12);
+  --glass2-sheen: rgba(255, 255, 255, 0.60);
+  --glass2-blur: blur(14px) saturate(160%);
+  --glass2-text-primary: #ffffff;
+  --glass2-text-secondary: rgba(255, 255, 255, 0.72);
+  --glass2-text-inactive: rgba(255, 255, 255, 0.60);
+  --glass2-label: rgba(255, 255, 255, 0.50);
+  --glass2-knob-gradient: linear-gradient(160deg, #ffffff, #e6e8ee);
+
+  --glass2-shadow-card: inset 0 1px 1px rgba(255, 255, 255, 0.25), 0 16px 40px rgba(0, 0, 0, 0.35);
+  --glass2-shadow-button: inset 0 1px 1px rgba(255, 255, 255, 0.60), inset 0 -8px 18px rgba(255, 255, 255, 0.06), 0 8px 26px rgba(0, 0, 0, 0.30);
+  --glass2-shadow-recessed: inset 0 2px 8px rgba(0, 0, 0, 0.45);
+  --glass2-shadow-knob: 0 4px 12px rgba(0, 0, 0, 0.35), inset 0 -3px 6px rgba(0, 0, 0, 0.08), inset 0 2px 3px rgba(255, 255, 255, 0.9);
+
+  --glass2-ease-bounce: cubic-bezier(.34, 1.56, .5, 1);
+  --glass2-ease-hover: cubic-bezier(.2, .9, .3, 1.4);
+
   /* États */
   --color-error-bg: rgba(220, 38, 38, 0.15);
   --color-error-text: #fca5a5;
@@ -171,14 +193,15 @@ body::before {
   animation: fontFadeIn 200ms ease;
 }
 
-/* ─── Slider paramètres (taille police) ──────────────────────── */
+/* ─── Slider paramètres (taille police) — Liquid Glass v2 ──── */
 .settings-slider {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
   height: 4px;
   border-radius: 2px;
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--glass2-bg-recessed);
+  box-shadow: var(--glass2-shadow-recessed);
   outline: none;
   cursor: pointer;
 }
@@ -189,7 +212,8 @@ body::before {
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: #4fc3f7;
+  background: var(--glass2-knob-gradient);
+  box-shadow: var(--glass2-shadow-knob);
   border: 2px solid rgba(255, 255, 255, 0.30);
   cursor: pointer;
 }
@@ -198,10 +222,10 @@ body::before {
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: #4fc3f7;
+  background: var(--glass2-knob-gradient);
+  box-shadow: var(--glass2-shadow-knob);
   border: 2px solid rgba(255, 255, 255, 0.30);
   cursor: pointer;
-  border: none;
 }
 
 /* ─── Taille responsive de l'horloge ─────────────────────────── */

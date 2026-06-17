@@ -113,49 +113,49 @@ const LABELS = {
   },
 } as const;
 
-/* ── Styles bouton pill Mode Focus ─────────────────────────── */
+/* ── Styles bouton pill Mode Focus — v2 neutre ──────────────── */
 const focusPillStyle: React.CSSProperties = {
-  background: 'rgba(255, 255, 255, 0.08)',
-  backdropFilter: 'blur(20px)',
-  WebkitBackdropFilter: 'blur(20px)',
-  border: '1px solid rgba(255, 255, 255, 0.15)',
+  background: 'var(--glass2-bg)',
+  backdropFilter: 'var(--glass2-blur)',
+  WebkitBackdropFilter: 'var(--glass2-blur)',
+  border: '1px solid var(--glass2-border-card)',
   borderRadius: '50px',
   padding: '6px 14px',
   fontSize: '13px',
-  color: 'rgba(255, 255, 255, 0.70)',
+  color: 'var(--glass2-text-secondary)',
   cursor: 'pointer',
 };
 
 const focusPillActiveStyle: React.CSSProperties = {
-  background: 'rgba(79, 195, 247, 0.22)',
-  backdropFilter: 'blur(20px)',
-  WebkitBackdropFilter: 'blur(20px)',
-  border: '1px solid rgba(79, 195, 247, 0.50)',
+  background: 'rgba(255, 255, 255, 0.22)',
+  backdropFilter: 'var(--glass2-blur)',
+  WebkitBackdropFilter: 'var(--glass2-blur)',
+  border: '1px solid rgba(255, 255, 255, 0.45)',
   borderRadius: '50px',
   padding: '6px 14px',
   fontSize: '13px',
-  color: '#B3E5FC',
+  color: 'var(--glass2-text-primary)',
   cursor: 'pointer',
 };
 
-/* ── Styles boutons pill sélecteur thème flip ───────────────── */
+/* ── Styles boutons pill sélecteur thème flip — v2 neutre ───── */
 const flipPillStyle: React.CSSProperties = {
-  background: 'rgba(255, 255, 255, 0.08)',
-  border: '1px solid rgba(255, 255, 255, 0.15)',
+  background: 'var(--glass2-bg)',
+  border: '1px solid var(--glass2-border-card)',
   borderRadius: '50px',
   padding: '8px 20px',
   fontSize: '13px',
-  color: 'rgba(255, 255, 255, 0.70)',
+  color: 'var(--glass2-text-secondary)',
   cursor: 'pointer',
 };
 
 const flipPillActiveStyle: React.CSSProperties = {
-  background: 'rgba(79, 195, 247, 0.22)',
-  border: '1px solid rgba(79, 195, 247, 0.50)',
+  background: 'rgba(255, 255, 255, 0.22)',
+  border: '1px solid rgba(255, 255, 255, 0.45)',
   borderRadius: '50px',
   padding: '8px 20px',
   fontSize: '13px',
-  color: '#B3E5FC',
+  color: 'var(--glass2-text-primary)',
   cursor: 'pointer',
 };
 
@@ -180,29 +180,65 @@ function Toggle({
       onClick={() => onChange(!value)}
       onKeyDown={(e) => e.key === 'Enter' && onChange(!value)}
       style={{
-        width: '40px',
-        height: '22px',
-        borderRadius: '50px',
+        width: '96px',
+        height: '54px',
+        borderRadius: '30px',
         position: 'relative',
         cursor: 'pointer',
         flexShrink: 0,
-        transition: 'background 200ms ease, border-color 200ms ease',
-        background: value ? 'rgba(79,195,247,0.45)' : 'rgba(255,255,255,0.15)',
-        border: `1px solid ${value ? 'rgba(79,195,247,0.60)' : 'rgba(255,255,255,0.20)'}`,
+        transition: 'background 300ms ease, border-color 300ms ease, box-shadow 300ms ease',
+        background: value ? 'rgba(255,255,255,0.22)' : 'var(--glass2-bg-recessed)',
+        border: `1px solid ${value ? 'rgba(255,255,255,0.45)' : 'rgba(255,255,255,0.16)'}`,
+        boxShadow: value
+          ? 'inset 0 1px 1px rgba(255,255,255,0.25), 0 16px 40px rgba(0,0,0,0.35), 0 6px 20px rgba(255,255,255,0.12)'
+          : 'var(--glass2-shadow-recessed)',
       }}
     >
-      <div
+      {/* Voile radial — s'allume en ON */}
+      <span
+        aria-hidden="true"
         style={{
-          width: '16px',
-          height: '16px',
-          borderRadius: '50%',
           position: 'absolute',
-          top: '2px',
-          left: value ? '20px' : '2px',
-          transition: 'left 200ms ease',
-          background: value ? '#4FC3F7' : '#ffffff',
+          inset: 0,
+          borderRadius: '30px',
+          background: 'radial-gradient(circle at 72% 50%, rgba(255,255,255,0.30), transparent 60%)',
+          opacity: value ? 1 : 0,
+          transition: 'opacity 0.38s var(--glass2-ease-bounce)',
+          pointerEvents: 'none',
         }}
       />
+      {/* Knob */}
+      <div
+        style={{
+          width: '44px',
+          height: '44px',
+          borderRadius: '50%',
+          position: 'absolute',
+          top: '5px',
+          left: '5px',
+          transform: value ? 'translateX(42px)' : 'translateX(0)',
+          transition: 'transform 0.38s var(--glass2-ease-bounce)',
+          background: 'var(--glass2-knob-gradient)',
+          boxShadow: 'var(--glass2-shadow-knob)',
+          overflow: 'hidden',
+        }}
+      >
+        {/* Gloss moitié haute du knob */}
+        <span
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: '50%',
+            borderRadius: '22px 22px 0 0',
+            background: 'linear-gradient(to bottom, rgba(255,255,255,0.90), transparent)',
+            opacity: 0.55,
+            pointerEvents: 'none',
+          }}
+        />
+      </div>
     </div>
   );
 }
@@ -227,7 +263,7 @@ function ParamRow({
         style={{
           fontSize: '13px',
           fontWeight: 400,
-          color: 'rgba(255,255,255,0.70)',
+          color: 'var(--glass2-text-secondary)',
         }}
       >
         {label}
@@ -243,9 +279,9 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
       style={{
         fontSize: '11px',
         fontWeight: 500,
-        letterSpacing: '0.08em',
+        letterSpacing: '0.14em',
         textTransform: 'uppercase',
-        color: 'rgba(255,255,255,0.35)',
+        color: 'var(--glass2-label)',
         marginBottom: '8px',
         marginTop: '4px',
       }}
@@ -345,9 +381,9 @@ function FontGrid({
                     borderRadius: '12px',
                     padding: '12px 8px',
                     background: isSelected
-                      ? 'rgba(79,195,247,0.15)'
+                      ? 'rgba(255,255,255,0.18)'
                       : 'rgba(255,255,255,0.06)',
-                    border: `1px solid ${isSelected ? 'rgba(79,195,247,0.40)' : 'rgba(255,255,255,0.10)'}`,
+                    border: `1px solid ${isSelected ? 'rgba(255,255,255,0.45)' : 'rgba(255,255,255,0.10)'}`,
                     cursor: 'pointer',
                     textAlign: 'center',
                     transition: 'background 150ms ease',
@@ -457,7 +493,7 @@ function BgGallery({
                   ...vignettBase,
                   background: value,
                   border: active
-                    ? '2px solid #4fc3f7'
+                    ? '2px solid rgba(255,255,255,0.70)'
                     : '1px solid rgba(255,255,255,0.10)',
                   transform: active ? 'scale(0.96)' : 'scale(1)',
                 }}
@@ -489,7 +525,7 @@ function BgGallery({
                   ...vignettBase,
                   backgroundImage: value,
                   border: active
-                    ? '2px solid #4fc3f7'
+                    ? '2px solid rgba(255,255,255,0.70)'
                     : '1px solid rgba(255,255,255,0.10)',
                   transform: active ? 'scale(0.96)' : 'scale(1)',
                 }}
@@ -521,7 +557,7 @@ function BgGallery({
                   ...vignettBase,
                   backgroundImage: value,
                   border: active
-                    ? '2px solid #4fc3f7'
+                    ? '2px solid rgba(255,255,255,0.70)'
                     : '1px solid rgba(255,255,255,0.10)',
                   transform: active ? 'scale(0.96)' : 'scale(1)',
                 }}
@@ -598,7 +634,7 @@ function ColorPalette({
               borderRadius: '50%',
               background: color,
               border: isActive
-                ? '2px solid #4FC3F7'
+                ? '2px solid rgba(255,255,255,0.80)'
                 : '2px solid rgba(255,255,255,0.20)',
               cursor: 'pointer',
               transition: 'border-color 150ms ease, transform 150ms ease',
@@ -778,21 +814,39 @@ export default function SettingsPanel({
           bottom: 0,
           left: 0,
           right: 0,
-          background: 'rgba(255,255,255,0.08)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255,255,255,0.15)',
-          borderRadius: '24px 24px 0 0',
+          background: 'rgba(255,255,255,0.045)',
+          backdropFilter: 'var(--glass2-blur)',
+          WebkitBackdropFilter: 'var(--glass2-blur)',
+          border: '1px solid var(--glass2-border-card)',
+          borderRadius: '28px 28px 0 0',
           padding: '20px 24px',
           zIndex: 40,
           overflowY: 'auto',
           transform: isOpen ? 'translateY(0)' : 'translateY(100%)',
           transition: isOpen
-            ? 'transform 350ms ease-out'
+            ? 'transform 380ms var(--glass2-ease-bounce)'
             : 'transform 250ms ease-in',
           pointerEvents: isOpen ? 'auto' : 'none',
+          boxShadow: 'var(--glass2-shadow-card)',
         }}
       >
+        {/* Gloss haut du panneau (reflet bombé iOS 26) */}
+        <span
+          aria-hidden="true"
+          style={{
+            display: 'block',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: '64px',
+            borderRadius: '28px 28px 0 0',
+            background: 'linear-gradient(to bottom, rgba(255,255,255,0.10), transparent)',
+            opacity: 0.55,
+            pointerEvents: 'none',
+            zIndex: 0,
+          }}
+        />
         {/* En-tête */}
         <div
           style={{
@@ -806,9 +860,9 @@ export default function SettingsPanel({
             style={{
               fontSize: '11px',
               fontWeight: 500,
-              letterSpacing: '0.08em',
+              letterSpacing: '0.14em',
               textTransform: 'uppercase',
-              color: 'rgba(255,255,255,0.35)',
+              color: 'var(--glass2-label)',
             }}
           >
             {t.title}
@@ -924,7 +978,7 @@ export default function SettingsPanel({
                   style={{
                     fontSize: '13px',
                     fontWeight: 400,
-                    color: 'rgba(255,255,255,0.70)',
+                    color: 'var(--glass2-text-secondary)',
                   }}
                 >
                   {t.fontSize}
@@ -932,7 +986,7 @@ export default function SettingsPanel({
                 <span
                   style={{
                     fontSize: '12px',
-                    color: 'var(--color-accent)',
+                    color: 'var(--glass2-text-secondary)',
                     fontVariantNumeric: 'tabular-nums',
                   }}
                 >
@@ -1022,7 +1076,7 @@ export default function SettingsPanel({
                 style={{
                   fontSize: '13px',
                   fontWeight: 400,
-                  color: 'rgba(255,255,255,0.70)',
+                  color: 'var(--glass2-text-secondary)',
                   display: 'block',
                   marginBottom: '2px',
                 }}
@@ -1092,12 +1146,12 @@ export default function SettingsPanel({
                       transition: 'background 150ms ease, color 150ms ease',
                       background:
                         settings.language === lang
-                          ? 'rgba(255,255,255,0.15)'
+                          ? 'rgba(255,255,255,0.22)'
                           : 'transparent',
                       color:
                         settings.language === lang
-                          ? '#ffffff'
-                          : 'rgba(255,255,255,0.45)',
+                          ? 'var(--glass2-text-primary)'
+                          : 'var(--glass2-text-inactive)',
                     }}
                   >
                     {lang.toUpperCase()}
