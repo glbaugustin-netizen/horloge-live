@@ -367,6 +367,7 @@ export default function AnalogClockPageClient() {
             fontSize: true,
             flipStyle: true,
             fontChoice: true,
+            textColor: true,
           }}
         />
       </div>

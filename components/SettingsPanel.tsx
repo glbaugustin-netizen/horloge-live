@@ -723,6 +723,7 @@ interface SettingsPanelProps {
     flipStyle?: boolean;
     fontChoice?: boolean;
     showDate?: boolean;
+    textColor?: boolean;
   };
 }
 
@@ -1103,7 +1104,7 @@ export default function SettingsPanel({
             {divider}
 
             {/* Couleur du texte */}
-            <div>
+            <div style={disabledOptions?.textColor ? disabledStyle : undefined}>
               <span
                 style={{
                   fontSize: '13px',
