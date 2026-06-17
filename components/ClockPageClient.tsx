@@ -203,23 +203,23 @@ export default function ClockPageClient() {
           → géré par la classe CSS .clock-centered dans globals.css
       ── */}
       <div className="clock-centered" style={{ zIndex: 10 }}>
-        {flipMode ? (
-          <FlipClock
-            theme={flipTheme}
-            showSeconds={settings.showSeconds}
-            format={settings.format}
-            language={settings.language}
-          />
-        ) : (
-          <div style={settings.mirror ? { transform: 'scaleX(-1)' } : undefined}>
+        <div style={settings.mirror ? { transform: 'scaleX(-1)' } : undefined}>
+          {flipMode ? (
+            <FlipClock
+              theme={flipTheme}
+              showSeconds={settings.showSeconds}
+              format={settings.format}
+              language={settings.language}
+            />
+          ) : (
             <Clock
               format={settings.format}
               showDate={settings.showDate}
               showSeconds={settings.showSeconds}
               language={settings.language}
             />
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       {/* ── 3 icônes bas centre — desktop/tablet uniquement ── */}
