@@ -64,7 +64,7 @@ export default function BottomBar({
       <button
         onClick={onSettingsClick}
         style={iconBtnBase}
-        title={language === 'fr' ? 'Paramètres' : 'Settings'}
+        aria-label={language === 'fr' ? 'Ouvrir les paramètres' : 'Open settings'}
         onMouseEnter={hoverOn}
         onMouseLeave={hoverOff}
         onMouseDown={press}
@@ -77,7 +77,9 @@ export default function BottomBar({
       <button
         onClick={onFullscreenToggle}
         style={iconBtnBase}
-        title={language === 'fr' ? 'Plein écran' : 'Fullscreen'}
+        aria-label={isFullscreen
+          ? (language === 'fr' ? 'Quitter le plein écran' : 'Exit fullscreen')
+          : (language === 'fr' ? 'Activer le plein écran' : 'Enable fullscreen')}
         onMouseEnter={hoverOn}
         onMouseLeave={hoverOff}
         onMouseDown={press}
@@ -92,7 +94,9 @@ export default function BottomBar({
       <button
         onClick={onAccountClick}
         style={iconBtnBase}
-        title={language === 'fr' ? 'Mon compte' : 'My account'}
+        aria-label={isAuthenticated
+          ? (language === 'fr' ? 'Voir mon compte' : 'My account')
+          : (language === 'fr' ? 'Se connecter ou créer un compte' : 'Sign in or create account')}
         onMouseEnter={hoverOn}
         onMouseLeave={hoverOff}
         onMouseDown={press}

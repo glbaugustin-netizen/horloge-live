@@ -143,9 +143,11 @@ type PanelLabels = typeof LABELS[keyof typeof LABELS];
 function Toggle({
   value,
   onChange,
+  ariaLabel,
 }: {
   value: boolean;
   onChange: (v: boolean) => void;
+  ariaLabel?: string;
 }) {
   const [squishKey, setSquishKey] = useState(0);
 
@@ -158,6 +160,7 @@ function Toggle({
     <div
       role="switch"
       aria-checked={value}
+      aria-label={ariaLabel}
       tabIndex={0}
       onClick={toggle}
       onKeyDown={(e) => e.key === 'Enter' && toggle()}
@@ -387,10 +390,12 @@ function GlassButton({
   onClick,
   children,
   fullWidth = false,
+  ariaExpanded,
 }: {
   onClick?: () => void;
   children: React.ReactNode;
   fullWidth?: boolean;
+  ariaExpanded?: boolean;
 }) {
   const [ripples, setRipples] = useState<{ id: number; x: number; y: number }[]>([]);
   const btnRef = useRef<HTMLButtonElement>(null);
@@ -409,6 +414,7 @@ function GlassButton({
     <button
       ref={btnRef}
       onClick={handleClick}
+      aria-expanded={ariaExpanded}
       style={{
         position: 'relative',
         overflow: 'hidden',
@@ -480,9 +486,11 @@ function ExpandButton({
   onClick: () => void;
 }) {
   return (
-    <GlassButton onClick={onClick} fullWidth>
+    <GlassButton onClick={onClick} fullWidth ariaExpanded={expanded}>
       {label}
-      {expanded ? <ChevronUp size={16} strokeWidth={1.5} /> : <ChevronDown size={16} strokeWidth={1.5} />}
+      {expanded
+        ? <ChevronUp  size={16} strokeWidth={1.5} aria-hidden="true" />
+        : <ChevronDown size={16} strokeWidth={1.5} aria-hidden="true" />}
     </GlassButton>
   );
 }
@@ -523,7 +531,8 @@ function FontGrid({
                 <button
                   key={font}
                   onClick={() => onSelect(font)}
-                  title={font}
+                  aria-label={`Choisir la police ${font}`}
+                  aria-pressed={isSelected}
                   style={{
                     borderRadius: '16px',
                     padding: '12px 8px',
@@ -679,7 +688,8 @@ function BgGallery({
             return (
               <button
                 key={value}
-                title={label}
+                aria-label={`Choisir la couleur ${label}`}
+                aria-pressed={active}
                 onClick={() => onSelect(value)}
                 style={{
                   ...vignettBase,
@@ -705,7 +715,8 @@ function BgGallery({
             return (
               <button
                 key={file}
-                title={label}
+                aria-label={`Choisir le fond ${label}`}
+                aria-pressed={active}
                 onClick={() => onSelect(value)}
                 style={{
                   ...vignettBase,
@@ -731,7 +742,8 @@ function BgGallery({
             return (
               <button
                 key={file}
-                title={label}
+                aria-label={`Choisir le fond ${label}`}
+                aria-pressed={active}
                 onClick={() => onSelect(value)}
                 style={{
                   ...vignettBase,
@@ -1181,6 +1193,8 @@ export default function SettingsPanel({
                 max={200}
                 value={settings.fontSize}
                 onChange={(e) => updateFontSize(Number(e.target.value))}
+                aria-label={t.fontSize}
+                aria-valuetext={`${settings.fontSize}px`}
                 className="settings-slider"
               />
               <div
@@ -1279,6 +1293,7 @@ export default function SettingsPanel({
                 <Toggle
                   value={settings.format === '12h'}
                   onChange={(v) => updateFormat(v ? '12h' : '24h')}
+                  ariaLabel={t.format}
                 />
               </ParamRow>
             </div>
@@ -1286,21 +1301,21 @@ export default function SettingsPanel({
             {/* Mode miroir */}
             <div style={disabledOptions?.mirror ? disabledStyle : undefined}>
               <ParamRow label={t.mirror}>
-                <Toggle value={settings.mirror} onChange={updateMirror} />
+                <Toggle value={settings.mirror} onChange={updateMirror} ariaLabel={t.mirror} />
               </ParamRow>
             </div>
 
             {/* Afficher la date */}
             <div style={disabledOptions?.showDate ? disabledStyle : undefined}>
               <ParamRow label={t.showDate}>
-                <Toggle value={settings.showDate} onChange={updateShowDate} />
+                <Toggle value={settings.showDate} onChange={updateShowDate} ariaLabel={t.showDate} />
               </ParamRow>
             </div>
 
             {/* Afficher les secondes */}
             <div style={disabledOptions?.seconds ? disabledStyle : undefined}>
               <ParamRow label={t.showSeconds}>
-                <Toggle value={settings.showSeconds} onChange={updateShowSeconds} />
+                <Toggle value={settings.showSeconds} onChange={updateShowSeconds} ariaLabel={t.showSeconds} />
               </ParamRow>
             </div>
 

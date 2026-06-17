@@ -28,9 +28,13 @@ const LABELS = {
     chrono:     'Chronomètre',
     minuteur:   'Minuteur',
     loading:    'Chargement…',
-    settings:   'Paramètres',
-    fullscreen: 'Plein écran',
-    account:    'Mon compte',
+    settings:        'Paramètres',
+    fullscreen:      'Plein écran',
+    account:         'Mon compte',
+    ariaSettings:    'Ouvrir les paramètres',
+    ariaFullscreen:  'Activer le plein écran',
+    ariaExitFs:      'Quitter le plein écran',
+    ariaAccount:     'Voir mon compte',
   },
   en: {
     signOut:    'Sign out',
@@ -45,6 +49,10 @@ const LABELS = {
     settings:   'Settings',
     fullscreen: 'Fullscreen',
     account:    'My account',
+    ariaSettings:    'Open settings',
+    ariaFullscreen:  'Enable fullscreen',
+    ariaExitFs:      'Exit fullscreen',
+    ariaAccount:     'My account',
   },
 } as const;
 
@@ -162,14 +170,15 @@ function HistoryTable({
    Bouton icône bas desktop — glass v2
 ═══════════════════════════════════════════════════════════════ */
 function IconButton({
-  children, onClick, active = false, title,
+  children, onClick, active = false, title, ariaLabel,
 }: {
-  children: React.ReactNode; onClick?: () => void; active?: boolean; title?: string;
+  children: React.ReactNode; onClick?: () => void; active?: boolean; title?: string; ariaLabel?: string;
 }) {
   return (
     <button
       onClick={onClick}
       title={title}
+      aria-label={ariaLabel ?? title}
       style={{
         width:                '44px',
         height:               '44px',
@@ -337,7 +346,7 @@ export default function ComptePageClient() {
           }}
           onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.92)'; }}
           onMouseUp={(e)   => { e.currentTarget.style.transform = 'scale(1)'; }}
-          title="Menu"
+          aria-label="Ouvrir le menu de navigation"
         >
           <Menu size={20} strokeWidth={1.5} />
         </button>
@@ -455,6 +464,7 @@ export default function ComptePageClient() {
           <IconButton
             onClick={() => setSettingsOpen(true)}
             title={t.settings}
+            ariaLabel={t.ariaSettings}
           >
             <Settings2 size={20} strokeWidth={1.5} />
           </IconButton>
@@ -462,12 +472,13 @@ export default function ComptePageClient() {
             onClick={toggleFullscreen}
             active={isFullscreen}
             title={t.fullscreen}
+            ariaLabel={isFullscreen ? t.ariaExitFs : t.ariaFullscreen}
           >
             {isFullscreen
               ? <Minimize2 size={20} strokeWidth={1.5} />
               : <Maximize2 size={20} strokeWidth={1.5} />}
           </IconButton>
-          <IconButton active title={t.account}>
+          <IconButton active title={t.account} ariaLabel={t.ariaAccount}>
             <UserCheck size={20} strokeWidth={1.5} />
           </IconButton>
         </div>

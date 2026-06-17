@@ -394,6 +394,7 @@ function EyeToggle({ show, onToggle }: { show: boolean; onToggle: () => void }) 
     <button
       type="button"
       onClick={onToggle}
+      aria-label={show ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
       style={{
         background: 'none', border: 'none', cursor: 'pointer', padding: '2px',
         color: 'rgba(255,255,255,0.35)', lineHeight: 0,

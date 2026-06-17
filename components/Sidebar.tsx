@@ -225,79 +225,88 @@ export default function Sidebar({ isOpen: externalOpen, onClose, language = 'fr'
         </div>
 
         {/* Items navigation */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', position: 'relative', zIndex: 1 }}>
-          {items.map(({ href, Icon, label }) => {
-            const isActive = href === '/' ? pathname === '/' : pathname.startsWith(href);
+        <nav aria-label="Navigation principale" style={{ position: 'relative', zIndex: 1 }}>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '5px' }}>
+            {items.map(({ href, Icon, label }) => {
+              const isActive = href === '/' ? pathname === '/' : pathname.startsWith(href);
 
-            return (
-              <Link
-                key={href}
-                href={href}
-                onClick={handleClose}
-                style={isActive ? navItemActive : navItemInactive}
-                onMouseEnter={(e) => {
-                  if (isActive) return;
-                  const el = e.currentTarget as HTMLAnchorElement;
-                  el.style.background  = 'linear-gradient(160deg, rgba(255,255,255,0.16), rgba(255,255,255,0.06))';
-                  el.style.borderColor = 'rgba(255,255,255,0.26)';
-                  el.style.color       = 'rgba(255,255,255,0.85)';
-                  el.style.transform   = 'translateX(3px)';
-                }}
-                onMouseLeave={(e) => {
-                  if (isActive) return;
-                  const el = e.currentTarget as HTMLAnchorElement;
-                  el.style.background  = 'linear-gradient(160deg, rgba(255,255,255,0.09), rgba(255,255,255,0.03))';
-                  el.style.borderColor = 'rgba(255,255,255,0.14)';
-                  el.style.color       = 'rgba(255,255,255,0.55)';
-                  el.style.transform   = 'translateX(0)';
-                }}
-                onMouseDown={(e) => { if (!isActive) e.currentTarget.style.transform = 'translateX(1px) scale(0.98)'; }}
-                onMouseUp={(e)   => { if (!isActive) e.currentTarget.style.transform = 'translateX(3px)'; }}
-              >
-                <Icon
-                  size={16}
-                  strokeWidth={1.5}
-                  color={isActive ? 'rgba(255,255,255,0.90)' : 'rgba(255,255,255,0.45)'}
-                />
-                {label}
-              </Link>
-            );
-          })}
-        </div>
+              return (
+                <li key={href}>
+                  <Link
+                    href={href}
+                    onClick={handleClose}
+                    style={isActive ? navItemActive : navItemInactive}
+                    aria-current={isActive ? 'page' : undefined}
+                    onMouseEnter={(e) => {
+                      if (isActive) return;
+                      const el = e.currentTarget as HTMLAnchorElement;
+                      el.style.background  = 'linear-gradient(160deg, rgba(255,255,255,0.16), rgba(255,255,255,0.06))';
+                      el.style.borderColor = 'rgba(255,255,255,0.26)';
+                      el.style.color       = 'rgba(255,255,255,0.85)';
+                      el.style.transform   = 'translateX(3px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      if (isActive) return;
+                      const el = e.currentTarget as HTMLAnchorElement;
+                      el.style.background  = 'linear-gradient(160deg, rgba(255,255,255,0.09), rgba(255,255,255,0.03))';
+                      el.style.borderColor = 'rgba(255,255,255,0.14)';
+                      el.style.color       = 'rgba(255,255,255,0.55)';
+                      el.style.transform   = 'translateX(0)';
+                    }}
+                    onMouseDown={(e) => { if (!isActive) e.currentTarget.style.transform = 'translateX(1px) scale(0.98)'; }}
+                    onMouseUp={(e)   => { if (!isActive) e.currentTarget.style.transform = 'translateX(3px)'; }}
+                  >
+                    <Icon
+                      size={16}
+                      strokeWidth={1.5}
+                      color={isActive ? 'rgba(255,255,255,0.90)' : 'rgba(255,255,255,0.45)'}
+                    />
+                    {label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
 
         {/* Lien Mon compte — poussé en bas */}
         {(() => {
           const accountLabel    = language === 'fr' ? 'Mon compte' : 'My account';
           const isAccountActive = pathname === '/compte' || pathname === '/connexion';
           return (
-            <div style={{ marginTop: 'auto', paddingTop: '12px', borderTop: '1px solid rgba(255,255,255,0.10)', position: 'relative', zIndex: 1 }}>
-              <Link
-                href={accountHref}
-                onClick={handleClose}
-                style={isAccountActive ? navItemActive : navItemInactive}
-                onMouseEnter={(e) => {
-                  if (isAccountActive) return;
-                  const el = e.currentTarget as HTMLAnchorElement;
-                  el.style.background  = 'linear-gradient(160deg, rgba(255,255,255,0.16), rgba(255,255,255,0.06))';
-                  el.style.borderColor = 'rgba(255,255,255,0.26)';
-                  el.style.color       = 'rgba(255,255,255,0.85)';
-                  el.style.transform   = 'translateX(3px)';
-                }}
-                onMouseLeave={(e) => {
-                  if (isAccountActive) return;
-                  const el = e.currentTarget as HTMLAnchorElement;
-                  el.style.background  = 'linear-gradient(160deg, rgba(255,255,255,0.09), rgba(255,255,255,0.03))';
-                  el.style.borderColor = 'rgba(255,255,255,0.14)';
-                  el.style.color       = 'rgba(255,255,255,0.55)';
-                  el.style.transform   = 'translateX(0)';
-                }}
-                onMouseDown={(e) => { if (!isAccountActive) e.currentTarget.style.transform = 'translateX(1px) scale(0.98)'; }}
-                onMouseUp={(e)   => { if (!isAccountActive) e.currentTarget.style.transform = 'translateX(3px)'; }}
-              >
-                <User size={16} strokeWidth={1.5} color={isAccountActive ? 'rgba(255,255,255,0.90)' : 'rgba(255,255,255,0.45)'} />
-                {accountLabel}
-              </Link>
-            </div>
+            <nav aria-label="Compte" style={{ marginTop: 'auto', paddingTop: '12px', borderTop: '1px solid rgba(255,255,255,0.10)', position: 'relative', zIndex: 1 }}>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                <li>
+                  <Link
+                    href={accountHref}
+                    onClick={handleClose}
+                    style={isAccountActive ? navItemActive : navItemInactive}
+                    aria-current={isAccountActive ? 'page' : undefined}
+                    onMouseEnter={(e) => {
+                      if (isAccountActive) return;
+                      const el = e.currentTarget as HTMLAnchorElement;
+                      el.style.background  = 'linear-gradient(160deg, rgba(255,255,255,0.16), rgba(255,255,255,0.06))';
+                      el.style.borderColor = 'rgba(255,255,255,0.26)';
+                      el.style.color       = 'rgba(255,255,255,0.85)';
+                      el.style.transform   = 'translateX(3px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      if (isAccountActive) return;
+                      const el = e.currentTarget as HTMLAnchorElement;
+                      el.style.background  = 'linear-gradient(160deg, rgba(255,255,255,0.09), rgba(255,255,255,0.03))';
+                      el.style.borderColor = 'rgba(255,255,255,0.14)';
+                      el.style.color       = 'rgba(255,255,255,0.55)';
+                      el.style.transform   = 'translateX(0)';
+                    }}
+                    onMouseDown={(e) => { if (!isAccountActive) e.currentTarget.style.transform = 'translateX(1px) scale(0.98)'; }}
+                    onMouseUp={(e)   => { if (!isAccountActive) e.currentTarget.style.transform = 'translateX(3px)'; }}
+                  >
+                    <User size={16} strokeWidth={1.5} color={isAccountActive ? 'rgba(255,255,255,0.90)' : 'rgba(255,255,255,0.45)'} />
+                    {accountLabel}
+                  </Link>
+                </li>
+              </ul>
+            </nav>
           );
         })()}
       </aside>

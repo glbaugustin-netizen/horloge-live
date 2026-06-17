@@ -620,7 +620,7 @@ export default function MondePageClient() {
         }}
         onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.92)'; }}
         onMouseUp={(e)   => { e.currentTarget.style.transform = 'scale(1)'; }}
-        title="Menu"
+        aria-label="Ouvrir le menu de navigation"
       >
         <Menu size={20} strokeWidth={1.5} />
       </button>
