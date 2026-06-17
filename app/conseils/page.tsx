@@ -45,8 +45,8 @@ const h1Style: CSSProperties = {
 };
 
 const cardStyle: CSSProperties = {
-  borderRadius: '16px',
-  padding: '20px',
+  borderRadius: '20px',
+  padding: '22px 20px',
   display: 'flex',
   flexDirection: 'column',
   gap: '8px',
@@ -54,25 +54,27 @@ const cardStyle: CSSProperties = {
 };
 
 const cardTitleStyle: CSSProperties = {
-  fontSize: '18px',
+  fontSize: '17px',
   fontWeight: 500,
-  color: 'rgba(255, 255, 255, 0.90)',
+  color: 'rgba(255, 255, 255, 0.92)',
   margin: 0,
+  lineHeight: 1.3,
 };
 
 const cardExcerptStyle: CSSProperties = {
-  fontSize: '14px',
+  fontSize: '13px',
   fontWeight: 400,
-  color: 'rgba(255, 255, 255, 0.65)',
-  lineHeight: 1.5,
+  color: 'rgba(255, 255, 255, 0.60)',
+  lineHeight: 1.55,
   margin: 0,
 };
 
 const cardLinkStyle: CSSProperties = {
   fontSize: '13px',
   fontWeight: 500,
-  color: 'rgba(79, 195, 247, 0.90)',
-  marginTop: '4px',
+  color: 'rgba(255, 255, 255, 0.55)',
+  marginTop: '6px',
+  letterSpacing: '0.01em',
 };
 
 const backLinkStyle: CSSProperties = {
@@ -117,7 +119,7 @@ export default function ConseilsPage() {
             <Link
               key={article.slug}
               href={`/conseils/${article.slug}`}
-              className="glass"
+              className="conseils-card"
               style={cardStyle}
             >
               <h2 style={cardTitleStyle}>{article.title}</h2>
