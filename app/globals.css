@@ -201,6 +201,15 @@ body::before {
   }
 }
 
+/* ─── Bulle langue liquide — squish élastique au clic ──────── */
+@keyframes lang-bubble-squish {
+  0%   { transform: scaleX(1)    scaleY(1);    }
+  28%  { transform: scaleX(1.22) scaleY(0.80); }
+  55%  { transform: scaleX(0.92) scaleY(1.08); }
+  78%  { transform: scaleX(1.04) scaleY(0.97); }
+  100% { transform: scaleX(1)    scaleY(1);    }
+}
+
 /* ─── Slider paramètres (taille police) — Liquid Glass v2 ──── */
 .settings-slider {
   -webkit-appearance: none;

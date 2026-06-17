@@ -218,6 +218,106 @@ function Toggle({
   );
 }
 
+/* ─── Sélecteur de langue — bulle liquide glass v2 ──────────── */
+function LanguageToggle({
+  language,
+  onChange,
+}: {
+  language: 'fr' | 'en';
+  onChange: (l: 'fr' | 'en') => void;
+}) {
+  const [squishKey, setSquishKey] = useState(0);
+  const isFr = language === 'fr';
+
+  const handleClick = (lang: 'fr' | 'en') => {
+    if (lang !== language) setSquishKey((k) => k + 1);
+    onChange(lang);
+  };
+
+  const labelBtn = (lang: 'fr' | 'en'): React.CSSProperties => ({
+    position: 'relative',
+    zIndex: 1,
+    flex: 1,
+    padding: '6px 14px',
+    borderRadius: '50px',
+    fontSize: '13px',
+    fontWeight: language === lang ? 600 : 400,
+    border: 'none',
+    background: 'transparent',
+    cursor: 'pointer',
+    transition: 'color 200ms ease, font-weight 200ms ease',
+    color: language === lang ? 'rgba(255,255,255,0.97)' : 'var(--glass2-text-inactive)',
+  });
+
+  return (
+    <div
+      style={{
+        position: 'relative',
+        display: 'flex',
+        padding: '4px',
+        borderRadius: '50px',
+        background: 'var(--glass2-bg-recessed)',
+        border: '1px solid rgba(255,255,255,0.10)',
+        boxShadow: 'var(--glass2-shadow-recessed)',
+        minWidth: '128px',
+      }}
+    >
+      {/* Bulle liquide coulissante */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          top: '4px',
+          left: '4px',
+          width: 'calc(50% - 4px)',
+          height: 'calc(100% - 8px)',
+          transform: isFr ? 'translateX(0)' : 'translateX(100%)',
+          transition: 'transform 0.48s var(--glass2-ease-bounce)',
+          pointerEvents: 'none',
+          zIndex: 0,
+        }}
+      >
+        <div
+          key={squishKey}
+          style={{
+            width: '100%',
+            height: '100%',
+            borderRadius: '50px',
+            overflow: 'hidden',
+            background: 'linear-gradient(160deg, rgba(255,255,255,0.30), rgba(255,255,255,0.12))',
+            border: '1px solid rgba(255,255,255,0.42)',
+            boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.60), 0 4px 14px rgba(0,0,0,0.28)',
+            animation: squishKey > 0 ? 'lang-bubble-squish 0.5s var(--glass2-ease-bounce)' : undefined,
+          }}
+        >
+          {/* Gloss bombé */}
+          <span
+            aria-hidden="true"
+            style={{
+              display: 'block',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              height: '50%',
+              borderRadius: '50px 50px 0 0',
+              background: 'linear-gradient(to bottom, rgba(255,255,255,0.55), transparent)',
+              opacity: 0.6,
+              pointerEvents: 'none',
+            }}
+          />
+        </div>
+      </div>
+
+      {(['fr', 'en'] as const).map((lang) => (
+        <button key={lang} onClick={() => handleClick(lang)} style={labelBtn(lang)}>
+          {lang.toUpperCase()}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 function ParamRow({
   label,
   children,
@@ -1157,42 +1257,7 @@ export default function SettingsPanel({
 
             {/* Langue */}
             <ParamRow label={t.language}>
-              <div
-                style={{
-                  display: 'flex',
-                  gap: '4px',
-                  background: 'rgba(255,255,255,0.06)',
-                  borderRadius: '50px',
-                  padding: '4px',
-                }}
-              >
-                {(['fr', 'en'] as const).map((lang) => (
-                  <button
-                    key={lang}
-                    onClick={() => updateLanguage(lang)}
-                    style={{
-                      flex: 1,
-                      padding: '6px 12px',
-                      borderRadius: '50px',
-                      fontSize: '13px',
-                      fontWeight: 400,
-                      border: 'none',
-                      cursor: 'pointer',
-                      transition: 'background 150ms ease, color 150ms ease',
-                      background:
-                        settings.language === lang
-                          ? 'rgba(255,255,255,0.22)'
-                          : 'transparent',
-                      color:
-                        settings.language === lang
-                          ? 'var(--glass2-text-primary)'
-                          : 'var(--glass2-text-inactive)',
-                    }}
-                  >
-                    {lang.toUpperCase()}
-                  </button>
-                ))}
-              </div>
+              <LanguageToggle language={settings.language} onChange={updateLanguage} />
             </ParamRow>
 
             {/* Séparateur Mode Focus */}
