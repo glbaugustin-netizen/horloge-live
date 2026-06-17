@@ -578,6 +578,41 @@ function FontGrid({
   );
 }
 
+/* ─── Bande magnétique « dock macOS » — largeur totale constante ─ */
+function DockStrip({ items, gap = '8px' }: { items: React.ReactNode[]; gap?: string }) {
+  const [hovered, setHovered] = useState<number | null>(null);
+
+  const growFor = (i: number) => {
+    if (hovered === null) return 1;
+    const d = Math.abs(i - hovered);
+    if (d === 0) return 2.7;
+    if (d === 1) return 1.5;
+    if (d === 2) return 1.12;
+    return 1;
+  };
+
+  return (
+    <div style={{ display: 'flex', gap, width: '100%', alignItems: 'center' }}>
+      {items.map((item, i) => (
+        <div
+          key={i}
+          onMouseEnter={() => setHovered(i)}
+          onMouseLeave={() => setHovered((h) => (h === i ? null : h))}
+          style={{
+            flexGrow: growFor(i),
+            flexBasis: 0,
+            minWidth: 0,
+            display: 'flex',
+            transition: 'flex-grow 280ms cubic-bezier(.34,1.56,.5,1)',
+          }}
+        >
+          {item}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 /* ─── Galerie d'arrière-plans ───────────────────────────────── */
 function BgGallery({
   currentBg,
@@ -594,13 +629,14 @@ function BgGallery({
   const isActive = (value: string) => currentBg === value;
 
   const vignettBase: React.CSSProperties = {
-    height: '60px',
+    width: '100%',
+    height: '56px',
     borderRadius: '12px',
     cursor: 'pointer',
     overflow: 'hidden',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    transition: 'border-color 150ms ease, transform 150ms ease',
+    transition: 'border-color 150ms ease, box-shadow 200ms ease',
   };
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -622,14 +658,8 @@ function BgGallery({
       {/* Couleurs unies */}
       <div>
         <SectionTitle>{labels.solidColors}</SectionTitle>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(60px, 1fr))',
-            gap: '8px',
-          }}
-        >
-          {SOLID_COLORS.map(({ label, value }) => {
+        <DockStrip
+          items={SOLID_COLORS.map(({ label, value }) => {
             const active = isActive(value);
             return (
               <button
@@ -640,27 +670,21 @@ function BgGallery({
                   ...vignettBase,
                   background: value,
                   border: active
-                    ? '2px solid rgba(255,255,255,0.70)'
+                    ? '2px solid rgba(255,255,255,0.80)'
                     : '1px solid rgba(255,255,255,0.10)',
-                  transform: active ? 'scale(0.96)' : 'scale(1)',
+                  boxShadow: active ? 'inset 0 0 0 1px rgba(255,255,255,0.30)' : 'none',
                 }}
               />
             );
           })}
-        </div>
+        />
       </div>
 
       {/* Paysages */}
       <div>
         <SectionTitle>{labels.landscapes}</SectionTitle>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(80px, 1fr))',
-            gap: '8px',
-          }}
-        >
-          {LANDSCAPE_IMAGES.map(({ label, file }) => {
+        <DockStrip
+          items={LANDSCAPE_IMAGES.map(({ label, file }) => {
             const value = bgValue(file);
             const active = isActive(value);
             return (
@@ -672,27 +696,21 @@ function BgGallery({
                   ...vignettBase,
                   backgroundImage: value,
                   border: active
-                    ? '2px solid rgba(255,255,255,0.70)'
+                    ? '2px solid rgba(255,255,255,0.80)'
                     : '1px solid rgba(255,255,255,0.10)',
-                  transform: active ? 'scale(0.96)' : 'scale(1)',
+                  boxShadow: active ? 'inset 0 0 0 1px rgba(255,255,255,0.30)' : 'none',
                 }}
               />
             );
           })}
-        </div>
+        />
       </div>
 
       {/* Aesthetic */}
       <div>
         <SectionTitle>{labels.aesthetic}</SectionTitle>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(80px, 1fr))',
-            gap: '8px',
-          }}
-        >
-          {AESTHETIC_IMAGES.map(({ label, file }) => {
+        <DockStrip
+          items={AESTHETIC_IMAGES.map(({ label, file }) => {
             const value = bgValue(file);
             const active = isActive(value);
             return (
@@ -704,14 +722,14 @@ function BgGallery({
                   ...vignettBase,
                   backgroundImage: value,
                   border: active
-                    ? '2px solid rgba(255,255,255,0.70)'
+                    ? '2px solid rgba(255,255,255,0.80)'
                     : '1px solid rgba(255,255,255,0.10)',
-                  transform: active ? 'scale(0.96)' : 'scale(1)',
+                  boxShadow: active ? 'inset 0 0 0 1px rgba(255,255,255,0.30)' : 'none',
                 }}
               />
             );
           })}
-        </div>
+        />
       </div>
 
       {/* Upload image personnalisée */}
