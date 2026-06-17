@@ -93,7 +93,7 @@ function applyToCssVariables(settings: Settings) {
 
   root.style.setProperty('--clock-font-family', `'${settings.font}', sans-serif`);
   root.style.setProperty('--clock-font-size',   `${settings.fontSize}px`);
-  root.style.setProperty('--color-text-primary', settings.textColor);
+  root.style.setProperty('--clock-text-color', settings.textColor);
 
   const isUrl = settings.background.startsWith('url(');
   if (isUrl) {

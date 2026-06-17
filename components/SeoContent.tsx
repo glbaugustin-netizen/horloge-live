@@ -100,7 +100,7 @@ const sectionStyle: React.CSSProperties = {
 const h2Style: React.CSSProperties = {
   fontSize: '18px',
   fontWeight: 500,
-  color: 'var(--color-text-primary)',
+  color: 'rgba(255,255,255,0.90)',
   marginBottom: '12px',
 };
 
@@ -124,7 +124,7 @@ const conseilLinks = CONSEIL_SLUGS
 function FaqItem({ question, answer }: { question: string; answer: string }) {
   return (
     <div style={{ marginBottom: '16px' }}>
-      <p style={{ fontSize: '15px', fontWeight: 500, color: 'var(--color-text-primary)', marginBottom: '6px' }}>
+      <p style={{ fontSize: '15px', fontWeight: 500, color: 'rgba(255,255,255,0.90)', marginBottom: '6px' }}>
         {question}
       </p>
       <p style={pStyle}>{answer}</p>
@@ -149,7 +149,7 @@ export default function SeoContent({ language }: { language: Lang }) {
         style={{
           fontSize: '28px',
           fontWeight: 500,
-          color: 'var(--color-text-primary)',
+          color: 'rgba(255,255,255,0.90)',
           textAlign: 'center',
           marginBottom: '40px',
           lineHeight: 1.3,

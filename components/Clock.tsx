@@ -42,7 +42,7 @@ function TimeUnit({ value, label }: { value: string; label: string }) {
     fontVariantNumeric: 'tabular-nums',
     fontWeight: 300,
     lineHeight: 1,
-    color: 'var(--color-text-primary)',
+    color: 'var(--clock-text-color)',
   };
   return (
     <div className="flex flex-col items-center">
@@ -62,7 +62,7 @@ function Colon() {
         fontFamily: 'var(--clock-font-family)',
         fontWeight: 300,
         lineHeight: 1,
-        color: 'var(--color-text-primary)',
+        color: 'var(--clock-text-color)',
         opacity: 0.5,
         /* décalage vers le bas = hauteur du label + mt-1 ≈ 18px */
         paddingBottom: '18px',
@@ -102,7 +102,7 @@ export default function Clock({
       fontVariantNumeric: 'tabular-nums',
       fontWeight: 300,
       lineHeight: 1,
-      color: 'var(--color-text-primary)',
+      color: 'var(--clock-text-color)',
       opacity: 0.9,
     };
     return (
@@ -162,7 +162,7 @@ export default function Clock({
   const dateSecondaryStyle: React.CSSProperties = {
     fontWeight: 400,
     opacity: 0.5,
-    color: 'var(--color-text-primary)',
+    color: 'var(--clock-text-color)',
   };
 
   return (
@@ -185,7 +185,7 @@ export default function Clock({
               fontSize: '24px',
               fontWeight: 300,
               opacity: 0.6,
-              color: 'var(--color-text-primary)',
+              color: 'var(--clock-text-color)',
             }}
           >
             {ampm}
@@ -204,7 +204,7 @@ export default function Clock({
               fontVariantNumeric: 'tabular-nums',
               fontWeight: 300,
               lineHeight: 1,
-              color: 'var(--color-text-primary)',
+              color: 'var(--clock-text-color)',
             }}
           >
             {hh}
@@ -215,7 +215,7 @@ export default function Clock({
               fontFamily: 'var(--clock-font-family)',
               fontWeight: 300,
               lineHeight: 1,
-              color: 'var(--color-text-primary)',
+              color: 'var(--clock-text-color)',
               opacity: 0.5,
             }}
           >
@@ -228,7 +228,7 @@ export default function Clock({
               fontVariantNumeric: 'tabular-nums',
               fontWeight: 300,
               lineHeight: 1,
-              color: 'var(--color-text-primary)',
+              color: 'var(--clock-text-color)',
             }}
           >
             {mm}
@@ -250,7 +250,7 @@ export default function Clock({
                 fontFamily: 'var(--clock-font-family)',
                 fontWeight: 300,
                 lineHeight: 1,
-                color: 'var(--color-text-primary)',
+                color: 'var(--clock-text-color)',
                 opacity: 0.5,
               }}
             >
@@ -263,7 +263,7 @@ export default function Clock({
                 fontVariantNumeric: 'tabular-nums',
                 fontWeight: 300,
                 lineHeight: 1,
-                color: 'var(--color-text-primary)',
+                color: 'var(--clock-text-color)',
               }}
             >
               {ss}
@@ -278,7 +278,7 @@ export default function Clock({
         {ampm && (
           <div
             className="mt-1"
-            style={{ fontSize: '16px', fontWeight: 300, opacity: 0.6, color: 'var(--color-text-primary)' }}
+            style={{ fontSize: '16px', fontWeight: 300, opacity: 0.6, color: 'var(--clock-text-color)' }}
           >
             {ampm}
           </div>

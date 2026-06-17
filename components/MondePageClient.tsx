@@ -189,7 +189,7 @@ function ClockCard({
       <div style={{
         fontSize:           '40px',
         fontWeight:         300,
-        color:              '#FFFFFF',
+        color:              'var(--clock-text-color)',
         fontVariantNumeric: 'tabular-nums',
         letterSpacing:      '0.05em',
         fontFamily:         'var(--clock-font-family)',

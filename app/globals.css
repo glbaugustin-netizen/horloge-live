@@ -5,6 +5,7 @@
 :root {
   /* Texte */
   --color-text-primary: #FFFFFF;
+  --clock-text-color: #FFFFFF;
   --color-text-secondary: rgba(255, 255, 255, 0.60);
   --color-text-hint: rgba(255, 255, 255, 0.30);
 
