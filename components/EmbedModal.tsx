@@ -5,7 +5,7 @@ import { X, Copy, Check } from 'lucide-react';
 
 /* ─── Types ──────────────────────────────────────────────── */
 type Size       = 'small' | 'medium' | 'large';
-type WidgetType = 'clock' | 'chrono';
+type WidgetType = 'clock' | 'chrono' | 'minuteur';
 type Lang       = 'fr' | 'en';
 
 interface EmbedModalProps {
@@ -16,10 +16,10 @@ interface EmbedModalProps {
 }
 
 /* ─── Données tailles ────────────────────────────────────── */
-const SIZE_DATA: Record<Size, { width: number; height: number; previewHeight: number; chronoHeight: number }> = {
-  small:  { width: 320, height: 120, previewHeight: 80,  chronoHeight: 120 },
-  medium: { width: 480, height: 160, previewHeight: 110, chronoHeight: 160 },
-  large:  { width: 640, height: 200, previewHeight: 140, chronoHeight: 200 },
+const SIZE_DATA: Record<Size, { width: number; height: number; previewHeight: number; chronoHeight: number; minuteurHeight: number }> = {
+  small:  { width: 320, height: 120, previewHeight: 80,  chronoHeight: 120, minuteurHeight: 140 },
+  medium: { width: 480, height: 160, previewHeight: 110, chronoHeight: 160, minuteurHeight: 180 },
+  large:  { width: 640, height: 200, previewHeight: 140, chronoHeight: 200, minuteurHeight: 220 },
 };
 
 /* ─── Traductions ────────────────────────────────────────── */
@@ -56,11 +56,19 @@ const LABELS = {
 
 /* ─── Helper ─────────────────────────────────────────────── */
 function buildCode(type: WidgetType, size: Size): string {
-  const { width, height } = SIZE_DATA[size];
+  const { width } = SIZE_DATA[size];
+  const { minuteurHeight } = SIZE_DATA[size];
+  const height = type === 'minuteur' ? minuteurHeight : SIZE_DATA[size].height;
   const src = type === 'clock'
     ? `https://horloge-live.com/widget?size=${size}`
-    : `https://horloge-live.com/widget/chrono?size=${size}`;
-  const titleAttr = type === 'clock' ? 'Horloge en ligne' : 'Chronomètre en ligne';
+    : type === 'chrono'
+    ? `https://horloge-live.com/widget/chrono?size=${size}`
+    : `https://horloge-live.com/widget/minuteur?size=${size}`;
+  const titleAttr = type === 'clock'
+    ? 'Horloge en ligne'
+    : type === 'chrono'
+    ? 'Chronomètre en ligne'
+    : 'Minuteur en ligne';
   return `<iframe src="${src}"
         width="${width}" height="${height}"
         frameborder="0"
@@ -84,8 +92,8 @@ export default function EmbedModal({ isOpen, onClose, language = 'fr', widgetTyp
 
   const t  = LABELS[language];
   const code = buildCode(widgetType, size);
-  const { previewHeight, chronoHeight } = SIZE_DATA[size];
-  const ph = widgetType === 'chrono' ? chronoHeight : previewHeight;
+  const { previewHeight, chronoHeight, minuteurHeight } = SIZE_DATA[size];
+  const ph = widgetType === 'chrono' ? chronoHeight : widgetType === 'minuteur' ? minuteurHeight : previewHeight;
 
   useEffect(() => {
     if (!isOpen) return;
@@ -106,7 +114,9 @@ export default function EmbedModal({ isOpen, onClose, language = 'fr', widgetTyp
 
   const iframeSrc = widgetType === 'clock'
     ? `/widget?size=${size}`
-    : `/widget/chrono?size=${size}`;
+    : widgetType === 'chrono'
+    ? `/widget/chrono?size=${size}`
+    : `/widget/minuteur?size=${size}`;
 
   return (
     <div

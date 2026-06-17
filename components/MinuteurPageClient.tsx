@@ -13,8 +13,9 @@ import { useSettings } from '@/lib/useSettings';
 import { saveSession } from '@/lib/useHistory';
 
 /* Chargés en différé — absents du bundle initial */
-const Sidebar = dynamic(() => import('@/components/Sidebar'), { ssr: false, loading: () => null });
+const Sidebar       = dynamic(() => import('@/components/Sidebar'),       { ssr: false, loading: () => null });
 const SettingsPanel = dynamic(() => import('@/components/SettingsPanel'), { ssr: false, loading: () => null });
+const EmbedModal    = dynamic(() => import('@/components/EmbedModal'),    { ssr: false, loading: () => null });
 
 /* ═══════════════════════════════════════════════════════════════
    Traductions
@@ -322,6 +323,7 @@ export default function MinuteurPageClient() {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [sidebarOpen,  setSidebarOpen]  = useState(false);
+  const [embedOpen,    setEmbedOpen]    = useState(false);
   const [accountHref,  setAccountHref]  = useState('/connexion');
 
   useEffect(() => {
@@ -604,6 +606,7 @@ export default function MinuteurPageClient() {
         updateShowDate={updateShowDate}
         updateShowSeconds={updateShowSeconds}
         updateLanguage={updateLanguage}
+        onEmbedOpen={() => { setSettingsOpen(false); setEmbedOpen(true); }}
         disabledOptions={{
           fontSize: true,
           flipStyle: true,
@@ -612,6 +615,13 @@ export default function MinuteurPageClient() {
           showDate: true,
           seconds: true,
         }}
+      />
+
+      <EmbedModal
+        isOpen={embedOpen}
+        onClose={() => setEmbedOpen(false)}
+        language={settings.language}
+        widgetType="minuteur"
       />
     </div>
   );
