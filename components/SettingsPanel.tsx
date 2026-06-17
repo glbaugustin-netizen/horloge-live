@@ -147,13 +147,20 @@ function Toggle({
   value: boolean;
   onChange: (v: boolean) => void;
 }) {
+  const [squishKey, setSquishKey] = useState(0);
+
+  const toggle = () => {
+    setSquishKey((k) => k + 1);
+    onChange(!value);
+  };
+
   return (
     <div
       role="switch"
       aria-checked={value}
       tabIndex={0}
-      onClick={() => onChange(!value)}
-      onKeyDown={(e) => e.key === 'Enter' && onChange(!value)}
+      onClick={toggle}
+      onKeyDown={(e) => e.key === 'Enter' && toggle()}
       style={{
         width: '56px',
         height: '32px',
@@ -182,37 +189,46 @@ function Toggle({
           pointerEvents: 'none',
         }}
       />
-      {/* Knob */}
+      {/* Knob — wrapper gère le déplacement, l'intérieur l'étirement liquide */}
       <div
         style={{
           width: '24px',
           height: '24px',
-          borderRadius: '50%',
           position: 'absolute',
           top: '4px',
           left: '4px',
           transform: value ? 'translateX(24px)' : 'translateX(0)',
           transition: 'transform 0.38s var(--glass2-ease-bounce)',
-          background: 'var(--glass2-knob-gradient)',
-          boxShadow: 'var(--glass2-shadow-knob)',
-          overflow: 'hidden',
         }}
       >
-        {/* Gloss moitié haute du knob */}
-        <span
-          aria-hidden="true"
+        <div
+          key={squishKey}
           style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            height: '50%',
-            borderRadius: '12px 12px 0 0',
-            background: 'linear-gradient(to bottom, rgba(255,255,255,0.90), transparent)',
-            opacity: 0.55,
-            pointerEvents: 'none',
+            width: '100%',
+            height: '100%',
+            borderRadius: '50%',
+            background: 'var(--glass2-knob-gradient)',
+            boxShadow: 'var(--glass2-shadow-knob)',
+            overflow: 'hidden',
+            animation: squishKey > 0 ? 'lang-bubble-squish 0.5s var(--glass2-ease-bounce)' : undefined,
           }}
-        />
+        >
+          {/* Gloss moitié haute du knob */}
+          <span
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              height: '50%',
+              borderRadius: '12px 12px 0 0',
+              background: 'linear-gradient(to bottom, rgba(255,255,255,0.90), transparent)',
+              opacity: 0.55,
+              pointerEvents: 'none',
+            }}
+          />
+        </div>
       </div>
     </div>
   );
