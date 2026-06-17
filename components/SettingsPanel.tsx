@@ -714,7 +714,7 @@ interface SettingsPanelProps {
   onEmbedOpen?: () => void;
   /** Props optionnelles — page /horloge-aiguille uniquement */
   analogOptions?: AnalogOptions;
-  /** Options grisées et non cliquables (ex: /horloge-aiguille) */
+  /** Options grisées et non cliquables (ex: /horloge-aiguille, /chrono, /minuteur) */
   disabledOptions?: {
     seconds?: boolean;
     mirror?: boolean;
@@ -722,6 +722,7 @@ interface SettingsPanelProps {
     fontSize?: boolean;
     flipStyle?: boolean;
     fontChoice?: boolean;
+    showDate?: boolean;
   };
 }
 
@@ -1140,9 +1141,11 @@ export default function SettingsPanel({
             </div>
 
             {/* Afficher la date */}
-            <ParamRow label={t.showDate}>
-              <Toggle value={settings.showDate} onChange={updateShowDate} />
-            </ParamRow>
+            <div style={disabledOptions?.showDate ? disabledStyle : undefined}>
+              <ParamRow label={t.showDate}>
+                <Toggle value={settings.showDate} onChange={updateShowDate} />
+              </ParamRow>
+            </div>
 
             {/* Afficher les secondes */}
             <div style={disabledOptions?.seconds ? disabledStyle : undefined}>

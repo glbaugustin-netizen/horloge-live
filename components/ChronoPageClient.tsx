@@ -537,6 +537,14 @@ export default function ChronoPageClient() {
         updateShowDate={updateShowDate}
         updateShowSeconds={updateShowSeconds}
         updateLanguage={updateLanguage}
+        disabledOptions={{
+          fontSize: true,
+          flipStyle: true,
+          format: true,
+          mirror: true,
+          showDate: true,
+          seconds: true,
+        }}
       />
     </div>
   );
