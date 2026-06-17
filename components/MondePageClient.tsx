@@ -395,7 +395,7 @@ function AddCityModal({
    Bouton icône bas desktop
 ═══════════════════════════════════════════════════════════════ */
 function IconButton({
-  children, onClick, active = false, href, title, disabled = false,
+  children, onClick, href, title, disabled = false,
 }: {
   children: React.ReactNode;
   onClick?: () => void;
@@ -405,19 +405,22 @@ function IconButton({
   disabled?: boolean;
 }) {
   const style: React.CSSProperties = {
-    width:                '44px',
-    height:               '44px',
-    borderRadius:         '50px',
+    position:             'relative',
+    overflow:             'hidden',
+    width:                '52px',
+    height:               '52px',
+    borderRadius:         '50%',
     display:              'flex',
     alignItems:           'center',
     justifyContent:       'center',
     cursor:               disabled ? 'not-allowed' : 'pointer',
-    border:               `1px solid ${active ? 'var(--glass-border-accent)' : 'var(--glass-border)'}`,
-    background:           active ? 'var(--glass-bg-accent)' : 'var(--glass-bg)',
-    backdropFilter:       'var(--glass-blur)',
-    WebkitBackdropFilter: 'var(--glass-blur)',
-    color:                disabled ? 'rgba(255,255,255,0.25)' : active ? 'var(--color-accent)' : 'rgba(255,255,255,0.80)',
-    transition:           'background 150ms ease, border-color 150ms ease',
+    background:           'rgba(255,255,255,0.13)',
+    backdropFilter:       'blur(14px) saturate(160%)',
+    WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+    border:               '1px solid rgba(255,255,255,0.34)',
+    boxShadow:            'inset 0 1px 1px rgba(255,255,255,0.6), inset 0 -8px 16px rgba(255,255,255,0.05), 0 8px 24px rgba(0,0,0,0.32)',
+    color:                'rgba(255,255,255,0.90)',
+    transition:           'transform 0.28s cubic-bezier(.2,.9,.3,1.5)',
     textDecoration:       'none',
     flexShrink:           0,
     opacity:              disabled ? 0.4 : 1,
@@ -429,18 +432,10 @@ function IconButton({
       style={style}
       title={title}
       disabled={disabled}
-      onMouseEnter={(e) => {
-        if (disabled) return;
-        const el = e.currentTarget;
-        el.style.background  = active ? 'rgba(79,195,247,0.30)' : 'var(--glass-bg-hover)';
-        el.style.borderColor = active ? 'rgba(79,195,247,0.65)' : 'var(--glass-border-active)';
-      }}
-      onMouseLeave={(e) => {
-        if (disabled) return;
-        const el = e.currentTarget;
-        el.style.background  = active ? 'var(--glass-bg-accent)' : 'var(--glass-bg)';
-        el.style.borderColor = active ? 'var(--glass-border-accent)' : 'var(--glass-border)';
-      }}
+      onMouseEnter={(e) => { if (!disabled) e.currentTarget.style.transform = 'translateY(-3px) scale(1.05)'; }}
+      onMouseLeave={(e) => { if (!disabled) e.currentTarget.style.transform = 'translateY(0) scale(1)'; }}
+      onMouseDown={(e)  => { if (!disabled) e.currentTarget.style.transform = 'scale(0.9)'; }}
+      onMouseUp={(e)    => { if (!disabled) e.currentTarget.style.transform = 'translateY(-3px) scale(1.05)'; }}
     >
       {children}
     </button>
