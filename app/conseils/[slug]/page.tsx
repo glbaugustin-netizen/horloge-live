@@ -114,14 +114,21 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
 
 /* ─── Styles — liquid glass identiques aux autres pages ─── */
 const backLinkStyle: CSSProperties = {
-  display: 'flex',
+  display: 'inline-flex',
   alignItems: 'center',
   gap: '8px',
-  fontSize: '14px',
-  color: 'rgba(255, 255, 255, 0.60)',
+  fontSize: '13px',
+  fontWeight: 400,
+  color: 'rgba(255,255,255,0.65)',
   textDecoration: 'none',
   marginBottom: '32px',
-  width: 'fit-content',
+  padding: '8px 16px 8px 12px',
+  borderRadius: '50px',
+  background: 'rgba(255,255,255,0.07)',
+  backdropFilter: 'blur(14px) saturate(160%)',
+  WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+  border: '1px solid rgba(255,255,255,0.14)',
+  boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.18)',
 };
 
 const h1Style: CSSProperties = {
@@ -226,6 +233,7 @@ export default function ConseilArticlePage({ params }: { params: { slug: string 
           {/* Flèche retour */}
           <Link
             href="/conseils"
+            className="article-back-btn"
             style={backLinkStyle}
           >
             <ArrowLeft size={16} strokeWidth={1.5} />
@@ -241,7 +249,7 @@ export default function ConseilArticlePage({ params }: { params: { slug: string 
           {/* Outil recommandé */}
           <div style={glassCard}>
             <h3 style={h3Style}>Outil recommandé</h3>
-            <Link href={article.relatedTool} style={toolButtonStyle}>
+            <Link href={article.relatedTool} className="article-tool-btn" style={toolButtonStyle}>
               {article.relatedToolLabel}
             </Link>
           </div>

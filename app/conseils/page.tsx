@@ -78,14 +78,21 @@ const cardLinkStyle: CSSProperties = {
 };
 
 const backLinkStyle: CSSProperties = {
-  display: 'flex',
+  display: 'inline-flex',
   alignItems: 'center',
   gap: '8px',
-  fontSize: '14px',
-  color: 'rgba(255, 255, 255, 0.60)',
+  fontSize: '13px',
+  fontWeight: 400,
+  color: 'rgba(255,255,255,0.65)',
   textDecoration: 'none',
   marginBottom: '32px',
-  width: 'fit-content',
+  padding: '8px 16px 8px 12px',
+  borderRadius: '50px',
+  background: 'rgba(255,255,255,0.07)',
+  backdropFilter: 'blur(14px) saturate(160%)',
+  WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+  border: '1px solid rgba(255,255,255,0.14)',
+  boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.18)',
 };
 
 /* ─────────────────────────────────────────────────────────────
@@ -97,7 +104,7 @@ export default function ConseilsPage() {
       <div style={{ maxWidth: '960px', margin: '0 auto', padding: '64px 24px 72px' }}>
 
         {/* Flèche retour vers l'horloge */}
-        <Link href="/" style={backLinkStyle}>
+        <Link href="/" className="article-back-btn" style={backLinkStyle}>
           <ArrowLeft size={16} strokeWidth={1.5} />
           <span>Retour à l&apos;horloge</span>
         </Link>

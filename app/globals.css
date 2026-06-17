@@ -437,3 +437,42 @@ body::before {
   transform: scale(0.97);
   transition: transform 100ms ease;
 }
+
+/* ─── Bouton outil article — hover bounce ─────────────────────── */
+.article-tool-btn {
+  transition: transform 0.28s cubic-bezier(.2,.9,.3,1.4),
+              background 180ms ease,
+              border-color 180ms ease,
+              box-shadow 180ms ease;
+}
+
+.article-tool-btn:hover {
+  background: linear-gradient(160deg, rgba(255,255,255,0.30), rgba(255,255,255,0.12)) !important;
+  border-color: rgba(255,255,255,0.50) !important;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.60), 0 8px 22px rgba(0,0,0,0.28) !important;
+  transform: translateY(-3px) scale(1.03);
+}
+
+.article-tool-btn:active {
+  transform: scale(0.96);
+  transition: transform 100ms ease;
+}
+
+/* ─── Lien retour article — pill glass v2 discret ─────────────── */
+.article-back-btn {
+  transition: transform 0.26s cubic-bezier(.2,.9,.3,1.4),
+              background 180ms ease,
+              border-color 180ms ease;
+}
+
+.article-back-btn:hover {
+  background: rgba(255,255,255,0.12) !important;
+  border-color: rgba(255,255,255,0.28) !important;
+  color: rgba(255,255,255,0.90) !important;
+  transform: translateX(-3px);
+}
+
+.article-back-btn:active {
+  transform: scale(0.96);
+  transition: transform 100ms ease;
+}
