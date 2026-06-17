@@ -3,7 +3,7 @@ import { articles } from '@/lib/conseils';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://horloge-live.com';
-  const lastModified = new Date('2026-06-10');
+  const lastModified = new Date('2026-06-17');
 
   return [
     {
