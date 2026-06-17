@@ -7,7 +7,7 @@ import { ArrowLeft } from 'lucide-react';
 import { articles } from '@/lib/conseils';
 
 /* ─── Markdown-lite renderer ─────────────────────────────────── */
-const linkStyle: CSSProperties = { color: 'var(--color-accent, #4FC3F7)', textDecoration: 'underline' };
+const linkStyle: CSSProperties = { color: 'rgba(255,255,255,0.80)', textDecoration: 'underline', textUnderlineOffset: '3px' };
 
 function parseInline(text: string, key: string) {
   const parts: React.ReactNode[] = [];
@@ -136,12 +136,14 @@ const h1Style: CSSProperties = {
 const glassCard: CSSProperties = {
   position: 'relative',
   overflow: 'hidden',
-  background: 'linear-gradient(160deg, rgba(255,255,255,0.16), rgba(255,255,255,0.05))',
-  border: '1px solid rgba(255,255,255,0.28)',
+  background: 'linear-gradient(160deg, rgba(255,255,255,0.13), rgba(255,255,255,0.05))',
+  backdropFilter: 'blur(14px) saturate(160%)',
+  WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+  border: '1px solid rgba(255,255,255,0.20)',
   borderRadius: '20px',
-  padding: '16px 20px',
+  padding: '20px 22px',
   marginBottom: '12px',
-  boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.5), 0 6px 18px rgba(0,0,0,0.22)',
+  boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.40), 0 8px 24px rgba(0,0,0,0.22)',
 };
 
 const h2Style: CSSProperties = {
@@ -169,13 +171,14 @@ const bodyText: CSSProperties = {
 };
 
 const toolButtonStyle: CSSProperties = {
-  background: 'rgba(79, 195, 247, 0.22)',
-  backdropFilter: 'blur(20px)',
-  WebkitBackdropFilter: 'blur(20px)',
-  border: '1px solid rgba(79, 195, 247, 0.50)',
-  color: '#B3E5FC',
+  background: 'linear-gradient(160deg, rgba(255,255,255,0.22), rgba(255,255,255,0.08))',
+  backdropFilter: 'blur(14px) saturate(160%)',
+  WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+  border: '1px solid rgba(255,255,255,0.36)',
+  boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.50)',
+  color: 'rgba(255,255,255,0.92)',
   borderRadius: '50px',
-  padding: '10px 20px',
+  padding: '10px 22px',
   fontSize: '14px',
   fontWeight: 500,
   textDecoration: 'none',
