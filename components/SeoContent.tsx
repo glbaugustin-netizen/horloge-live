@@ -87,13 +87,14 @@ const LABELS: Record<Lang, {
 };
 
 const sectionStyle: React.CSSProperties = {
-  background: 'var(--glass-bg)',
-  backdropFilter: 'var(--glass-blur)',
-  WebkitBackdropFilter: 'var(--glass-blur)',
-  border: '1px solid var(--glass-border)',
-  borderRadius: '16px',
-  padding: '24px',
+  position: 'relative',
+  overflow: 'hidden',
+  background: 'linear-gradient(160deg, rgba(255,255,255,0.16), rgba(255,255,255,0.05))',
+  border: '1px solid rgba(255,255,255,0.28)',
+  borderRadius: '20px',
+  padding: '16px 20px',
   marginBottom: '24px',
+  boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.5), 0 6px 18px rgba(0,0,0,0.22)',
 };
 
 const h2Style: React.CSSProperties = {

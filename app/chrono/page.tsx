@@ -124,13 +124,14 @@ const faqJsonLd = {
 const seoSection: CSSProperties = { padding: '56px 24px 72px' };
 
 const glassCard: CSSProperties = {
-  background: 'rgba(255, 255, 255, 0.08)',
-  backdropFilter: 'blur(20px)',
-  WebkitBackdropFilter: 'blur(20px)',
-  border: '1px solid rgba(255, 255, 255, 0.15)',
-  borderRadius: '16px',
-  padding: '24px',
+  position: 'relative',
+  overflow: 'hidden',
+  background: 'linear-gradient(160deg, rgba(255,255,255,0.16), rgba(255,255,255,0.05))',
+  border: '1px solid rgba(255,255,255,0.28)',
+  borderRadius: '20px',
+  padding: '16px 20px',
   marginBottom: '12px',
+  boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.5), 0 6px 18px rgba(0,0,0,0.22)',
 };
 
 const h1Style: CSSProperties = {
