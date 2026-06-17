@@ -74,7 +74,7 @@ function formatDate(date: Date, language: 'fr' | 'en'): string {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   Tableau historique
+   Tableau historique — glass v2
 ═══════════════════════════════════════════════════════════════ */
 function HistoryTable({
   history, loading, language, t,
@@ -82,27 +82,28 @@ function HistoryTable({
   history: SessionDoc[]; loading: boolean; language: 'fr' | 'en'; t: Labels;
 }) {
   const containerStyle: React.CSSProperties = {
-    background:          'rgba(255,255,255,0.08)',
-    backdropFilter:      'blur(20px)',
-    WebkitBackdropFilter:'blur(20px)',
-    border:              '1px solid rgba(255,255,255,0.15)',
-    borderRadius:        '16px',
+    background:          'linear-gradient(160deg, rgba(255,255,255,0.11), rgba(255,255,255,0.04))',
+    backdropFilter:      'blur(14px) saturate(160%)',
+    WebkitBackdropFilter:'blur(14px) saturate(160%)',
+    border:              '1px solid rgba(255,255,255,0.16)',
+    boxShadow:           'inset 0 1px 1px rgba(255,255,255,0.22)',
+    borderRadius:        '20px',
     overflow:            'hidden',
     width:               '100%',
   };
   const headerCell: React.CSSProperties = {
     fontSize:       '10px',
     fontWeight:     500,
-    letterSpacing:  '0.08em',
+    letterSpacing:  '0.10em',
     textTransform:  'uppercase',
-    color:          'rgba(255,255,255,0.35)',
-    padding:        '10px 14px',
+    color:          'rgba(255,255,255,0.38)',
+    padding:        '12px 16px',
     borderBottom:   '1px solid rgba(255,255,255,0.10)',
   };
   const dataCell: React.CSSProperties = {
     fontSize: '13px',
     color:    'rgba(255,255,255,0.80)',
-    padding:  '10px 14px',
+    padding:  '11px 16px',
   };
 
   if (loading) {
@@ -158,7 +159,7 @@ function HistoryTable({
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   Bouton icône bas desktop
+   Bouton icône bas desktop — glass v2
 ═══════════════════════════════════════════════════════════════ */
 function IconButton({
   children, onClick, active = false, title,
@@ -170,31 +171,42 @@ function IconButton({
       onClick={onClick}
       title={title}
       style={{
-        width:              '44px',
-        height:             '44px',
-        borderRadius:       '50px',
-        display:            'flex',
-        alignItems:         'center',
-        justifyContent:     'center',
-        cursor:             'pointer',
-        border:             `1px solid ${active ? 'var(--glass-border-accent)' : 'var(--glass-border)'}`,
-        background:         active ? 'var(--glass-bg-accent)' : 'var(--glass-bg)',
-        backdropFilter:     'var(--glass-blur)',
-        WebkitBackdropFilter: 'var(--glass-blur)',
-        color:              active ? 'var(--color-accent)' : 'rgba(255,255,255,0.80)',
-        transition:         'background 150ms ease, border-color 150ms ease',
-        flexShrink:         0,
+        width:                '44px',
+        height:               '44px',
+        borderRadius:         '50%',
+        display:              'flex',
+        alignItems:           'center',
+        justifyContent:       'center',
+        cursor:               'pointer',
+        backdropFilter:       'blur(14px) saturate(160%)',
+        WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+        border:               `1px solid ${active ? 'rgba(255,255,255,0.40)' : 'rgba(255,255,255,0.22)'}`,
+        background:           active
+          ? 'linear-gradient(160deg, rgba(255,255,255,0.26), rgba(255,255,255,0.10))'
+          : 'rgba(255,255,255,0.11)',
+        boxShadow:            active
+          ? 'inset 0 1px 1px rgba(255,255,255,0.55), 0 6px 18px rgba(0,0,0,0.28)'
+          : 'inset 0 1px 1px rgba(255,255,255,0.25)',
+        color:                'rgba(255,255,255,0.85)',
+        transition:           'transform 0.28s cubic-bezier(.2,.9,.3,1.5), background 200ms ease, border-color 200ms ease',
+        flexShrink:           0,
       }}
       onMouseEnter={(e) => {
-        const el = e.currentTarget;
-        el.style.background  = active ? 'rgba(79,195,247,0.30)' : 'var(--glass-bg-hover)';
-        el.style.borderColor = active ? 'rgba(79,195,247,0.65)' : 'var(--glass-border-active)';
+        e.currentTarget.style.transform    = 'translateY(-2px) scale(1.05)';
+        e.currentTarget.style.background   = active
+          ? 'linear-gradient(160deg, rgba(255,255,255,0.34), rgba(255,255,255,0.14))'
+          : 'rgba(255,255,255,0.18)';
+        e.currentTarget.style.borderColor  = 'rgba(255,255,255,0.38)';
       }}
       onMouseLeave={(e) => {
-        const el = e.currentTarget;
-        el.style.background  = active ? 'var(--glass-bg-accent)' : 'var(--glass-bg)';
-        el.style.borderColor = active ? 'var(--glass-border-accent)' : 'var(--glass-border)';
+        e.currentTarget.style.transform    = 'scale(1)';
+        e.currentTarget.style.background   = active
+          ? 'linear-gradient(160deg, rgba(255,255,255,0.26), rgba(255,255,255,0.10))'
+          : 'rgba(255,255,255,0.11)';
+        e.currentTarget.style.borderColor  = active ? 'rgba(255,255,255,0.40)' : 'rgba(255,255,255,0.22)';
       }}
+      onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.92)'; }}
+      onMouseUp={(e)   => { e.currentTarget.style.transform = 'translateY(-2px) scale(1.05)'; }}
     >
       {children}
     </button>
@@ -291,21 +303,40 @@ export default function ComptePageClient() {
   return (
     <div className="relative overflow-hidden" style={{ height: '100svh', minHeight: '100vh' }}>
 
-      {/* ── Hamburger desktop ── */}
+      {/* ── Hamburger desktop — glass v2 ── */}
       {!isFullscreen && (
         <button
           className="hidden sm:flex"
           onClick={() => setSidebarOpen(true)}
           style={{
-            position: 'absolute', top: '24px', left: '24px', zIndex: 50,
-            width: '40px', height: '40px', borderRadius: '50px',
-            background: 'var(--glass-bg)', backdropFilter: 'var(--glass-blur)',
-            WebkitBackdropFilter: 'var(--glass-blur)', border: '1px solid var(--glass-border)',
-            alignItems: 'center', justifyContent: 'center',
-            cursor: 'pointer', color: 'rgba(255,255,255,0.80)', transition: 'background 150ms ease',
+            position:             'absolute',
+            top:                  '24px',
+            left:                 '24px',
+            zIndex:               50,
+            width:                '44px',
+            height:               '44px',
+            borderRadius:         '50%',
+            background:           'rgba(255,255,255,0.13)',
+            backdropFilter:       'blur(14px) saturate(160%)',
+            WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+            border:               '1px solid rgba(255,255,255,0.30)',
+            boxShadow:            'inset 0 1px 1px rgba(255,255,255,0.55), 0 6px 18px rgba(0,0,0,0.28)',
+            alignItems:           'center',
+            justifyContent:       'center',
+            cursor:               'pointer',
+            color:                'rgba(255,255,255,0.85)',
+            transition:           'transform 0.28s cubic-bezier(.2,.9,.3,1.5), background 200ms ease',
           }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--glass-bg-hover)'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--glass-bg)'; }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'rgba(255,255,255,0.20)';
+            e.currentTarget.style.transform  = 'translateY(-2px) scale(1.05)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'rgba(255,255,255,0.13)';
+            e.currentTarget.style.transform  = 'scale(1)';
+          }}
+          onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.92)'; }}
+          onMouseUp={(e)   => { e.currentTarget.style.transform = 'scale(1)'; }}
           title="Menu"
         >
           <Menu size={20} strokeWidth={1.5} />
@@ -326,15 +357,16 @@ export default function ComptePageClient() {
           zIndex:         10,
         }}
       >
-        {/* En-tête utilisateur */}
+        {/* En-tête utilisateur — glass v2 */}
         <div
           style={{
-            background:           'rgba(255,255,255,0.08)',
-            backdropFilter:       'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
-            border:               '1px solid rgba(255,255,255,0.15)',
-            borderRadius:         '16px',
-            padding:              '14px 20px',
+            background:           'linear-gradient(160deg, rgba(255,255,255,0.13), rgba(255,255,255,0.05))',
+            backdropFilter:       'blur(14px) saturate(160%)',
+            WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+            border:               '1px solid rgba(255,255,255,0.20)',
+            boxShadow:            'inset 0 1px 1px rgba(255,255,255,0.28)',
+            borderRadius:         '20px',
+            padding:              '16px 20px',
             display:              'flex',
             alignItems:           'center',
             justifyContent:       'space-between',
@@ -350,7 +382,7 @@ export default function ComptePageClient() {
             onClick={handleSignOut}
             style={{
               borderRadius:         '50px',
-              padding:              '8px 14px',
+              padding:              '8px 16px',
               fontSize:             '13px',
               fontWeight:           400,
               cursor:               'pointer',
@@ -359,21 +391,26 @@ export default function ComptePageClient() {
               gap:                  '6px',
               whiteSpace:           'nowrap',
               flexShrink:           0,
-              backdropFilter:       'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-              border:               '1px solid rgba(255,255,255,0.15)',
-              background:           'rgba(255,255,255,0.08)',
-              color:                'rgba(255,255,255,0.85)',
-              transition:           'background 150ms ease, border-color 150ms ease',
+              backdropFilter:       'blur(14px) saturate(160%)',
+              WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+              border:               '1px solid rgba(255,255,255,0.18)',
+              background:           'linear-gradient(160deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04))',
+              color:                'rgba(255,255,255,0.80)',
+              boxShadow:            'inset 0 1px 1px rgba(255,255,255,0.20)',
+              transition:           'background 200ms ease, border-color 200ms ease, transform 0.26s cubic-bezier(.2,.9,.3,1.4)',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background  = 'rgba(255,255,255,0.12)';
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.20)';
+              e.currentTarget.style.background  = 'linear-gradient(160deg, rgba(255,255,255,0.16), rgba(255,255,255,0.06))';
+              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.28)';
+              e.currentTarget.style.transform   = 'translateY(-1px)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background  = 'rgba(255,255,255,0.08)';
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)';
+              e.currentTarget.style.background  = 'linear-gradient(160deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04))';
+              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.18)';
+              e.currentTarget.style.transform   = 'scale(1)';
             }}
+            onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.96)'; }}
+            onMouseUp={(e)   => { e.currentTarget.style.transform = 'translateY(-1px)'; }}
           >
             <LogOut size={14} strokeWidth={1.5} />
             {t.signOut}

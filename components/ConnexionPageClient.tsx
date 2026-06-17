@@ -141,28 +141,27 @@ function AuthInput({ type, placeholder, value, onChange, autoComplete, rightElem
         autoComplete={autoComplete}
         style={{
           width: '100%',
-          background: 'rgba(255,255,255,0.10)',
-          border: `1px solid ${hasError ? 'rgba(220,38,38,0.60)' : 'rgba(255,255,255,0.20)'}`,
-          borderRadius: '12px',
-          padding: rightElement ? '10px 42px 10px 14px' : '10px 14px',
+          background: hasError ? 'rgba(220,38,38,0.08)' : 'linear-gradient(160deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04))',
+          border: `1px solid ${hasError ? 'rgba(220,38,38,0.55)' : 'rgba(255,255,255,0.18)'}`,
+          borderRadius: '14px',
+          padding: rightElement ? '11px 42px 11px 16px' : '11px 16px',
           fontSize: '14px',
           fontWeight: 400,
           color: '#ffffff',
           outline: 'none',
-          transition: 'border-color 150ms ease, background 150ms ease',
+          transition: 'border-color 200ms ease, background 200ms ease, box-shadow 200ms ease',
           boxSizing: 'border-box',
+          boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.12)',
         }}
         onFocus={(e) => {
-          e.target.style.borderColor = hasError
-            ? 'rgba(220,38,38,0.80)'
-            : 'rgba(79,195,247,0.60)';
-          e.target.style.background = 'rgba(255,255,255,0.13)';
+          e.target.style.borderColor = hasError ? 'rgba(220,38,38,0.80)' : 'rgba(255,255,255,0.50)';
+          e.target.style.background  = hasError ? 'rgba(220,38,38,0.10)' : 'linear-gradient(160deg, rgba(255,255,255,0.15), rgba(255,255,255,0.06))';
+          e.target.style.boxShadow   = 'inset 0 1px 1px rgba(255,255,255,0.22), 0 0 0 3px rgba(255,255,255,0.06)';
         }}
         onBlur={(e) => {
-          e.target.style.borderColor = hasError
-            ? 'rgba(220,38,38,0.60)'
-            : 'rgba(255,255,255,0.20)';
-          e.target.style.background = 'rgba(255,255,255,0.10)';
+          e.target.style.borderColor = hasError ? 'rgba(220,38,38,0.55)' : 'rgba(255,255,255,0.18)';
+          e.target.style.background  = hasError ? 'rgba(220,38,38,0.08)' : 'linear-gradient(160deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04))';
+          e.target.style.boxShadow   = 'inset 0 1px 1px rgba(255,255,255,0.12)';
         }}
       />
       {rightElement && (
@@ -218,27 +217,32 @@ function RgpdCheckbox({
     >
       {/* Case */}
       <div style={{
-        width: '16px', height: '16px', minWidth: '16px',
-        borderRadius: '4px', marginTop: '2px',
-        border: `1px solid ${checked ? 'rgba(79,195,247,0.60)' : 'rgba(255,255,255,0.30)'}`,
-        background: checked ? 'rgba(79,195,247,0.40)' : 'rgba(255,255,255,0.08)',
-        transition: 'background 150ms ease, border-color 150ms ease',
+        width: '18px', height: '18px', minWidth: '18px',
+        borderRadius: '6px', marginTop: '1px',
+        backdropFilter: 'blur(14px) saturate(160%)',
+        WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+        border: `1px solid ${checked ? 'rgba(255,255,255,0.50)' : 'rgba(255,255,255,0.22)'}`,
+        background: checked
+          ? 'linear-gradient(160deg, rgba(255,255,255,0.30), rgba(255,255,255,0.12))'
+          : 'linear-gradient(160deg, rgba(255,255,255,0.09), rgba(255,255,255,0.03))',
+        boxShadow: checked ? 'inset 0 1px 1px rgba(255,255,255,0.50)' : 'inset 0 1px 1px rgba(255,255,255,0.10)',
+        transition: 'background 180ms ease, border-color 180ms ease, box-shadow 180ms ease',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         flexShrink: 0,
       }}>
         {checked && (
           <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
-            <path d="M1 4l3 3 5-6" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M1 4l3 3 5-6" stroke="rgba(255,255,255,0.95)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         )}
       </div>
       {/* Texte */}
-      <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.55)', lineHeight: '1.5', userSelect: 'none' }}>
+      <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.50)', lineHeight: '1.5', userSelect: 'none' }}>
         {u.rgpdText}{' '}
         <Link
           href="/cgu"
           onClick={(e) => e.stopPropagation()}
-          style={{ color: '#4FC3F7', textDecoration: 'underline' }}
+          style={{ color: 'rgba(255,255,255,0.80)', textDecoration: 'underline', textDecorationColor: 'rgba(255,255,255,0.30)' }}
         >
           {u.rgpdCgu}
         </Link>{' '}
@@ -246,7 +250,7 @@ function RgpdCheckbox({
         <Link
           href="/confidentialite"
           onClick={(e) => e.stopPropagation()}
-          style={{ color: '#4FC3F7', textDecoration: 'underline' }}
+          style={{ color: 'rgba(255,255,255,0.80)', textDecoration: 'underline', textDecorationColor: 'rgba(255,255,255,0.30)' }}
         >
           {u.rgpdPrivacy}
         </Link>.
@@ -274,7 +278,7 @@ function Separator({ label }: { label: string }) {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   Bouton primaire (glass-accent)
+   Bouton primaire — glass v2 neutre
 ═══════════════════════════════════════════════════════════════ */
 function PrimaryButton({ label, onClick, loading }: {
   label: string; onClick: () => void; loading?: boolean;
@@ -288,27 +292,38 @@ function PrimaryButton({ label, onClick, loading }: {
         borderRadius: '50px',
         padding: '11px 20px',
         fontSize: '14px',
-        fontWeight: 400,
+        fontWeight: 500,
         cursor: loading ? 'not-allowed' : 'pointer',
         display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-        backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-        border: '1px solid rgba(79,195,247,0.50)',
-        background: loading ? 'rgba(79,195,247,0.12)' : 'rgba(79,195,247,0.22)',
-        color: loading ? 'rgba(179,229,252,0.50)' : '#B3E5FC',
-        transition: 'background 150ms ease, border-color 150ms ease',
+        backdropFilter: 'blur(14px) saturate(160%)',
+        WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+        border: '1px solid rgba(255,255,255,0.38)',
+        background: loading
+          ? 'linear-gradient(160deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04))'
+          : 'linear-gradient(160deg, rgba(255,255,255,0.26), rgba(255,255,255,0.10))',
+        color: loading ? 'rgba(255,255,255,0.40)' : 'rgba(255,255,255,0.95)',
+        boxShadow: loading ? 'none' : 'inset 0 1px 1px rgba(255,255,255,0.55), 0 6px 20px rgba(0,0,0,0.22)',
+        transition: 'background 200ms ease, border-color 200ms ease, transform 0.28s cubic-bezier(.2,.9,.3,1.4), box-shadow 200ms ease',
+        opacity: loading ? 0.6 : 1,
       }}
       onMouseEnter={(e) => {
         if (!loading) {
-          e.currentTarget.style.background  = 'rgba(79,195,247,0.30)';
-          e.currentTarget.style.borderColor = 'rgba(79,195,247,0.65)';
+          e.currentTarget.style.background  = 'linear-gradient(160deg, rgba(255,255,255,0.34), rgba(255,255,255,0.14))';
+          e.currentTarget.style.borderColor = 'rgba(255,255,255,0.52)';
+          e.currentTarget.style.transform   = 'translateY(-2px)';
+          e.currentTarget.style.boxShadow   = 'inset 0 1px 1px rgba(255,255,255,0.70), 0 10px 28px rgba(0,0,0,0.28)';
         }
       }}
       onMouseLeave={(e) => {
         if (!loading) {
-          e.currentTarget.style.background  = 'rgba(79,195,247,0.22)';
-          e.currentTarget.style.borderColor = 'rgba(79,195,247,0.50)';
+          e.currentTarget.style.background  = 'linear-gradient(160deg, rgba(255,255,255,0.26), rgba(255,255,255,0.10))';
+          e.currentTarget.style.borderColor = 'rgba(255,255,255,0.38)';
+          e.currentTarget.style.transform   = 'scale(1)';
+          e.currentTarget.style.boxShadow   = 'inset 0 1px 1px rgba(255,255,255,0.55), 0 6px 20px rgba(0,0,0,0.22)';
         }
       }}
+      onMouseDown={(e) => { if (!loading) e.currentTarget.style.transform = 'scale(0.97)'; }}
+      onMouseUp={(e)   => { if (!loading) e.currentTarget.style.transform = 'translateY(-2px)'; }}
     >
       {loading ? (
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style={{ animation: 'spin 1s linear infinite' }}>
@@ -322,7 +337,7 @@ function PrimaryButton({ label, onClick, loading }: {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   Bouton Google
+   Bouton Google — glass v2
 ═══════════════════════════════════════════════════════════════ */
 function GoogleButton({ label, onClick, loading }: {
   label: string; onClick: () => void; loading?: boolean;
@@ -339,14 +354,31 @@ function GoogleButton({ label, onClick, loading }: {
         fontWeight: 400,
         cursor: loading ? 'not-allowed' : 'pointer',
         display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-        backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-        border: '1px solid rgba(255,255,255,0.20)',
-        background: 'rgba(255,255,255,0.12)',
+        backdropFilter: 'blur(14px) saturate(160%)',
+        WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+        border: '1px solid rgba(255,255,255,0.18)',
+        background: 'linear-gradient(160deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04))',
         color: 'rgba(255,255,255,0.80)',
-        transition: 'background 150ms ease',
+        boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.20)',
+        transition: 'background 200ms ease, border-color 200ms ease, transform 0.26s cubic-bezier(.2,.9,.3,1.4)',
+        opacity: loading ? 0.5 : 1,
       }}
-      onMouseEnter={(e) => { if (!loading) e.currentTarget.style.background = 'rgba(255,255,255,0.18)'; }}
-      onMouseLeave={(e) => { if (!loading) e.currentTarget.style.background = 'rgba(255,255,255,0.12)'; }}
+      onMouseEnter={(e) => {
+        if (!loading) {
+          e.currentTarget.style.background  = 'linear-gradient(160deg, rgba(255,255,255,0.16), rgba(255,255,255,0.06))';
+          e.currentTarget.style.borderColor = 'rgba(255,255,255,0.28)';
+          e.currentTarget.style.transform   = 'translateY(-1px)';
+        }
+      }}
+      onMouseLeave={(e) => {
+        if (!loading) {
+          e.currentTarget.style.background  = 'linear-gradient(160deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04))';
+          e.currentTarget.style.borderColor = 'rgba(255,255,255,0.18)';
+          e.currentTarget.style.transform   = 'scale(1)';
+        }
+      }}
+      onMouseDown={(e) => { if (!loading) e.currentTarget.style.transform = 'scale(0.97)'; }}
+      onMouseUp={(e)   => { if (!loading) e.currentTarget.style.transform = 'translateY(-1px)'; }}
     >
       <GoogleIcon />
       {label}
@@ -379,7 +411,7 @@ function EyeToggle({ show, onToggle }: { show: boolean; onToggle: () => void }) 
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   Vue compte connecté
+   Vue compte connecté — glass v2
 ═══════════════════════════════════════════════════════════════ */
 function AccountView({ user, language }: { user: User; language: 'fr' | 'en' }) {
   const router = useRouter();
@@ -398,51 +430,75 @@ function AccountView({ user, language }: { user: User; language: 'fr' | 'en' }) 
 
   return (
     <div style={{
-      background: 'rgba(255,255,255,0.08)',
-      backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-      border: '1px solid rgba(255,255,255,0.15)',
-      borderRadius: '24px',
-      padding: '24px',
-      width: '360px',
-      maxWidth: 'calc(100% - 32px)',
-      display: 'flex', flexDirection: 'column', gap: '16px',
+      background:           'linear-gradient(160deg, rgba(255,255,255,0.13), rgba(255,255,255,0.05))',
+      backdropFilter:       'blur(24px) saturate(160%)',
+      WebkitBackdropFilter: 'blur(24px) saturate(160%)',
+      border:               '1px solid rgba(255,255,255,0.20)',
+      boxShadow:            'inset 0 1px 1px rgba(255,255,255,0.28), 0 20px 50px rgba(0,0,0,0.40)',
+      borderRadius:         '24px',
+      padding:              '28px 24px',
+      width:                '360px',
+      maxWidth:             'calc(100% - 32px)',
+      display:              'flex',
+      flexDirection:        'column',
+      gap:                  '16px',
     }}>
-      <h2 style={{ fontSize: '16px', fontWeight: 500, color: '#ffffff', margin: 0 }}>
+      <h2 style={{ fontSize: '16px', fontWeight: 500, color: 'rgba(255,255,255,0.95)', margin: 0 }}>
         {u.accountTitle}
       </h2>
-      <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.60)', margin: 0 }}>
+      <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.55)', margin: 0 }}>
         {u.signedInAs}
-        <span style={{ color: '#ffffff', marginLeft: '4px' }}>{user.email}</span>
+        <span style={{ color: 'rgba(255,255,255,0.90)', marginLeft: '4px' }}>{user.email}</span>
       </p>
       <button
         onClick={handleSignOut}
         disabled={loading}
         style={{
-          borderRadius: '50px',
-          padding: '10px 20px',
-          fontSize: '14px', fontWeight: 400,
-          cursor: loading ? 'not-allowed' : 'pointer',
-          display: 'inline-flex', alignItems: 'center', gap: '8px',
-          backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255,255,255,0.15)',
-          background: 'rgba(255,255,255,0.08)',
-          color: 'rgba(255,255,255,0.85)',
-          transition: 'background 150ms ease',
-          width: 'fit-content',
+          borderRadius:         '50px',
+          padding:              '10px 20px',
+          fontSize:             '14px',
+          fontWeight:           400,
+          cursor:               loading ? 'not-allowed' : 'pointer',
+          display:              'inline-flex',
+          alignItems:           'center',
+          gap:                  '8px',
+          backdropFilter:       'blur(14px) saturate(160%)',
+          WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+          border:               '1px solid rgba(255,255,255,0.18)',
+          background:           'linear-gradient(160deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04))',
+          color:                'rgba(255,255,255,0.80)',
+          boxShadow:            'inset 0 1px 1px rgba(255,255,255,0.20)',
+          transition:           'background 200ms ease, border-color 200ms ease, transform 0.26s cubic-bezier(.2,.9,.3,1.4)',
+          width:                'fit-content',
+          opacity:              loading ? 0.5 : 1,
         }}
-        onMouseEnter={(e) => { if (!loading) e.currentTarget.style.background = 'rgba(255,255,255,0.12)'; }}
-        onMouseLeave={(e) => { if (!loading) e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; }}
+        onMouseEnter={(e) => {
+          if (!loading) {
+            e.currentTarget.style.background  = 'linear-gradient(160deg, rgba(255,255,255,0.16), rgba(255,255,255,0.06))';
+            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.28)';
+            e.currentTarget.style.transform   = 'translateY(-1px)';
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (!loading) {
+            e.currentTarget.style.background  = 'linear-gradient(160deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04))';
+            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.18)';
+            e.currentTarget.style.transform   = 'scale(1)';
+          }
+        }}
+        onMouseDown={(e) => { if (!loading) e.currentTarget.style.transform = 'scale(0.96)'; }}
+        onMouseUp={(e)   => { if (!loading) e.currentTarget.style.transform = 'translateY(-1px)'; }}
       >
-        <LogOut size={18} strokeWidth={1.5} />
+        <LogOut size={16} strokeWidth={1.5} />
         {u.btnSignOut}
       </button>
 
       {/* Retour à l'horloge */}
       <Link
         href="/"
-        style={{ fontSize: '12px', color: 'rgba(255,255,255,0.40)', textDecoration: 'none' }}
+        style={{ fontSize: '12px', color: 'rgba(255,255,255,0.38)', textDecoration: 'none', transition: 'color 150ms ease' }}
         onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.70)'; }}
-        onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.40)'; }}
+        onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.38)'; }}
       >
         ← {language === 'fr' ? 'Retour à l\'horloge' : 'Back to clock'}
       </Link>
@@ -610,19 +666,20 @@ export default function ConnexionPageClient() {
     zIndex: 2, // au-dessus du ::before overlay
   };
 
-  /* Panel glass */
+  /* Panel glass v2 */
   const panelStyle: React.CSSProperties = {
-    background: 'rgba(255,255,255,0.08)',
-    backdropFilter: 'blur(20px)',
-    WebkitBackdropFilter: 'blur(20px)',
-    border: '1px solid rgba(255,255,255,0.15)',
-    borderRadius: '24px',
-    padding: '24px',
-    width: '360px',
-    maxWidth: 'calc(100% - 0px)', // pleine largeur sur mobile (margin géré par padding page)
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '14px',
+    background:           'linear-gradient(160deg, rgba(255,255,255,0.13), rgba(255,255,255,0.05))',
+    backdropFilter:       'blur(24px) saturate(160%)',
+    WebkitBackdropFilter: 'blur(24px) saturate(160%)',
+    border:               '1px solid rgba(255,255,255,0.20)',
+    boxShadow:            'inset 0 1px 1px rgba(255,255,255,0.28), 0 20px 50px rgba(0,0,0,0.40)',
+    borderRadius:         '24px',
+    padding:              '24px',
+    width:                '360px',
+    maxWidth:             '100%',
+    display:              'flex',
+    flexDirection:        'column',
+    gap:                  '14px',
   };
 
   /* Vue "Mon compte" si déjà connecté */
@@ -674,12 +731,40 @@ export default function ConnexionPageClient() {
     <div style={pageStyle}>
       <div style={panelStyle} onKeyDown={handleKeyDown}>
 
-        {/* Toggle Connexion / Inscription */}
+        {/* Toggle Connexion / Inscription — bulle coulissante glass v2 */}
         <div style={{
-          display: 'flex', gap: '4px',
-          background: 'rgba(255,255,255,0.06)',
-          borderRadius: '50px', padding: '4px',
+          position:   'relative',
+          display:    'flex',
+          padding:    '4px',
+          borderRadius: '50px',
+          background: 'var(--glass2-bg-recessed)',
+          border:     '1px solid rgba(255,255,255,0.10)',
+          boxShadow:  'var(--glass2-shadow-recessed)',
         }}>
+          {/* Bulle coulissante */}
+          <div
+            aria-hidden="true"
+            style={{
+              position:   'absolute',
+              top:        '4px',
+              left:       '4px',
+              width:      'calc(50% - 4px)',
+              height:     'calc(100% - 8px)',
+              transform:  tab === 'connexion' ? 'translateX(0)' : 'translateX(100%)',
+              transition: 'transform 0.42s cubic-bezier(.34,1.56,.5,1)',
+              pointerEvents: 'none',
+              zIndex:     0,
+            }}
+          >
+            <div style={{
+              width:      '100%',
+              height:     '100%',
+              borderRadius: '50px',
+              background: 'linear-gradient(160deg, rgba(255,255,255,0.26), rgba(255,255,255,0.10))',
+              border:     '1px solid rgba(255,255,255,0.38)',
+              boxShadow:  'inset 0 1px 1px rgba(255,255,255,0.55), 0 4px 14px rgba(0,0,0,0.22)',
+            }} />
+          </div>
           {(['connexion', 'inscription'] as const).map((t) => {
             const isActive = tab === t;
             return (
@@ -687,12 +772,19 @@ export default function ConnexionPageClient() {
                 key={t}
                 onClick={() => { setTab(t); clearMessages(); }}
                 style={{
-                  flex: 1, textAlign: 'center', padding: '7px',
-                  borderRadius: '50px', fontSize: '13px', fontWeight: 400,
-                  cursor: 'pointer', border: 'none',
-                  background: isActive ? 'rgba(255,255,255,0.15)' : 'transparent',
-                  color: isActive ? '#ffffff' : 'rgba(255,255,255,0.45)',
-                  transition: 'background 150ms ease, color 150ms ease',
+                  position:   'relative',
+                  zIndex:     1,
+                  flex:       1,
+                  textAlign:  'center',
+                  padding:    '8px 12px',
+                  borderRadius: '50px',
+                  fontSize:   '13px',
+                  fontWeight: isActive ? 500 : 400,
+                  cursor:     'pointer',
+                  border:     'none',
+                  background: 'transparent',
+                  color:      isActive ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.45)',
+                  transition: 'color 200ms ease',
                 }}
               >
                 {t === 'connexion' ? u.tabSignIn : u.tabSignUp}
