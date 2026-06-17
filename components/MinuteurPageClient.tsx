@@ -164,7 +164,7 @@ function TimeInput({
         onFocus={(e) => {
           e.target.select();
           if (!disabled) {
-            e.target.style.borderColor = 'rgba(79,195,247,0.60)';
+            e.target.style.borderColor = 'rgba(255,255,255,0.55)';
             e.target.style.background  = 'rgba(255,255,255,0.13)';
           }
         }}
@@ -221,36 +221,38 @@ function PillButton({
       disabled={disabled}
       style={{
         borderRadius: '50px',
-        padding: '10px 20px',
+        padding: '10px 22px',
         fontSize: '14px',
-        fontWeight: 400,
+        fontWeight: 500,
         cursor: disabled ? 'not-allowed' : 'pointer',
         display: 'inline-flex',
         alignItems: 'center',
         gap: '8px',
         whiteSpace: 'nowrap',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
-        border: `1px solid ${active ? 'rgba(79,195,247,0.50)' : disabled ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.15)'}`,
-        background: active ? 'rgba(79,195,247,0.22)' : disabled ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.08)',
-        color: active ? '#B3E5FC' : disabled ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.85)',
-        transition: 'background 150ms ease, border-color 150ms ease, transform 100ms ease',
+        backdropFilter: 'blur(14px) saturate(160%)',
+        WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+        border: `1px solid ${active ? 'rgba(255,255,255,0.40)' : disabled ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.22)'}`,
+        background: active ? 'rgba(255,255,255,0.20)' : disabled ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.10)',
+        color: active ? 'rgba(255,255,255,0.97)' : disabled ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.85)',
+        boxShadow: disabled ? 'none' : 'inset 0 1px 1px rgba(255,255,255,0.45), 0 4px 14px rgba(0,0,0,0.22)',
+        transition: 'background 200ms ease, border-color 200ms ease, transform 0.28s cubic-bezier(.2,.9,.3,1.5)',
         pointerEvents: disabled ? 'none' : 'auto',
       }}
       onMouseEnter={(e) => {
         if (disabled) return;
         const el = e.currentTarget;
-        el.style.background  = active ? 'rgba(79,195,247,0.30)' : 'rgba(255,255,255,0.12)';
-        el.style.borderColor = active ? 'rgba(79,195,247,0.65)' : 'rgba(255,255,255,0.20)';
+        el.style.background  = active ? 'rgba(255,255,255,0.26)' : 'rgba(255,255,255,0.16)';
+        el.style.borderColor = active ? 'rgba(255,255,255,0.50)' : 'rgba(255,255,255,0.30)';
+        el.style.transform   = 'translateY(-2px)';
       }}
       onMouseLeave={(e) => {
         if (disabled) return;
         const el = e.currentTarget;
-        el.style.background  = active ? 'rgba(79,195,247,0.22)' : 'rgba(255,255,255,0.08)';
-        el.style.borderColor = active ? 'rgba(79,195,247,0.50)' : 'rgba(255,255,255,0.15)';
+        el.style.background  = active ? 'rgba(255,255,255,0.20)' : 'rgba(255,255,255,0.10)';
+        el.style.borderColor = active ? 'rgba(255,255,255,0.40)' : 'rgba(255,255,255,0.22)';
         el.style.transform   = 'scale(1)';
       }}
-      onMouseDown={(e) => { if (!disabled) e.currentTarget.style.transform = 'scale(0.97)'; }}
+      onMouseDown={(e) => { if (!disabled) e.currentTarget.style.transform = 'scale(0.96)'; }}
       onMouseUp={(e)   => { e.currentTarget.style.transform = 'scale(1)'; }}
     >
       {icon}{label}
@@ -454,14 +456,26 @@ export default function MinuteurPageClient() {
           onClick={() => setSidebarOpen(true)}
           style={{
             position: 'absolute', top: '24px', left: '24px', zIndex: 50,
-            width: '40px', height: '40px', borderRadius: '50px',
-            background: 'var(--glass-bg)', backdropFilter: 'var(--glass-blur)',
-            WebkitBackdropFilter: 'var(--glass-blur)', border: '1px solid var(--glass-border)',
+            width: '44px', height: '44px', borderRadius: '50%',
+            background: 'rgba(255,255,255,0.13)',
+            backdropFilter: 'blur(14px) saturate(160%)',
+            WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+            border: '1px solid rgba(255,255,255,0.30)',
+            boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.55), 0 6px 18px rgba(0,0,0,0.28)',
             alignItems: 'center', justifyContent: 'center',
-            cursor: 'pointer', color: 'rgba(255,255,255,0.80)', transition: 'background 150ms ease',
+            cursor: 'pointer', color: 'rgba(255,255,255,0.85)',
+            transition: 'transform 0.28s cubic-bezier(.2,.9,.3,1.5), background 200ms ease',
           }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--glass-bg-hover)'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--glass-bg)'; }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'rgba(255,255,255,0.20)';
+            e.currentTarget.style.transform  = 'translateY(-2px) scale(1.05)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'rgba(255,255,255,0.13)';
+            e.currentTarget.style.transform  = 'scale(1)';
+          }}
+          onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.92)'; }}
+          onMouseUp={(e)   => { e.currentTarget.style.transform = 'scale(1)'; }}
           title="Menu"
         >
           <Menu size={20} strokeWidth={1.5} />
