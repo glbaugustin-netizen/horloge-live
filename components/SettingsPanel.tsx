@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { FONT_CATEGORIES, loadAllFonts } from '@/lib/googleFonts';
 import type { Settings } from '@/lib/useSettings';
+import GlassSlider from '@/components/GlassSlider';
 
 /* ═══════════════════════════════════════════════════════════════
    Données statiques
@@ -1187,15 +1188,12 @@ export default function SettingsPanel({
                   {settings.fontSize}px
                 </span>
               </div>
-              <input
-                type="range"
+              <GlassSlider
                 min={50}
                 max={200}
                 value={settings.fontSize}
-                onChange={(e) => updateFontSize(Number(e.target.value))}
-                aria-label={t.fontSize}
-                aria-valuetext={`${settings.fontSize}px`}
-                className="settings-slider"
+                onChange={updateFontSize}
+                ariaLabel={t.fontSize}
               />
               <div
                 style={{
