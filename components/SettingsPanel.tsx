@@ -180,9 +180,9 @@ function Toggle({
       onClick={() => onChange(!value)}
       onKeyDown={(e) => e.key === 'Enter' && onChange(!value)}
       style={{
-        width: '96px',
-        height: '54px',
-        borderRadius: '30px',
+        width: '56px',
+        height: '32px',
+        borderRadius: '20px',
         position: 'relative',
         cursor: 'pointer',
         flexShrink: 0,
@@ -200,7 +200,7 @@ function Toggle({
         style={{
           position: 'absolute',
           inset: 0,
-          borderRadius: '30px',
+          borderRadius: '20px',
           background: 'radial-gradient(circle at 72% 50%, rgba(255,255,255,0.30), transparent 60%)',
           opacity: value ? 1 : 0,
           transition: 'opacity 0.38s var(--glass2-ease-bounce)',
@@ -210,13 +210,13 @@ function Toggle({
       {/* Knob */}
       <div
         style={{
-          width: '44px',
-          height: '44px',
+          width: '24px',
+          height: '24px',
           borderRadius: '50%',
           position: 'absolute',
-          top: '5px',
-          left: '5px',
-          transform: value ? 'translateX(42px)' : 'translateX(0)',
+          top: '4px',
+          left: '4px',
+          transform: value ? 'translateX(24px)' : 'translateX(0)',
           transition: 'transform 0.38s var(--glass2-ease-bounce)',
           background: 'var(--glass2-knob-gradient)',
           boxShadow: 'var(--glass2-shadow-knob)',
@@ -232,7 +232,7 @@ function Toggle({
             left: 0,
             right: 0,
             height: '50%',
-            borderRadius: '22px 22px 0 0',
+            borderRadius: '12px 12px 0 0',
             background: 'linear-gradient(to bottom, rgba(255,255,255,0.90), transparent)',
             opacity: 0.55,
             pointerEvents: 'none',
