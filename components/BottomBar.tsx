@@ -20,32 +20,27 @@ export interface BottomBarProps {
 }
 
 /* ─────────────────────────────────────────────────────────────
-   Style bouton icône rond
-   — repos   : rgba(255,255,255,0.08) / border rgba(…,0.15)
-   — actif   : rgba(79,195,247,0.22) / border rgba(…,0.50) [spec]
+   Style bouton icône rond — Liquid Glass v2
 ───────────────────────────────────────────────────────────── */
-function iconBtnStyle(active: boolean): React.CSSProperties {
-  return {
-    width: '44px',
-    height: '44px',
-    borderRadius: '50px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    cursor: 'pointer',
-    background: active
-      ? 'rgba(79, 195, 247, 0.22)'
-      : 'rgba(255, 255, 255, 0.08)',
-    backdropFilter: 'blur(20px)',
-    WebkitBackdropFilter: 'blur(20px)',
-    border: `1px solid ${active
-      ? 'rgba(79, 195, 247, 0.50)'
-      : 'rgba(255, 255, 255, 0.15)'}`,
-    color: active ? '#B3E5FC' : 'rgba(255,255,255,0.80)',
-    transition: 'background 150ms ease, border-color 150ms ease',
-    flexShrink: 0,
-  };
-}
+const iconBtnBase: React.CSSProperties = {
+  position: 'relative',
+  overflow: 'hidden',
+  cursor: 'pointer',
+  width: '66px',
+  height: '66px',
+  borderRadius: '50%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  background: 'rgba(255,255,255,0.13)',
+  backdropFilter: 'blur(14px) saturate(160%)',
+  WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+  border: '1px solid rgba(255,255,255,0.34)',
+  boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.6), inset 0 -8px 16px rgba(255,255,255,0.05), 0 8px 24px rgba(0,0,0,0.32)',
+  color: 'rgba(255,255,255,0.90)',
+  transition: 'transform 0.28s cubic-bezier(.2,.9,.3,1.5)',
+  flexShrink: 0,
+};
 
 /* ─────────────────────────────────────────────────────────────
    Composant — 3 boutons rendus en fragment (pas de wrapper)
@@ -58,21 +53,22 @@ export default function BottomBar({
   isAuthenticated,
   language = 'fr',
 }: BottomBarProps) {
+  const hoverOn  = (e: React.MouseEvent<HTMLButtonElement>) => { e.currentTarget.style.transform = 'translateY(-3px) scale(1.05)'; };
+  const hoverOff = (e: React.MouseEvent<HTMLButtonElement>) => { e.currentTarget.style.transform = 'translateY(0) scale(1)'; };
+  const press    = (e: React.MouseEvent<HTMLButtonElement>) => { e.currentTarget.style.transform = 'scale(0.9)'; };
+  const release  = (e: React.MouseEvent<HTMLButtonElement>) => { e.currentTarget.style.transform = 'translateY(-3px) scale(1.05)'; };
+
   return (
     <>
       {/* ── Settings ── */}
       <button
         onClick={onSettingsClick}
-        style={iconBtnStyle(false)}
+        style={iconBtnBase}
         title={language === 'fr' ? 'Paramètres' : 'Settings'}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.background  = 'rgba(255, 255, 255, 0.14)';
-          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.background  = 'rgba(255, 255, 255, 0.08)';
-          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
-        }}
+        onMouseEnter={hoverOn}
+        onMouseLeave={hoverOff}
+        onMouseDown={press}
+        onMouseUp={release}
       >
         <Settings2 size={20} strokeWidth={1.5} />
       </button>
@@ -80,24 +76,12 @@ export default function BottomBar({
       {/* ── Plein écran ── */}
       <button
         onClick={onFullscreenToggle}
-        style={iconBtnStyle(isFullscreen)}
+        style={iconBtnBase}
         title={language === 'fr' ? 'Plein écran' : 'Fullscreen'}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.background  = isFullscreen
-            ? 'rgba(79, 195, 247, 0.32)'
-            : 'rgba(255, 255, 255, 0.14)';
-          e.currentTarget.style.borderColor = isFullscreen
-            ? 'rgba(79, 195, 247, 0.70)'
-            : 'rgba(255, 255, 255, 0.25)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.background  = isFullscreen
-            ? 'rgba(79, 195, 247, 0.22)'
-            : 'rgba(255, 255, 255, 0.08)';
-          e.currentTarget.style.borderColor = isFullscreen
-            ? 'rgba(79, 195, 247, 0.50)'
-            : 'rgba(255, 255, 255, 0.15)';
-        }}
+        onMouseEnter={hoverOn}
+        onMouseLeave={hoverOff}
+        onMouseDown={press}
+        onMouseUp={release}
       >
         {isFullscreen
           ? <Minimize2 size={20} strokeWidth={1.5} />
@@ -107,16 +91,12 @@ export default function BottomBar({
       {/* ── Compte — User si non connecté, UserCheck si connecté ── */}
       <button
         onClick={onAccountClick}
-        style={iconBtnStyle(false)}
+        style={iconBtnBase}
         title={language === 'fr' ? 'Mon compte' : 'My account'}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.background  = 'rgba(255, 255, 255, 0.14)';
-          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.background  = 'rgba(255, 255, 255, 0.08)';
-          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
-        }}
+        onMouseEnter={hoverOn}
+        onMouseLeave={hoverOff}
+        onMouseDown={press}
+        onMouseUp={release}
       >
         {isAuthenticated
           ? <UserCheck size={20} strokeWidth={1.5} />
