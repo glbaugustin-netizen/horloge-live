@@ -5,22 +5,13 @@ import { Settings2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useSettings } from '@/lib/useSettings';
 
-const SettingsPanel = dynamic(() => import('@/components/SettingsPanel'), { ssr: false, loading: () => null });
+const ConseilsSettingsPanel = dynamic(
+  () => import('@/components/ConseilsSettingsPanel'),
+  { ssr: false, loading: () => null },
+);
 
 export default function ConseilsSettingsButton() {
-  const {
-    settings,
-    updateFont,
-    updateFontSize,
-    updateTextColor,
-    updateBackground,
-    updateFormat,
-    updateMirror,
-    updateShowDate,
-    updateShowSeconds,
-    updateLanguage,
-  } = useSettings();
-
+  const { settings, updateBackground, updateLanguage } = useSettings();
   const [open, setOpen] = useState(false);
 
   return (
@@ -56,29 +47,12 @@ export default function ConseilsSettingsButton() {
         <Settings2 size={20} strokeWidth={1.5} />
       </button>
 
-      <SettingsPanel
+      <ConseilsSettingsPanel
         isOpen={open}
         onClose={() => setOpen(false)}
         settings={settings}
-        updateFont={updateFont}
-        updateFontSize={updateFontSize}
-        updateTextColor={updateTextColor}
         updateBackground={updateBackground}
-        updateFormat={updateFormat}
-        updateMirror={updateMirror}
-        updateShowDate={updateShowDate}
-        updateShowSeconds={updateShowSeconds}
         updateLanguage={updateLanguage}
-        disabledOptions={{
-          fontSize:   true,
-          mirror:     true,
-          format:     true,
-          flipStyle:  true,
-          fontChoice: true,
-          showDate:   true,
-          seconds:    true,
-          textColor:  true,
-        }}
       />
     </>
   );
