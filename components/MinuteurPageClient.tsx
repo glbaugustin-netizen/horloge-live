@@ -165,7 +165,7 @@ function TimeInput({
           e.target.select();
           if (!disabled) {
             e.target.style.borderColor = 'rgba(255,255,255,0.55)';
-            e.target.style.background  = 'rgba(255,255,255,0.13)';
+            e.target.style.background  = 'rgba(255,255,255,0.22)';
           }
         }}
         onBlur={(e) => {
@@ -173,10 +173,10 @@ function TimeInput({
           const raw = e.target.value.replace(/\D/g, '');
           const n   = Math.min(parseInt(raw || '0', 10), max);
           onChange(pad2(n));
-          e.target.style.borderColor = 'rgba(255,255,255,0.20)';
+          e.target.style.borderColor = disabled ? 'rgba(255,255,255,0.10)' : 'rgba(255,255,255,0.28)';
           e.target.style.background  = disabled
-            ? 'rgba(255,255,255,0.05)'
-            : 'rgba(255,255,255,0.10)';
+            ? 'rgba(255,255,255,0.04)'
+            : 'linear-gradient(160deg, rgba(255,255,255,0.16), rgba(255,255,255,0.05))';
         }}
         onKeyDown={(e) => {
           /* Entrée → valide et quitte le champ */
@@ -184,9 +184,12 @@ function TimeInput({
         }}
         style={{
           width:             '64px',
-          background:        disabled ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.10)',
-          border:            `1px solid ${disabled ? 'rgba(255,255,255,0.10)' : 'rgba(255,255,255,0.20)'}`,
-          borderRadius:      '12px',
+          background:        disabled
+            ? 'rgba(255,255,255,0.04)'
+            : 'linear-gradient(160deg, rgba(255,255,255,0.16), rgba(255,255,255,0.05))',
+          border:            `1px solid ${disabled ? 'rgba(255,255,255,0.10)' : 'rgba(255,255,255,0.28)'}`,
+          borderRadius:      '16px',
+          boxShadow:         disabled ? 'none' : 'inset 0 1px 1px rgba(255,255,255,0.50), 0 6px 18px rgba(0,0,0,0.22)',
           padding:           '8px',
           fontSize:          '24px',
           fontWeight:        300,
