@@ -5,6 +5,7 @@ import Script from 'next/script';
 import { notFound } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import { articles } from '@/lib/conseils';
+import ConseilsSettingsButton from '@/components/ConseilsSettingsButton';
 
 /* ─── Markdown-lite renderer ─────────────────────────────────── */
 const linkStyle: CSSProperties = { color: 'rgba(255,255,255,0.80)', textDecoration: 'underline', textUnderlineOffset: '3px' };
@@ -219,6 +220,8 @@ export default function ConseilArticlePage({ params }: { params: { slug: string 
 
   return (
     <>
+      <ConseilsSettingsButton />
+
       {faqJsonLd && (
         <Script
           id={`ld-json-conseil-${article.slug}-faq`}

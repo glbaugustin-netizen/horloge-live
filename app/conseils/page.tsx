@@ -3,6 +3,7 @@ import type { CSSProperties } from 'react';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { articles } from '@/lib/conseils';
+import ConseilsSettingsButton from '@/components/ConseilsSettingsButton';
 
 /* ─── Métadonnées SEO ─────────────────────────────────────── */
 export const metadata: Metadata = {
@@ -100,6 +101,8 @@ const backLinkStyle: CSSProperties = {
 ───────────────────────────────────────────────────────────── */
 export default function ConseilsPage() {
   return (
+    <>
+    <ConseilsSettingsButton />
     <section>
       <div style={{ maxWidth: '960px', margin: '0 auto', padding: '64px 24px 72px' }}>
 
@@ -138,5 +141,6 @@ export default function ConseilsPage() {
 
       </div>
     </section>
+    </>
   );
 }
