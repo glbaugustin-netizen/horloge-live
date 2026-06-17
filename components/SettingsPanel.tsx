@@ -525,30 +525,45 @@ function FontGrid({
                   onClick={() => onSelect(font)}
                   title={font}
                   style={{
-                    borderRadius: '12px',
+                    borderRadius: '16px',
                     padding: '12px 8px',
                     background: isSelected
-                      ? 'rgba(255,255,255,0.18)'
-                      : 'rgba(255,255,255,0.06)',
-                    border: `1px solid ${isSelected ? 'rgba(255,255,255,0.45)' : 'rgba(255,255,255,0.10)'}`,
+                      ? 'linear-gradient(160deg, rgba(255,255,255,0.22), rgba(255,255,255,0.08))'
+                      : 'linear-gradient(160deg, rgba(255,255,255,0.09), rgba(255,255,255,0.03))',
+                    backdropFilter: 'blur(14px) saturate(160%)',
+                    WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+                    border: `1px solid ${isSelected ? 'rgba(255,255,255,0.38)' : 'rgba(255,255,255,0.12)'}`,
+                    boxShadow: isSelected
+                      ? 'inset 0 1px 1px rgba(255,255,255,0.55), 0 6px 18px rgba(0,0,0,0.28)'
+                      : 'inset 0 1px 1px rgba(255,255,255,0.18)',
                     cursor: 'pointer',
                     textAlign: 'center',
-                    transition: 'background 150ms ease',
+                    transition: 'transform 0.28s cubic-bezier(.2,.9,.3,1.4), background 200ms ease, border-color 200ms ease, box-shadow 200ms ease',
                   }}
                   onMouseEnter={(e) => {
-                    if (!isSelected)
-                      e.currentTarget.style.background = 'rgba(255,255,255,0.10)';
+                    e.currentTarget.style.transform = 'translateY(-2px) scale(1.04)';
+                    if (!isSelected) {
+                      e.currentTarget.style.background = 'linear-gradient(160deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05))';
+                      e.currentTarget.style.borderColor = 'rgba(255,255,255,0.22)';
+                      e.currentTarget.style.boxShadow = 'inset 0 1px 1px rgba(255,255,255,0.30), 0 4px 14px rgba(0,0,0,0.22)';
+                    }
                   }}
                   onMouseLeave={(e) => {
-                    if (!isSelected)
-                      e.currentTarget.style.background = 'rgba(255,255,255,0.06)';
+                    e.currentTarget.style.transform = 'scale(1)';
+                    if (!isSelected) {
+                      e.currentTarget.style.background = 'linear-gradient(160deg, rgba(255,255,255,0.09), rgba(255,255,255,0.03))';
+                      e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)';
+                      e.currentTarget.style.boxShadow = 'inset 0 1px 1px rgba(255,255,255,0.18)';
+                    }
                   }}
+                  onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.95)'; }}
+                  onMouseUp={(e) => { e.currentTarget.style.transform = 'translateY(-2px) scale(1.04)'; }}
                 >
                   <div
                     style={{
                       fontFamily: `'${font}', sans-serif`,
                       fontSize: '18px',
-                      color: 'rgba(255,255,255,0.85)',
+                      color: isSelected ? 'rgba(255,255,255,0.97)' : 'rgba(255,255,255,0.75)',
                       lineHeight: 1.2,
                     }}
                   >
@@ -558,7 +573,7 @@ function FontGrid({
                     style={{
                       fontSize: '10px',
                       fontWeight: 400,
-                      color: 'rgba(255,255,255,0.40)',
+                      color: isSelected ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.35)',
                       marginTop: '4px',
                       fontFamily: '-apple-system, sans-serif',
                       overflow: 'hidden',
