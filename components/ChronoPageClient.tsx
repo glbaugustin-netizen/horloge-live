@@ -58,7 +58,7 @@ const digitBase: React.CSSProperties = {
   fontFamily: 'var(--clock-font-family)',
   fontWeight: 300,
   fontVariantNumeric: 'tabular-nums',
-  color: 'var(--color-text-primary)',
+  color: 'var(--clock-text-color)',
   letterSpacing: '0.04em',
   lineHeight: 1,
 };

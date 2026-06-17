@@ -431,7 +431,7 @@ export default function MinuteurPageClient() {
   };
 
   /* ── Couleur affichage (rouge si atZero) ── */
-  const displayColor = atZero ? '#fca5a5' : 'var(--color-text-primary)';
+  const displayColor = atZero ? '#fca5a5' : 'var(--clock-text-color)';
 
   /* ── Labels bouton démarrer/pause ── */
   const startPauseLabel = running
