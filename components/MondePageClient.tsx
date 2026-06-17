@@ -126,25 +126,27 @@ function ClockCard({
     <div
       style={{
         position:             'relative',
-        background:           'rgba(255,255,255,0.08)',
-        backdropFilter:       'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
-        border:               '1px solid rgba(255,255,255,0.15)',
-        borderRadius:         '24px',
+        overflow:             'hidden',
+        background:           'linear-gradient(160deg, rgba(255,255,255,0.16), rgba(255,255,255,0.05))',
+        backdropFilter:       'blur(14px) saturate(160%)',
+        WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+        border:               '1px solid rgba(255,255,255,0.28)',
+        borderRadius:         '20px',
+        boxShadow:            'inset 0 1px 1px rgba(255,255,255,0.50), 0 6px 18px rgba(0,0,0,0.22)',
         padding:              '20px 24px',
-        transition:           'background 150ms ease, border-color 150ms ease',
+        transition:           'box-shadow 200ms ease, border-color 200ms ease',
         cursor:               'default',
         userSelect:           'none',
       }}
       onMouseEnter={(e) => {
         const el = e.currentTarget as HTMLDivElement;
-        el.style.background    = 'rgba(255,255,255,0.12)';
-        el.style.borderColor   = 'rgba(255,255,255,0.20)';
+        el.style.borderColor = 'rgba(255,255,255,0.40)';
+        el.style.boxShadow   = 'inset 0 1px 1px rgba(255,255,255,0.60), 0 10px 28px rgba(0,0,0,0.28)';
       }}
       onMouseLeave={(e) => {
         const el = e.currentTarget as HTMLDivElement;
-        el.style.background    = 'rgba(255,255,255,0.08)';
-        el.style.borderColor   = 'rgba(255,255,255,0.15)';
+        el.style.borderColor = 'rgba(255,255,255,0.28)';
+        el.style.boxShadow   = 'inset 0 1px 1px rgba(255,255,255,0.50), 0 6px 18px rgba(0,0,0,0.22)';
       }}
     >
       {/* Bouton supprimer (villes perso uniquement) */}
@@ -220,11 +222,12 @@ function AddCityCard({ onClick, language }: { onClick: () => void; language: 'fr
     <button
       onClick={onClick}
       style={{
-        background:           'rgba(255,255,255,0.04)',
-        backdropFilter:       'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
-        border:               '1px dashed rgba(255,255,255,0.20)',
-        borderRadius:         '24px',
+        background:           'rgba(255,255,255,0.06)',
+        backdropFilter:       'blur(14px) saturate(160%)',
+        WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+        border:               '1px dashed rgba(255,255,255,0.28)',
+        borderRadius:         '20px',
+        boxShadow:            'inset 0 1px 1px rgba(255,255,255,0.20)',
         padding:              '20px 24px',
         minHeight:            '130px',
         display:              'flex',
@@ -233,18 +236,18 @@ function AddCityCard({ onClick, language }: { onClick: () => void; language: 'fr
         justifyContent:       'center',
         gap:                  '8px',
         cursor:               'pointer',
-        transition:           'background 150ms ease, border-color 150ms ease',
+        transition:           'background 200ms ease, border-color 200ms ease',
         width:                '100%',
       }}
       onMouseEnter={(e) => {
         const el = e.currentTarget;
-        el.style.background  = 'rgba(255,255,255,0.08)';
-        el.style.borderColor = 'rgba(255,255,255,0.35)';
+        el.style.background  = 'rgba(255,255,255,0.12)';
+        el.style.borderColor = 'rgba(255,255,255,0.42)';
       }}
       onMouseLeave={(e) => {
         const el = e.currentTarget;
-        el.style.background  = 'rgba(255,255,255,0.04)';
-        el.style.borderColor = 'rgba(255,255,255,0.20)';
+        el.style.background  = 'rgba(255,255,255,0.06)';
+        el.style.borderColor = 'rgba(255,255,255,0.28)';
       }}
     >
       <span style={{ fontSize: '28px', color: 'rgba(255,255,255,0.35)', lineHeight: 1 }}>+</span>
@@ -368,19 +371,22 @@ function AddCityModal({
               cursor:               selected ? 'pointer' : 'not-allowed',
               backdropFilter:       'blur(20px)',
               WebkitBackdropFilter: 'blur(20px)',
-              border:               '1px solid rgba(79,195,247,0.50)',
-              background:           'rgba(79,195,247,0.22)',
-              color:                '#B3E5FC',
-              transition:           'background 150ms ease, border-color 150ms ease',
+              border:               '1px solid rgba(255,255,255,0.40)',
+              background:           'rgba(255,255,255,0.20)',
+              color:                'rgba(255,255,255,0.97)',
+              boxShadow:            'inset 0 1px 1px rgba(255,255,255,0.45), 0 4px 14px rgba(0,0,0,0.22)',
+              transition:           'background 200ms ease, border-color 200ms ease, transform 0.28s cubic-bezier(.2,.9,.3,1.5)',
             }}
             onMouseEnter={(e) => {
               if (!selected) return;
-              e.currentTarget.style.background  = 'rgba(79,195,247,0.32)';
-              e.currentTarget.style.borderColor = 'rgba(79,195,247,0.70)';
+              e.currentTarget.style.background  = 'rgba(255,255,255,0.28)';
+              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.55)';
+              e.currentTarget.style.transform   = 'translateY(-2px)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background  = 'rgba(79,195,247,0.22)';
-              e.currentTarget.style.borderColor = 'rgba(79,195,247,0.50)';
+              e.currentTarget.style.background  = 'rgba(255,255,255,0.20)';
+              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.40)';
+              e.currentTarget.style.transform   = 'scale(1)';
             }}
           >
             {language === 'fr' ? 'Ajouter' : 'Add'}
@@ -545,21 +551,30 @@ export default function MondePageClient() {
           top:                  '24px',
           left:                 '24px',
           zIndex:               50,
-          width:                '40px',
-          height:               '40px',
-          borderRadius:         '50px',
-          background:           'var(--glass-bg)',
-          backdropFilter:       'var(--glass-blur)',
-          WebkitBackdropFilter: 'var(--glass-blur)',
-          border:               '1px solid var(--glass-border)',
+          width:                '44px',
+          height:               '44px',
+          borderRadius:         '50%',
+          background:           'rgba(255,255,255,0.13)',
+          backdropFilter:       'blur(14px) saturate(160%)',
+          WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+          border:               '1px solid rgba(255,255,255,0.30)',
+          boxShadow:            'inset 0 1px 1px rgba(255,255,255,0.55), 0 6px 18px rgba(0,0,0,0.28)',
           alignItems:           'center',
           justifyContent:       'center',
           cursor:               'pointer',
-          color:                'rgba(255,255,255,0.80)',
-          transition:           'background 150ms ease',
+          color:                'rgba(255,255,255,0.85)',
+          transition:           'transform 0.28s cubic-bezier(.2,.9,.3,1.5), background 200ms ease',
         }}
-        onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--glass-bg-hover)'; }}
-        onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--glass-bg)'; }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = 'rgba(255,255,255,0.20)';
+          e.currentTarget.style.transform  = 'translateY(-2px) scale(1.05)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = 'rgba(255,255,255,0.13)';
+          e.currentTarget.style.transform  = 'scale(1)';
+        }}
+        onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.92)'; }}
+        onMouseUp={(e)   => { e.currentTarget.style.transform = 'scale(1)'; }}
         title="Menu"
       >
         <Menu size={20} strokeWidth={1.5} />
