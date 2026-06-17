@@ -167,25 +167,30 @@ export default function ClockPageClient() {
             top: '24px',
             left: '24px',
             zIndex: 50,
-            width: '40px',
-            height: '40px',
-            borderRadius: '50px',
-            background: 'var(--glass-bg)',
-            backdropFilter: 'var(--glass-blur)',
-            WebkitBackdropFilter: 'var(--glass-blur)',
-            border: '1px solid var(--glass-border)',
+            width: '44px',
+            height: '44px',
+            borderRadius: '50%',
+            background: 'rgba(255,255,255,0.13)',
+            backdropFilter: 'blur(14px) saturate(160%)',
+            WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+            border: '1px solid rgba(255,255,255,0.30)',
+            boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.55), 0 6px 18px rgba(0,0,0,0.28)',
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
-            color: 'rgba(255,255,255,0.80)',
-            transition: 'background 150ms ease',
+            color: 'rgba(255,255,255,0.85)',
+            transition: 'transform 0.28s cubic-bezier(.2,.9,.3,1.5), background 200ms ease',
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.background = 'var(--glass-bg-hover)';
+            e.currentTarget.style.background = 'rgba(255,255,255,0.20)';
+            e.currentTarget.style.transform  = 'translateY(-2px) scale(1.05)';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'var(--glass-bg)';
+            e.currentTarget.style.background = 'rgba(255,255,255,0.13)';
+            e.currentTarget.style.transform  = 'scale(1)';
           }}
+          onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.92)'; }}
+          onMouseUp={(e)   => { e.currentTarget.style.transform = 'scale(1)'; }}
           title="Menu"
         >
           <Menu size={20} strokeWidth={1.5} />
