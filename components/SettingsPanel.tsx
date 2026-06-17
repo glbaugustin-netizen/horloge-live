@@ -113,31 +113,6 @@ const LABELS = {
   },
 } as const;
 
-/* ── Styles bouton pill Mode Focus — v2 neutre ──────────────── */
-const focusPillStyle: React.CSSProperties = {
-  background: 'var(--glass2-bg)',
-  backdropFilter: 'var(--glass2-blur)',
-  WebkitBackdropFilter: 'var(--glass2-blur)',
-  border: '1px solid var(--glass2-border-card)',
-  borderRadius: '50px',
-  padding: '6px 14px',
-  fontSize: '13px',
-  color: 'var(--glass2-text-secondary)',
-  cursor: 'pointer',
-};
-
-const focusPillActiveStyle: React.CSSProperties = {
-  background: 'rgba(255, 255, 255, 0.22)',
-  backdropFilter: 'var(--glass2-blur)',
-  WebkitBackdropFilter: 'var(--glass2-blur)',
-  border: '1px solid rgba(255, 255, 255, 0.45)',
-  borderRadius: '50px',
-  padding: '6px 14px',
-  fontSize: '13px',
-  color: 'var(--glass2-text-primary)',
-  cursor: 'pointer',
-};
-
 /* ── Styles boutons pill sélecteur thème flip — v2 neutre ───── */
 const flipPillStyle: React.CSSProperties = {
   background: 'var(--glass2-bg)',
@@ -291,6 +266,94 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
   );
 }
 
+/* ─── Bouton Glass v2 avec ripple ───────────────────────────── */
+function GlassButton({
+  onClick,
+  children,
+  fullWidth = false,
+}: {
+  onClick?: () => void;
+  children: React.ReactNode;
+  fullWidth?: boolean;
+}) {
+  const [ripples, setRipples] = useState<{ id: number; x: number; y: number }[]>([]);
+  const btnRef = useRef<HTMLButtonElement>(null);
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const rect = btnRef.current?.getBoundingClientRect();
+    if (rect) {
+      const id = Date.now();
+      setRipples((r) => [...r, { id, x: e.clientX - rect.left, y: e.clientY - rect.top }]);
+      setTimeout(() => setRipples((r) => r.filter((rr) => rr.id !== id)), 600);
+    }
+    onClick?.();
+  };
+
+  return (
+    <button
+      ref={btnRef}
+      onClick={handleClick}
+      style={{
+        position: 'relative',
+        overflow: 'hidden',
+        cursor: 'pointer',
+        border: '1px solid rgba(255,255,255,0.36)',
+        height: '58px',
+        padding: '0 38px',
+        borderRadius: '30px',
+        color: '#fff',
+        fontFamily: 'inherit',
+        fontSize: '17px',
+        fontWeight: 600,
+        background: 'rgba(255,255,255,0.14)',
+        backdropFilter: 'blur(12px) saturate(160%)',
+        WebkitBackdropFilter: 'blur(12px) saturate(160%)',
+        boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.6), inset 0 -8px 18px rgba(255,255,255,0.06), 0 8px 26px rgba(0,0,0,0.3)',
+        transition: 'transform 0.22s cubic-bezier(.2,.9,.3,1.4), box-shadow 0.22s ease, background 0.22s ease',
+        width: fullWidth ? '100%' : undefined,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '8px',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = 'translateY(-2px)';
+        e.currentTarget.style.background = 'rgba(255,255,255,0.20)';
+        e.currentTarget.style.boxShadow = 'inset 0 1px 1px rgba(255,255,255,0.75), 0 16px 38px rgba(0,0,0,0.4)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = 'translateY(0)';
+        e.currentTarget.style.background = 'rgba(255,255,255,0.14)';
+        e.currentTarget.style.boxShadow = 'inset 0 1px 1px rgba(255,255,255,0.6), inset 0 -8px 18px rgba(255,255,255,0.06), 0 8px 26px rgba(0,0,0,0.3)';
+      }}
+      onMouseDown={(e) => { e.currentTarget.style.transform = 'translateY(1px) scale(0.96)'; }}
+      onMouseUp={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; }}
+    >
+      {ripples.map((r) => (
+        <span
+          key={r.id}
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            left: r.x,
+            top: r.y,
+            width: '8px',
+            height: '8px',
+            marginLeft: '-4px',
+            marginTop: '-4px',
+            borderRadius: '50%',
+            background: 'rgba(255,255,255,0.50)',
+            transform: 'scale(0)',
+            animation: 'glass-ripple 0.55s ease-out forwards',
+            pointerEvents: 'none',
+          }}
+        />
+      ))}
+      {children}
+    </button>
+  );
+}
+
 function ExpandButton({
   label,
   expanded,
@@ -301,42 +364,10 @@ function ExpandButton({
   onClick: () => void;
 }) {
   return (
-    <button
-      onClick={onClick}
-      style={{
-        width: '100%',
-        borderRadius: '50px',
-        padding: '10px 20px',
-        fontSize: '14px',
-        fontWeight: 400,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '8px',
-        cursor: 'pointer',
-        background: 'rgba(255,255,255,0.08)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
-        border: '1px solid rgba(255,255,255,0.15)',
-        color: 'rgba(255,255,255,0.85)',
-        transition: 'background 150ms ease, border-color 150ms ease',
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.background = 'rgba(255,255,255,0.12)';
-        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.20)';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
-        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)';
-      }}
-    >
+    <GlassButton onClick={onClick} fullWidth>
       {label}
-      {expanded ? (
-        <ChevronUp size={14} strokeWidth={1.5} />
-      ) : (
-        <ChevronDown size={14} strokeWidth={1.5} />
-      )}
-    </button>
+      {expanded ? <ChevronUp size={16} strokeWidth={1.5} /> : <ChevronDown size={16} strokeWidth={1.5} />}
+    </GlassButton>
   );
 }
 
@@ -1165,50 +1196,19 @@ export default function SettingsPanel({
 
             {/* Mode Focus */}
             <ParamRow label={t.focusMode}>
-              <button
-                onClick={handleFocusMode}
-                style={focusMode ? focusPillActiveStyle : focusPillStyle}
-              >
+              <GlassButton onClick={handleFocusMode}>
                 {focusMode ? t.focusDisable : t.focusEnable}
-              </button>
+              </GlassButton>
             </ParamRow>
           </div>
         </div>
 
         {/* ── Séparateur + bouton Intégrer ── */}
         <div style={{ height: '1px', background: 'rgba(255,255,255,0.10)', margin: '12px 0' }} />
-        <button
-          onClick={onEmbedOpen ?? undefined}
-          style={{
-            width: '100%',
-            borderRadius: '50px',
-            padding: '10px 20px',
-            fontSize: '14px',
-            fontWeight: 400,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '8px',
-            cursor: 'pointer',
-            background: 'rgba(255,255,255,0.08)',
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255,255,255,0.15)',
-            color: 'rgba(255,255,255,0.85)',
-            transition: 'background 150ms ease, border-color 150ms ease',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = 'rgba(255,255,255,0.12)';
-            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.20)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
-            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)';
-          }}
-        >
+        <GlassButton onClick={onEmbedOpen ?? undefined} fullWidth>
           <Code2 size={16} strokeWidth={1.5} />
           {t.embedBtn}
-        </button>
+        </GlassButton>
       </section>
     </>
   );

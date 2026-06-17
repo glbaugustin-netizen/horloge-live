@@ -193,6 +193,14 @@ body::before {
   animation: fontFadeIn 200ms ease;
 }
 
+/* ─── Ripple click — boutons glass v2 ───────────────────────── */
+@keyframes glass-ripple {
+  to {
+    transform: scale(12);
+    opacity: 0;
+  }
+}
+
 /* ─── Slider paramètres (taille police) — Liquid Glass v2 ──── */
 .settings-slider {
   -webkit-appearance: none;
