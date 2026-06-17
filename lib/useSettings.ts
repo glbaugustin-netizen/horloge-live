@@ -40,7 +40,7 @@ const DEFAULTS: Settings = {
   font:       'Inter',
   fontSize:   200,
   textColor:  '#FFFFFF',
-  background: "url('/backgrounds/bg-nature7.webp')",
+  background: '#0A0A0A',
   format:     '24h',
   mirror:       false,
   showDate:     true,
