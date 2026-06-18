@@ -535,6 +535,7 @@ export default function ConnexionPageClient() {
   const [error,           setError]           = useState<string | null>(null);
   const [success,         setSuccess]         = useState<string | null>(null);
   const [forgotMode,      setForgotMode]      = useState(false);
+  const [squishKey,       setSquishKey]       = useState(0);
 
   const clearMessages = () => { setError(null); setSuccess(null); };
 
@@ -742,7 +743,7 @@ export default function ConnexionPageClient() {
           border:     '1px solid rgba(255,255,255,0.10)',
           boxShadow:  'var(--glass2-shadow-recessed)',
         }}>
-          {/* Bulle coulissante */}
+          {/* Bulle liquide coulissante */}
           <div
             aria-hidden="true"
             style={{
@@ -752,26 +753,52 @@ export default function ConnexionPageClient() {
               width:      'calc(50% - 4px)',
               height:     'calc(100% - 8px)',
               transform:  tab === 'connexion' ? 'translateX(0)' : 'translateX(100%)',
-              transition: 'transform 0.42s cubic-bezier(.34,1.56,.5,1)',
+              transition: 'transform 0.48s var(--glass2-ease-bounce)',
               pointerEvents: 'none',
               zIndex:     0,
             }}
           >
-            <div style={{
-              width:      '100%',
-              height:     '100%',
-              borderRadius: '50px',
-              background: 'linear-gradient(160deg, rgba(255,255,255,0.26), rgba(255,255,255,0.10))',
-              border:     '1px solid rgba(255,255,255,0.38)',
-              boxShadow:  'inset 0 1px 1px rgba(255,255,255,0.55), 0 4px 14px rgba(0,0,0,0.22)',
-            }} />
+            <div
+              key={squishKey}
+              style={{
+                width:      '100%',
+                height:     '100%',
+                borderRadius: '50px',
+                overflow:   'hidden',
+                background: 'linear-gradient(160deg, rgba(255,255,255,0.30), rgba(255,255,255,0.12))',
+                border:     '1px solid rgba(255,255,255,0.42)',
+                boxShadow:  'inset 0 1px 1px rgba(255,255,255,0.60), 0 4px 14px rgba(0,0,0,0.28)',
+                animation:  squishKey > 0 ? 'lang-bubble-squish 0.5s var(--glass2-ease-bounce)' : undefined,
+              }}
+            >
+              {/* Gloss bombé */}
+              <span
+                aria-hidden="true"
+                style={{
+                  display:    'block',
+                  position:   'absolute',
+                  top:        0,
+                  left:       0,
+                  right:      0,
+                  height:     '50%',
+                  borderRadius: '50px 50px 0 0',
+                  background: 'linear-gradient(to bottom, rgba(255,255,255,0.55), transparent)',
+                  opacity:    0.6,
+                  pointerEvents: 'none',
+                }}
+              />
+            </div>
           </div>
           {(['connexion', 'inscription'] as const).map((t) => {
             const isActive = tab === t;
             return (
               <button
                 key={t}
-                onClick={() => { setTab(t); clearMessages(); }}
+                onClick={() => {
+                  if (t !== tab) setSquishKey((k) => k + 1);
+                  setTab(t);
+                  clearMessages();
+                }}
                 style={{
                   position:   'relative',
                   zIndex:     1,
