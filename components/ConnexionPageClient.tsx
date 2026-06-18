@@ -768,6 +768,7 @@ export default function ConnexionPageClient() {
                 background: 'linear-gradient(160deg, rgba(255,255,255,0.30), rgba(255,255,255,0.12))',
                 border:     '1px solid rgba(255,255,255,0.42)',
                 boxShadow:  'inset 0 1px 1px rgba(255,255,255,0.60), 0 4px 14px rgba(0,0,0,0.28)',
+                transformOrigin: tab === 'connexion' ? 'left center' : 'right center',
                 animation:  squishKey > 0 ? 'lang-bubble-squish 0.5s var(--glass2-ease-bounce)' : undefined,
               }}
             >
