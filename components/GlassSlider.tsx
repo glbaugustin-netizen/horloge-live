@@ -22,6 +22,7 @@ export default function GlassSlider({
   ariaLabel,
 }: GlassSliderProps) {
   const trackRef = useRef<HTMLDivElement>(null);
+  const draggingRef = useRef(false);
   const [dragging, setDragging] = useState(false);
   /* Déformation liquide de la boule : {x: étirement horizontal, y: compression verticale} */
   const [stretch, setStretch] = useState({ x: 1, y: 1 });
@@ -64,18 +65,20 @@ export default function GlassSlider({
 
   const handlePointerDown = useCallback((e: React.PointerEvent) => {
     e.currentTarget.setPointerCapture(e.pointerId);
+    draggingRef.current = true;
     setDragging(true);
     lastXRef.current = null;
     onChange(valueFromClientX(e.clientX));
   }, [onChange, valueFromClientX]);
 
   const handlePointerMove = useCallback((e: React.PointerEvent) => {
-    if (!dragging) return;
+    if (!draggingRef.current) return;
     onChange(valueFromClientX(e.clientX));
     applyStretchFromVelocity(e.clientX);
-  }, [dragging, onChange, valueFromClientX, applyStretchFromVelocity]);
+  }, [onChange, valueFromClientX, applyStretchFromVelocity]);
 
   const endDrag = useCallback(() => {
+    draggingRef.current = false;
     setDragging(false);
     lastXRef.current = null;
     if (resetTimer.current) clearTimeout(resetTimer.current);
@@ -117,8 +120,9 @@ export default function GlassSlider({
         height:       '24px',
         display:      'flex',
         alignItems:   'center',
-        cursor:       'pointer',
+        cursor:       dragging ? 'grabbing' : 'pointer',
         touchAction:  'none',
+        userSelect:   'none',
         outline:      'none',
       }}
     >
