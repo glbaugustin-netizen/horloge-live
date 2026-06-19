@@ -813,30 +813,32 @@ function ColorPalette({
   onSelect: (c: string) => void;
 }) {
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '6px' }}>
-      {TEXT_COLORS.map((color) => {
-        const isActive = current === color;
-        return (
-          <button
-            key={color}
-            title={color}
-            onClick={() => onSelect(color)}
-            style={{
-              width: '28px',
-              height: '28px',
-              borderRadius: '50%',
-              background: color,
-              border: isActive
-                ? '2px solid rgba(255,255,255,0.80)'
-                : '2px solid rgba(255,255,255,0.20)',
-              cursor: 'pointer',
-              transition: 'border-color 150ms ease, transform 150ms ease',
-              transform: isActive ? 'scale(0.88)' : 'scale(1)',
-              flexShrink: 0,
-            }}
-          />
-        );
-      })}
+    <div style={{ marginTop: '6px' }}>
+      <DockStrip
+        gap="6px"
+        items={TEXT_COLORS.map((color) => {
+          const isActive = current === color;
+          return (
+            <button
+              key={color}
+              title={color}
+              onClick={() => onSelect(color)}
+              style={{
+                width: '100%',
+                height: '32px',
+                borderRadius: '8px',
+                background: color,
+                cursor: 'pointer',
+                border: isActive
+                  ? '2px solid rgba(255,255,255,0.80)'
+                  : '1px solid rgba(255,255,255,0.20)',
+                boxShadow: isActive ? 'inset 0 0 0 1px rgba(255,255,255,0.30)' : 'none',
+                transition: 'border-color 150ms ease, box-shadow 200ms ease',
+              }}
+            />
+          );
+        })}
+      />
     </div>
   );
 }
