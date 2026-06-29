@@ -321,8 +321,9 @@ export default function ConfidentialiteContent() {
           <p style={{ ...S.p, ...S.em }}>
             Les cookies strictement nécessaires au fonctionnement du service (authentification) ne
             requièrent pas de consentement, conformément aux lignes directrices de la CNIL. L'outil
-            de mesure d'audience est configuré pour limiter la collecte de données personnelles
-            (masquage des contenus et anonymisation).
+            de mesure d'audience Microsoft Clarity n'est activé qu'après recueil du consentement
+            explicite de l'utilisateur, via le bandeau affiché lors de la première visite. Ce choix
+            peut être modifié à tout moment en effaçant les données du site dans le navigateur.
           </p>
         </>
       ) : (
@@ -355,8 +356,9 @@ export default function ConfidentialiteContent() {
           </p>
           <p style={{ ...S.p, ...S.em }}>
             Cookies strictly necessary for the operation of the service (authentication) do not
-            require consent, in accordance with CNIL guidelines. The analytics tool is configured to
-            limit the collection of personal data (content masking and anonymization).
+            require consent, in accordance with CNIL guidelines. The Microsoft Clarity analytics tool
+            is only activated after the user's explicit consent, via the banner shown on first visit.
+            This choice can be changed at any time by clearing the site data in the browser.
           </p>
         </>
       )}

@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import Script from 'next/script';
 import './globals.css';
 import FullscreenBodyLock from '@/components/FullscreenBodyLock';
+import CookieConsent from '@/components/CookieConsent';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -149,21 +150,13 @@ export default function RootLayout({
           }}
         />
 
-        {/* ── 5. Microsoft Clarity (analytics / heatmaps) ──
-            Chargé après l'hydratation pour ne pas pénaliser le LCP.
-            Le masquage des contenus sensibles se règle dans la console
-            Clarity (Paramètres → Masquage). ── */}
-        <Script id="ms-clarity" strategy="afterInteractive">
-          {`(function(c,l,a,r,i,t,y){
-              c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-              t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-              y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-          })(window, document, "clarity", "script", "xeolkk3cw3");`}
-        </Script>
+        {/* Microsoft Clarity n'est plus chargé ici : il l'est uniquement
+            après consentement, via le composant CookieConsent. */}
       </head>
       <body>
         <FullscreenBodyLock />
         {children}
+        <CookieConsent />
       </body>
     </html>
   );
