@@ -122,13 +122,23 @@ export default function RootLayout({
     <html lang="fr" className={inter.variable}>
       <head>
         {/* ── 1. PRELOAD IMAGE LCP — EN PREMIER, avant tout autre tag ──
-            Le navigateur découvre et planifie le téléchargement de l'image
-            de fond le plus tôt possible dans le parsing HTML. ── */}
+            Preload RESPONSIVE : chaque appareil précharge UNIQUEMENT l'image
+            qu'il affiche réellement (cf. @media 768px dans globals.css).
+            Mobile = version allégée (~27 KB) → LCP nettement plus rapide. ── */}
+        <link
+          rel="preload"
+          as="image"
+          href="/backgrounds/bg-nature7-mobile.webp"
+          type="image/webp"
+          media="(max-width: 768px)"
+          fetchPriority="high"
+        />
         <link
           rel="preload"
           as="image"
           href="/backgrounds/bg-nature7.webp"
           type="image/webp"
+          media="(min-width: 769px)"
           fetchPriority="high"
         />
 
