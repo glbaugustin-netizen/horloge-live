@@ -16,6 +16,10 @@ import {
   signOut as _signOut,
   sendPasswordResetEmail,
   sendEmailVerification,
+  deleteUser,
+  reauthenticateWithCredential,
+  reauthenticateWithPopup,
+  EmailAuthProvider,
   onAuthStateChanged as _onAuthStateChanged,
   type User,
   type AuthError,
@@ -107,6 +111,60 @@ export async function loadPrefsFromFirestore(
   const ref  = doc(db, 'users', uid, 'preferences', 'main');
   const snap = await getDoc(ref);
   return snap.exists() ? (snap.data() as FirestorePrefs) : null;
+}
+
+/* ── Suppression de compte (RGPD — droit à l'effacement) ──────── */
+
+/**
+ * Réauthentifie l'utilisateur courant — requis par Firebase juste avant
+ * une opération sensible (suppression de compte).
+ * - Compte Google : ouvre une popup de confirmation.
+ * - Compte email/password : nécessite le mot de passe.
+ */
+export async function reauthenticateCurrentUser(password?: string): Promise<void> {
+  const user = auth.currentUser;
+  if (!user) throw new Error('no-current-user');
+  const providerId = user.providerData[0]?.providerId;
+
+  if (providerId === 'google.com') {
+    const provider = new GoogleAuthProvider();
+    await reauthenticateWithPopup(user, provider);
+  } else {
+    if (!user.email || !password) throw new Error('password-required');
+    const cred = EmailAuthProvider.credential(user.email, password);
+    await reauthenticateWithCredential(user, cred);
+  }
+}
+
+/**
+ * Supprime TOUTES les données Firestore de l'utilisateur :
+ * préférences, consentement RGPD et tout l'historique.
+ */
+export async function deleteUserData(uid: string): Promise<void> {
+  const db = await getDb();
+  const { doc, deleteDoc, collection, getDocs } = await import('firebase/firestore');
+
+  // Sous-collection historique — supprimer chaque document.
+  try {
+    const histSnap = await getDocs(collection(db, 'users', uid, 'history'));
+    await Promise.all(histSnap.docs.map((d) => deleteDoc(d.ref)));
+  } catch { /* noop */ }
+
+  // Documents connus.
+  await deleteDoc(doc(db, 'users', uid, 'preferences', 'main')).catch(() => {});
+  await deleteDoc(doc(db, 'users', uid, 'data', 'consent')).catch(() => {});
+}
+
+/**
+ * Supprime définitivement le compte : d'abord les données Firestore
+ * (pendant que la session est encore valide), puis le compte Auth.
+ * Peut lever auth/requires-recent-login → appeler reauthenticateCurrentUser.
+ */
+export async function deleteAccount(): Promise<void> {
+  const user = auth.currentUser;
+  if (!user) throw new Error('no-current-user');
+  await deleteUserData(user.uid);
+  await deleteUser(user);
 }
 
 /**
