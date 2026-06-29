@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
-  Menu, Settings2, Maximize2, Minimize2, LogOut, UserCheck,
+  Menu, Settings2, Maximize2, Minimize2, LogOut, UserCheck, Trash2, Eye, EyeOff,
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import MobileNav from '@/components/MobileNav';
@@ -22,6 +22,16 @@ const LABELS = {
     signOut:    'Se déconnecter',
     sessions:   'Mes dernières sessions',
     noSessions: 'Aucune session enregistrée',
+    deleteBtn:      'Supprimer mon compte',
+    deleteTitle:    'Supprimer définitivement le compte',
+    deleteWarn:     'Cette action est irréversible. Votre compte et toutes vos données (préférences, historique) seront définitivement supprimés.',
+    deletePwd:      'Confirmez avec votre mot de passe',
+    deleteGoogle:   'Une fenêtre Google s\'ouvrira pour confirmer votre identité.',
+    deleteConfirm:  'Supprimer définitivement',
+    deleteCancel:   'Annuler',
+    deletePwdReq:   'Veuillez saisir votre mot de passe.',
+    deleteWrongPwd: 'Mot de passe incorrect.',
+    deleteErr:      'Une erreur est survenue. Veuillez réessayer.',
     colType:    'Type',
     colDuration:'Durée',
     colDate:    'Date',
@@ -40,6 +50,16 @@ const LABELS = {
     signOut:    'Sign out',
     sessions:   'My recent sessions',
     noSessions: 'No sessions recorded',
+    deleteBtn:      'Delete my account',
+    deleteTitle:    'Permanently delete account',
+    deleteWarn:     'This action is irreversible. Your account and all your data (preferences, history) will be permanently deleted.',
+    deletePwd:      'Confirm with your password',
+    deleteGoogle:   'A Google window will open to confirm your identity.',
+    deleteConfirm:  'Delete permanently',
+    deleteCancel:   'Cancel',
+    deletePwdReq:   'Please enter your password.',
+    deleteWrongPwd: 'Incorrect password.',
+    deleteErr:      'An error occurred. Please try again.',
     colType:    'Type',
     colDuration:'Duration',
     colDate:    'Date',
@@ -248,6 +268,14 @@ export default function ComptePageClient() {
   const [history,        setHistory]        = useState<SessionDoc[]>([]);
   const [historyLoading, setHistoryLoading] = useState(true);
 
+  /* ── Suppression de compte ── */
+  const [isPasswordUser, setIsPasswordUser] = useState(false);
+  const [confirming,     setConfirming]     = useState(false);
+  const [deletePwd,      setDeletePwd]      = useState('');
+  const [showPwd,        setShowPwd]        = useState(false);
+  const [deleting,       setDeleting]       = useState(false);
+  const [deleteError,    setDeleteError]    = useState<string | null>(null);
+
   /* ── Vérification auth + chargement historique ── */
   useEffect(() => {
     let unsub: (() => void) | null = null;
@@ -259,6 +287,7 @@ export default function ComptePageClient() {
           return;
         }
         setUserEmail(user.email);
+        setIsPasswordUser(user.providerData[0]?.providerId === 'password');
         setLoading(false);
         fetchHistory().then(data => {
           setHistory(data);
@@ -304,6 +333,48 @@ export default function ComptePageClient() {
       await signOut();
       router.replace('/connexion');
     } catch { /* silencieux */ }
+  };
+
+  /* ── Suppression définitive du compte ── */
+  const handleDelete = async () => {
+    setDeleteError(null);
+    if (isPasswordUser && !deletePwd) { setDeleteError(t.deletePwdReq); return; }
+    setDeleting(true);
+    try {
+      const { reauthenticateCurrentUser, deleteAccount } = await import('@/lib/firebase');
+
+      // 1. Réauthentification (obligatoire avant suppression).
+      try {
+        await reauthenticateCurrentUser(isPasswordUser ? deletePwd : undefined);
+      } catch (e) {
+        const code = (e as { code?: string }).code ?? '';
+        if (code === 'auth/wrong-password' || code === 'auth/invalid-credential') {
+          setDeleteError(t.deleteWrongPwd);
+        } else if (code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') {
+          /* silencieux — popup Google fermée */
+        } else {
+          setDeleteError(t.deleteErr);
+        }
+        setDeleting(false);
+        return;
+      }
+
+      // 2. Suppression données Firestore + compte Auth.
+      await deleteAccount();
+
+      // 3. Nettoyage du localStorage de l'app.
+      try {
+        Object.keys(localStorage)
+          .filter((k) => k.startsWith('horloge-live.com-'))
+          .forEach((k) => localStorage.removeItem(k));
+      } catch { /* noop */ }
+
+      // 4. Retour à l'accueil.
+      router.replace('/');
+    } catch {
+      setDeleteError(t.deleteErr);
+      setDeleting(false);
+    }
   };
 
   /* Pendant la résolution auth, on rend rien (le fond CSS reste visible) */
@@ -445,6 +516,143 @@ export default function ComptePageClient() {
             language={language}
             t={t}
           />
+        </div>
+
+        {/* ── Zone de danger : suppression de compte ── */}
+        <div style={{ width: '100%', maxWidth: '560px', display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '8px' }}>
+          {!confirming ? (
+            <button
+              onClick={() => { setConfirming(true); setDeleteError(null); }}
+              style={{
+                alignSelf: 'flex-start',
+                background: 'none', border: 'none', cursor: 'pointer', padding: 0,
+                display: 'inline-flex', alignItems: 'center', gap: '7px',
+                fontSize: '13px', color: 'rgba(248,113,113,0.70)',
+                transition: 'color 150ms ease',
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = 'rgba(248,113,113,1)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(248,113,113,0.70)'; }}
+            >
+              <Trash2 size={15} strokeWidth={1.5} />
+              {t.deleteBtn}
+            </button>
+          ) : (
+            <div style={{
+              display: 'flex', flexDirection: 'column', gap: '12px',
+              padding: '16px',
+              borderRadius: '18px',
+              border: '1px solid rgba(220,38,38,0.35)',
+              background: 'rgba(220,38,38,0.08)',
+              backdropFilter: 'blur(14px) saturate(160%)',
+              WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+            }}>
+              <span style={{ fontSize: '13px', fontWeight: 500, color: '#fca5a5' }}>
+                {t.deleteTitle}
+              </span>
+              <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.55)', lineHeight: 1.5 }}>
+                {t.deleteWarn}
+              </span>
+
+              {isPasswordUser ? (
+                <div style={{ position: 'relative' }}>
+                  <input
+                    type={showPwd ? 'text' : 'password'}
+                    placeholder={t.deletePwd}
+                    value={deletePwd}
+                    onChange={(e) => setDeletePwd(e.target.value)}
+                    autoComplete="current-password"
+                    style={{
+                      width: '100%',
+                      background: 'linear-gradient(160deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04))',
+                      border: '1px solid rgba(255,255,255,0.18)',
+                      borderRadius: '12px',
+                      padding: '10px 40px 10px 14px',
+                      fontSize: '14px',
+                      color: '#ffffff',
+                      outline: 'none',
+                      boxSizing: 'border-box',
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPwd(s => !s)}
+                    aria-label={showPwd ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
+                    style={{
+                      position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)',
+                      background: 'none', border: 'none', cursor: 'pointer', padding: '2px',
+                      color: 'rgba(255,255,255,0.35)', lineHeight: 0,
+                    }}
+                  >
+                    {showPwd ? <EyeOff size={16} strokeWidth={1.5} /> : <Eye size={16} strokeWidth={1.5} />}
+                  </button>
+                </div>
+              ) : (
+                <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)', fontStyle: 'italic' }}>
+                  {t.deleteGoogle}
+                </span>
+              )}
+
+              {deleteError && (
+                <div style={{
+                  borderRadius: '10px', padding: '8px 12px', fontSize: '12px',
+                  border: '1px solid rgba(220,38,38,0.40)', background: 'rgba(220,38,38,0.15)',
+                  color: '#fca5a5',
+                }}>
+                  {deleteError}
+                </div>
+              )}
+
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button
+                  onClick={handleDelete}
+                  disabled={deleting}
+                  style={{
+                    flex: 1,
+                    borderRadius: '50px',
+                    padding: '10px 16px',
+                    fontSize: '13px',
+                    fontWeight: 500,
+                    cursor: deleting ? 'not-allowed' : 'pointer',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '7px',
+                    border: '1px solid rgba(220,38,38,0.55)',
+                    background: deleting
+                      ? 'rgba(220,38,38,0.15)'
+                      : 'linear-gradient(160deg, rgba(220,38,38,0.30), rgba(220,38,38,0.14))',
+                    color: deleting ? 'rgba(252,165,165,0.5)' : '#fecaca',
+                    transition: 'background 180ms ease',
+                    opacity: deleting ? 0.7 : 1,
+                  }}
+                  onMouseEnter={(e) => { if (!deleting) e.currentTarget.style.background = 'linear-gradient(160deg, rgba(220,38,38,0.42), rgba(220,38,38,0.20))'; }}
+                  onMouseLeave={(e) => { if (!deleting) e.currentTarget.style.background = 'linear-gradient(160deg, rgba(220,38,38,0.30), rgba(220,38,38,0.14))'; }}
+                >
+                  {deleting ? (
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" style={{ animation: 'spin 1s linear infinite' }}>
+                      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" strokeDasharray="60" strokeDashoffset="30" strokeLinecap="round"/>
+                      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+                    </svg>
+                  ) : <Trash2 size={15} strokeWidth={1.5} />}
+                  {t.deleteConfirm}
+                </button>
+                <button
+                  onClick={() => { setConfirming(false); setDeletePwd(''); setDeleteError(null); }}
+                  disabled={deleting}
+                  style={{
+                    flex: 1,
+                    borderRadius: '50px',
+                    padding: '10px 16px',
+                    fontSize: '13px',
+                    fontWeight: 400,
+                    cursor: deleting ? 'not-allowed' : 'pointer',
+                    border: '1px solid rgba(255,255,255,0.18)',
+                    background: 'linear-gradient(160deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04))',
+                    color: 'rgba(255,255,255,0.75)',
+                  }}
+                >
+                  {t.deleteCancel}
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
