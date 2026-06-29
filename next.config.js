@@ -48,31 +48,54 @@ const nextConfig = {
           },
         ],
       },
-      /* Page widget — autorise l'iframe depuis n'importe quel domaine */
+      /* Pages widget — SEULES routes embarquables en iframe (Notion, etc.) */
+      {
+        source: '/widget/:path*',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: 'frame-ancestors *',
+          },
+        ],
+      },
       {
         source: '/widget',
         headers: [
           {
-            key: 'X-Frame-Options',
-            value: 'ALLOWALL',
-          },
-          {
             key: 'Content-Security-Policy',
-            value: "frame-ancestors *",
+            value: 'frame-ancestors *',
           },
         ],
       },
-      /* Autorise l'intégration en iframe (Notion, autres sites) */
+      /* Tout le reste SAUF /widget — durcissement sécurité + interdiction
+         d'embarquement (anti-clickjacking, notamment /connexion et /compte).
+         Le lookahead négatif évite de fusionner ces headers sur /widget. */
       {
-        source: '/:path*',
+        source: '/((?!widget).*)',
         headers: [
           {
             key: 'X-Frame-Options',
-            value: 'ALLOWALL',
+            value: 'SAMEORIGIN',
           },
           {
             key: 'Content-Security-Policy',
-            value: "frame-ancestors *",
+            value: "frame-ancestors 'self'",
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=63072000; includeSubDomains; preload',
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=()',
           },
         ],
       },
