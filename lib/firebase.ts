@@ -39,6 +39,24 @@ const firebaseConfig = {
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 export const auth = getAuth(app);
 
+/* ── App Check (anti-bots / anti-DDoS) ────────────────────────────
+   Protège les endpoints Auth & Firestore : seules les requêtes
+   provenant de la vraie app (validées par reCAPTCHA v3) sont acceptées.
+   ⚡ Ne s'active QUE si la clé reCAPTCHA est fournie — sinon no-op,
+      donc aucun risque tant que ce n'est pas configuré côté console. */
+if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) {
+  import('firebase/app-check')
+    .then(({ initializeAppCheck, ReCaptchaV3Provider }) => {
+      initializeAppCheck(app, {
+        provider: new ReCaptchaV3Provider(
+          process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string,
+        ),
+        isTokenAutoRefreshEnabled: true,
+      });
+    })
+    .catch(() => { /* App Check indisponible — on n'empêche pas l'app de tourner */ });
+}
+
 /* ── Firestore : lazy — SDK chargé uniquement si nécessaire ──── */
 export const getDb = async () => {
   const { getFirestore } = await import('firebase/firestore');

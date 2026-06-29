@@ -123,6 +123,8 @@ function mapFirebaseError(code: string): string {
       return 'Le mot de passe doit contenir au moins 8 caractères.';
     case 'auth/invalid-email':
       return 'Adresse e-mail invalide.';
+    case 'auth/too-many-requests':
+      return 'Trop de tentatives. Par sécurité, l\'accès est temporairement bloqué. Veuillez réessayer dans quelques minutes.';
     case 'auth/popup-closed-by-user':
     case 'auth/cancelled-popup-request':
       return ''; // Silencieux — l'utilisateur a fermé le popup
@@ -712,8 +714,16 @@ export default function ConnexionPageClient() {
   const [success,         setSuccess]         = useState<string | null>(null);
   const [forgotMode,      setForgotMode]      = useState(false);
   const [squishKey,       setSquishKey]       = useState(0);
+  const [cooldown,        setCooldown]        = useState(0); // secondes avant nouvel envoi de reset
 
   const clearMessages = () => { setError(null); setSuccess(null); };
+
+  /* ── Décompte du cooldown anti-spam ── */
+  useEffect(() => {
+    if (cooldown <= 0) return;
+    const id = setInterval(() => setCooldown((c) => (c <= 1 ? 0 : c - 1)), 1000);
+    return () => clearInterval(id);
+  }, [cooldown]);
 
   /* ── Connexion email ── */
   const handleSignIn = async () => {
@@ -823,11 +833,13 @@ export default function ConnexionPageClient() {
   /* ── Mot de passe oublié ── */
   const handleResetPassword = async () => {
     clearMessages();
+    if (cooldown > 0) return; // anti-spam : un envoi maxi toutes les 60 s
     if (!email) { setError(u.errEmailMissing); return; }
     setLoading(true);
     try {
       await resetPassword(email);
       setSuccess(u.successReset);
+      setCooldown(60);
     } catch (err) {
       const code = (err as AuthError).code ?? '';
       const msg  = mapFirebaseError(code);
@@ -902,7 +914,11 @@ export default function ConnexionPageClient() {
           />
           {error   && <StatusMessage type="error"   text={error}   />}
           {success && <StatusMessage type="success" text={success} />}
-          <PrimaryButton label={u.forgotBtn} onClick={handleResetPassword} loading={loading} />
+          <PrimaryButton
+            label={cooldown > 0 ? `${u.forgotBtn} (${cooldown}s)` : u.forgotBtn}
+            onClick={handleResetPassword}
+            loading={loading || cooldown > 0}
+          />
           <button
             onClick={() => { setForgotMode(false); clearMessages(); }}
             style={{
