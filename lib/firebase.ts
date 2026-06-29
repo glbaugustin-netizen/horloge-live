@@ -15,6 +15,7 @@ import {
   signInWithPopup,
   signOut as _signOut,
   sendPasswordResetEmail,
+  sendEmailVerification,
   onAuthStateChanged as _onAuthStateChanged,
   type User,
   type AuthError,
@@ -67,6 +68,14 @@ export function signOut() {
 /** Envoi de l'e-mail de réinitialisation du mot de passe */
 export function resetPassword(email: string) {
   return sendPasswordResetEmail(auth, email);
+}
+
+/**
+ * Envoi de l'e-mail de vérification d'adresse (double opt-in).
+ * Le lien renvoie vers le domaine configuré dans Firebase Auth.
+ */
+export function sendVerificationEmail(user: User) {
+  return sendEmailVerification(user);
 }
 
 /* ── Préférences Firestore ────────────────────────────────────── */

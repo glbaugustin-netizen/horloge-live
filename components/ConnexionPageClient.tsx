@@ -11,6 +11,7 @@ import {
   signInWithGoogle,
   signOut,
   resetPassword,
+  sendVerificationEmail,
   saveConsentToFirestore,
   loadPrefsFromFirestore,
   onAuthStateChanged,
@@ -46,6 +47,8 @@ const UI = {
     signOutConfirm:  'Vous avez été déconnecté.',
     successSignIn:   'Connexion réussie. Bienvenue !',
     successSignUp:   'Compte créé avec succès. Bienvenue !',
+    successVerify:   'Compte créé ! Un e-mail de vérification vient de vous être envoyé. Cliquez sur le lien qu\'il contient, puis connectez-vous. Pensez à vérifier vos spams / courriers indésirables.',
+    errNotVerified:  'Vous devez d\'abord vérifier votre adresse e-mail. Un nouveau lien vient de vous être envoyé — vérifiez votre boîte de réception (et vos spams).',
     successReset:    'Un e-mail de réinitialisation a été envoyé à votre adresse. Pensez à vérifier vos spams / courriers indésirables si vous ne le voyez pas dans quelques minutes.',
     errRgpd:         'Veuillez accepter les conditions générales pour vous inscrire.',
     errEmailMissing: 'Veuillez entrer votre adresse e-mail.',
@@ -74,6 +77,8 @@ const UI = {
     signOutConfirm:  'You have been signed out.',
     successSignIn:   'Connexion réussie. Bienvenue !',
     successSignUp:   'Compte créé avec succès. Bienvenue !',
+    successVerify:   'Account created! A verification email has just been sent to you. Click the link inside, then sign in. Please check your spam folder too.',
+    errNotVerified:  'You must verify your email address first. A new link has just been sent — please check your inbox (and spam folder).',
     successReset:    'An email has been sent to reset your password. Please check your spam folder if you don\'t see it within a few minutes.',
     errRgpd:         'Please accept the terms to create an account.',
     errEmailMissing: 'Please enter your email address.',
@@ -516,10 +521,12 @@ export default function ConnexionPageClient() {
   const language     = settings.language;
   const u            = UI[language];
 
-  /* ── Firebase auth state ── */
+  /* ── Firebase auth state ──
+     Une session email/password non vérifiée n'est PAS considérée connectée.
+     (Les comptes Google ont toujours emailVerified === true.) */
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (u) => setUser(u));
+    const unsub = onAuthStateChanged(auth, (u) => setUser(u && u.emailVerified ? u : null));
     return () => unsub();
   }, []);
 
@@ -546,6 +553,13 @@ export default function ConnexionPageClient() {
     setLoading(true);
     try {
       const cred = await signInWithEmail(email, password);
+      // Double opt-in : refuser l'accès tant que l'e-mail n'est pas vérifié.
+      if (!cred.user.emailVerified) {
+        try { await sendVerificationEmail(cred.user); } catch { /* noop */ }
+        await signOut();
+        setError(u.errNotVerified);
+        return;
+      }
       // Charger les préférences Firestore et les appliquer en localStorage
       try {
         const prefs = await loadPrefsFromFirestore(cred.user.uid);
@@ -581,9 +595,18 @@ export default function ConnexionPageClient() {
     setLoading(true);
     try {
       const cred = await signUpWithEmail(email, password);
+      // Enregistrer le consentement RGPD pendant que la session est active…
       await saveConsentToFirestore(cred.user.uid);
-      setSuccess(u.successSignUp);
-      setTimeout(() => router.push('/'), 1200);
+      // …envoyer l'e-mail de vérification (double opt-in)…
+      await sendVerificationEmail(cred.user);
+      // …puis déconnecter : pas d'accès tant que l'e-mail n'est pas vérifié.
+      await signOut();
+      setSuccess(u.successVerify);
+      // Basculer sur l'onglet connexion pour la suite, vider les mots de passe.
+      setTab('connexion');
+      setPassword('');
+      setConfirm('');
+      setRgpd(false);
     } catch (err) {
       const code = (err as AuthError).code ?? '';
       const msg  = mapFirebaseError(code);
