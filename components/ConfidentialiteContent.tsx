@@ -36,7 +36,7 @@ export default function ConfidentialiteContent() {
       navLinks={NAV[lang]}
     >
       <p style={S.updated}>
-        {isFr ? 'Dernière mise à jour : 3 mai 2026' : 'Last updated: May 3, 2026'}
+        {isFr ? 'Dernière mise à jour : 29 juin 2026' : 'Last updated: June 29, 2026'}
       </p>
 
       {/* ── Intro ── */}
@@ -133,6 +133,7 @@ export default function ConfidentialiteContent() {
           <ul style={{ ...S.p, paddingLeft: '20px', margin: '0 0 12px 0' }}>
             <li>Firebase Authentication (Google LLC) pour la gestion de l'authentification</li>
             <li>Firebase Firestore (Google LLC) pour le stockage sécurisé des préférences, de l'historique des sessions et des villes personnalisées</li>
+            <li>Microsoft Clarity (Microsoft Corporation) pour la mesure d'audience anonyme et l'analyse de l'expérience utilisateur (statistiques de navigation, cartes de fréquentation)</li>
           </ul>
           <p style={S.p}>
             Google LLC est soumis aux clauses contractuelles types de la Commission européenne
@@ -304,9 +305,24 @@ export default function ConfidentialiteContent() {
             gestion de la session d'authentification. Ces cookies ne sont déposés que si l'utilisateur
             crée un compte et se connecte.
           </p>
+          <p style={S.p}>
+            <strong style={S.strong}>Microsoft Clarity (mesure d'audience) :</strong> le site utilise
+            Microsoft Clarity afin d'analyser, de manière agrégée et anonyme, la façon dont les
+            visiteurs utilisent le site (pages consultées, clics, défilement, cartes de fréquentation).
+            Cet outil peut déposer des cookies et collecter des données techniques (type d'appareil,
+            navigateur, pages visitées). Les contenus sensibles (champs de formulaire, textes saisis)
+            sont masqués automatiquement. Aucune donnée n'est utilisée à des fins publicitaires.
+            Pour en savoir plus, consultez la{' '}
+            <a href="https://privacy.microsoft.com/fr-fr/privacystatement" target="_blank" rel="noopener noreferrer" style={S.a}>
+              déclaration de confidentialité de Microsoft
+            </a>
+            .
+          </p>
           <p style={{ ...S.p, ...S.em }}>
-            Aucun bandeau de consentement aux cookies n'est requis pour les cookies strictement
-            nécessaires au fonctionnement du service, conformément aux lignes directrices de la CNIL.
+            Les cookies strictement nécessaires au fonctionnement du service (authentification) ne
+            requièrent pas de consentement, conformément aux lignes directrices de la CNIL. L'outil
+            de mesure d'audience est configuré pour limiter la collecte de données personnelles
+            (masquage des contenus et anonymisation).
           </p>
         </>
       ) : (
@@ -325,9 +341,22 @@ export default function ConfidentialiteContent() {
             Authentication uses strictly necessary technical cookies to manage the authentication
             session. These cookies are only set if the user creates an account and signs in.
           </p>
+          <p style={S.p}>
+            <strong style={S.strong}>Microsoft Clarity (analytics):</strong> the site uses Microsoft
+            Clarity to analyze, in an aggregated and anonymous way, how visitors use the site (pages
+            viewed, clicks, scrolling, heatmaps). This tool may set cookies and collect technical data
+            (device type, browser, pages visited). Sensitive content (form fields, typed text) is
+            automatically masked. No data is used for advertising purposes. For more information, see
+            the{' '}
+            <a href="https://privacy.microsoft.com/en-us/privacystatement" target="_blank" rel="noopener noreferrer" style={S.a}>
+              Microsoft Privacy Statement
+            </a>
+            .
+          </p>
           <p style={{ ...S.p, ...S.em }}>
-            No cookie consent banner is required for cookies that are strictly necessary for the
-            operation of the service, in accordance with CNIL guidelines.
+            Cookies strictly necessary for the operation of the service (authentication) do not
+            require consent, in accordance with CNIL guidelines. The analytics tool is configured to
+            limit the collection of personal data (content masking and anonymization).
           </p>
         </>
       )}
