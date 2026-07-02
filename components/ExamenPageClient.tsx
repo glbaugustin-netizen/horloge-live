@@ -219,6 +219,11 @@ export default function ExamenPageClient() {
     return () => document.removeEventListener('fullscreenchange', handler);
   }, []);
 
+  const changeLang = useCallback((l: Lang) => {
+    setLang(l);
+    try { localStorage.setItem(STORAGE_LANG, l); } catch {}
+  }, []);
+
   const handleStart = () => {
     setCurrentTime(new Date());
     setEndTime(computeEndTime(
@@ -266,18 +271,52 @@ export default function ExamenPageClient() {
       >
         <div style={{ width: '100%', maxWidth: '420px' }}>
 
-          {/* Back link */}
-          <Link
-            href="/"
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: '6px',
-              fontSize: '13px', color: '#6b7280', textDecoration: 'none',
-              marginBottom: '10px',
-            }}
-          >
-            <ArrowLeft size={13} />
-            {t.backLink}
-          </Link>
+          {/* Back link + sélecteur de langue */}
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            marginBottom: '10px',
+          }}>
+            <Link
+              href="/"
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '6px',
+                fontSize: '13px', color: '#6b7280', textDecoration: 'none',
+              }}
+            >
+              <ArrowLeft size={13} />
+              {t.backLink}
+            </Link>
+
+            {/* Toggle FR / EN */}
+            <div style={{
+              display: 'flex', gap: '2px', padding: '2px',
+              background: '#f3f4f6', borderRadius: '50px', border: '1px solid #e5e7eb',
+            }}>
+              {(['fr', 'en'] as Lang[]).map((l) => {
+                const active = lang === l;
+                return (
+                  <button
+                    key={l}
+                    onClick={() => changeLang(l)}
+                    aria-pressed={active}
+                    style={{
+                      padding: '4px 12px',
+                      fontSize: '12px',
+                      fontWeight: 600,
+                      borderRadius: '50px',
+                      border: 'none',
+                      cursor: 'pointer',
+                      background: active ? '#1a1a2e' : 'transparent',
+                      color: active ? '#ffffff' : '#6b7280',
+                      transition: 'background 150ms ease, color 150ms ease',
+                    }}
+                  >
+                    {l.toUpperCase()}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
 
           {/* Header */}
           <div style={{ textAlign: 'center', marginBottom: '12px' }}>
