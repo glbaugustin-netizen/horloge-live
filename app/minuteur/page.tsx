@@ -12,14 +12,14 @@ const conseilArticles = conseilSlugs
 
 /* ─── Métadonnées SEO ─────────────────────────────────────── */
 export const metadata: Metadata = {
-  title: { absolute: 'Minuteur en ligne gratuit | horloge-live.com' },
+  title: { absolute: 'Minuteur en ligne gratuit aesthetic | horloge-live.com' },
   description:
     "Minuteur en ligne gratuit avec alarme sonore, plein écran et style aesthetic. Compte à rebours précis, sans pub, sans inscription. Sur mobile et ordinateur.",
   alternates: { canonical: 'https://horloge-live.com/minuteur' },
   robots: { index: true, follow: true },
   openGraph: {
     type: 'website',
-    title: 'Minuteur en ligne gratuit | horloge-live.com',
+    title: 'Minuteur en ligne gratuit aesthetic | horloge-live.com',
     description:
       "Minuteur en ligne gratuit avec alarme sonore, plein écran et style aesthetic. Compte à rebours précis, sans pub, sans inscription. Sur mobile et ordinateur.",
     url: 'https://horloge-live.com/minuteur',
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Minuteur en ligne gratuit | horloge-live.com',
+    title: 'Minuteur en ligne gratuit aesthetic | horloge-live.com',
     description:
       "Minuteur en ligne gratuit avec alarme sonore, plein écran et style aesthetic. Compte à rebours précis, sans pub, sans inscription. Sur mobile et ordinateur.",
   },
