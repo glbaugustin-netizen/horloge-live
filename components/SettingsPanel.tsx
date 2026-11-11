@@ -7,6 +7,7 @@ import {
 import { FONT_CATEGORIES, loadAllFonts } from '@/lib/googleFonts';
 import type { Settings } from '@/lib/useSettings';
 import GlassSlider from '@/components/GlassSlider';
+import SaveSettingsHint from '@/components/SaveSettingsHint';
 
 /* ═══════════════════════════════════════════════════════════════
    Données statiques
@@ -925,6 +926,59 @@ export default function SettingsPanel({
 
   const t = LABELS[settings.language];
 
+  /* ── Bulle « connectez-vous pour enregistrer » (visiteurs non connectés) ── */
+  const [isGuest, setIsGuest] = useState(false);
+  const [hasChanged, setHasChanged] = useState(false);
+  const [panelHeight, setPanelHeight] = useState(0);
+  const sectionRef = useRef<HTMLElement>(null);
+  const snapshotRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    let unsub: (() => void) | undefined;
+    let cancelled = false;
+    import('@/lib/firebase').then(({ auth, onAuthStateChanged }) => {
+      if (cancelled) return;
+      unsub = onAuthStateChanged(auth, (user) => setIsGuest(!user));
+    }).catch(() => { /* noop */ });
+    return () => { cancelled = true; unsub?.(); };
+  }, []);
+
+  /* Signature de tous les réglages modifiables depuis le panneau */
+  const signature = JSON.stringify({
+    settings,
+    flipMode,
+    flipTheme,
+    analog: analogOptions && {
+      n: analogOptions.showNumbers,
+      s: analogOptions.analogStyle,
+      f: analogOptions.analogFormat,
+      t: analogOptions.clockTheme,
+    },
+  });
+
+  useEffect(() => {
+    if (!isOpen) {
+      snapshotRef.current = null;
+      setHasChanged(false);
+      return;
+    }
+    if (snapshotRef.current === null) {
+      snapshotRef.current = signature;
+    } else if (signature !== snapshotRef.current) {
+      setHasChanged(true);
+    }
+  }, [isOpen, signature]);
+
+  /* Hauteur du panneau → la bulle se place juste au-dessus */
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || typeof ResizeObserver === 'undefined') return;
+    const ro = new ResizeObserver(() => setPanelHeight(el.offsetHeight));
+    ro.observe(el);
+    setPanelHeight(el.offsetHeight);
+    return () => ro.disconnect();
+  }, []);
+
   /* Charger toutes les polices à l'ouverture du panneau */
   useEffect(() => {
     if (isOpen) loadAllFonts();
@@ -1003,7 +1057,14 @@ export default function SettingsPanel({
       />
 
       {/* ── Panneau (slide depuis le bas) ── */}
+      <SaveSettingsHint
+        visible={isOpen && isGuest && hasChanged}
+        language={settings.language}
+        bottom={panelHeight + 14}
+      />
+
       <section
+        ref={sectionRef}
         aria-label={t.title}
         className="max-h-[85vh] sm:max-h-[70vh]"
         style={{
