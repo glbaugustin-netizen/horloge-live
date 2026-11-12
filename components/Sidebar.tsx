@@ -150,6 +150,9 @@ export default function Sidebar({ isOpen: externalOpen, onClose, language = 'fr'
           opacity: open ? 1 : 0,
           transition: 'opacity 200ms ease',
           pointerEvents: open ? 'auto' : 'none',
+          // iOS Safari ne transmet pas le tap à un div « non cliquable » sans cursor:pointer
+          cursor: 'pointer',
+          WebkitTapHighlightColor: 'transparent',
         }}
       />
 

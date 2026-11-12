@@ -224,6 +224,8 @@ export default function ConseilsSettingsPanel({ isOpen, onClose, settings, updat
           background: 'rgba(0,0,0,0.20)', backdropFilter: 'blur(2px)', WebkitBackdropFilter: 'blur(2px)',
           zIndex: 35, opacity: isOpen ? 1 : 0, transition: 'opacity 200ms ease',
           pointerEvents: isOpen ? 'auto' : 'none',
+          // iOS Safari ne transmet pas le tap à un div « non cliquable » sans cursor:pointer
+          cursor: 'pointer', WebkitTapHighlightColor: 'transparent',
         }}
       />
 

@@ -1053,6 +1053,9 @@ export default function SettingsPanel({
           opacity: isOpen ? 1 : 0,
           transition: 'opacity 200ms ease',
           pointerEvents: isOpen ? 'auto' : 'none',
+          // iOS Safari ne transmet pas le tap à un div « non cliquable » sans cursor:pointer
+          cursor: 'pointer',
+          WebkitTapHighlightColor: 'transparent',
         }}
       />
 
