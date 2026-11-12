@@ -10,8 +10,8 @@
  * Le rafraîchissement est cadencé par un Web Worker : contrairement à
  * setInterval / requestAnimationFrame, il n'est pas gelé quand l'onglet est caché.
  *
- * Chrome / Edge desktop : Document PiP (fenêtre HTML, sans contrôles vidéo).
- * Safari (macOS / iOS), Chrome Android : PiP vidéo natif.
+ * Compatibilité : Chrome, Edge, Opera, Safari (macOS / iOS), Chrome Android.
+ * (Document PiP écarté : Chrome y impose une barre de titre non masquable.)
  * Firefox n'expose pas d'API PiP → le bouton n'est pas affiché.
  */
 
@@ -197,16 +197,6 @@ function drawScene(ctx: CanvasRenderingContext2D, scene: PipScene, style: PipSty
 
 /* ═══════════════════════════════════════════════════════════════ */
 
-/** Document Picture-in-Picture (Chrome / Edge 116+) — fenêtre HTML sans contrôles vidéo */
-interface DocPipApi {
-  requestWindow(opts?: { width?: number; height?: number }): Promise<Window>;
-  window: Window | null;
-}
-function getDocPip(): DocPipApi | null {
-  if (typeof window === 'undefined') return null;
-  return (window as unknown as { documentPictureInPicture?: DocPipApi }).documentPictureInPicture ?? null;
-}
-
 /** Rendu 2× pour un affichage net */
 const SCALE = 2;
 
@@ -221,14 +211,14 @@ export function usePictureInPicture(getScene: () => PipScene, style: PipStyle) {
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const pipWindowRef = useRef<Window | null>(null);
   const workerRef = useRef<Worker | null>(null);
 
   useEffect(() => {
-    const videoPip =
+    setSupported(
       !!document.pictureInPictureEnabled &&
-      'captureStream' in HTMLCanvasElement.prototype;
-    setSupported(typeof Worker !== 'undefined' && (!!getDocPip() || videoPip));
+      'captureStream' in HTMLCanvasElement.prototype &&
+      typeof Worker !== 'undefined',
+    );
   }, []);
 
   const render = useCallback(() => {
@@ -238,10 +228,6 @@ export function usePictureInPicture(getScene: () => PipScene, style: PipStyle) {
     try {
       ctx.setTransform(SCALE, 0, 0, SCALE, 0, 0);
       drawScene(ctx, sceneRef.current(), styleRef.current);
-      // Fond de la fenêtre assorti (bandes si la fenêtre n'est pas en 16:9)
-      const win = pipWindowRef.current;
-      const bg = styleRef.current.background;
-      if (win) win.document.body.style.background = bg && !bg.includes('url(') ? bg : '#0A0A0A';
     } catch { /* noop */ }
   }, []);
 
@@ -255,13 +241,12 @@ export function usePictureInPicture(getScene: () => PipScene, style: PipStyle) {
       video.remove();
     }
     videoRef.current = null;
-    pipWindowRef.current = null;
     canvasRef.current = null;
     setActive(false);
   }, []);
 
   const open = useCallback(async () => {
-    if (videoRef.current || pipWindowRef.current) return;
+    if (videoRef.current) return;
 
     const canvas = document.createElement('canvas');
     canvas.width = W * SCALE;
@@ -276,30 +261,6 @@ export function usePictureInPicture(getScene: () => PipScene, style: PipStyle) {
       workerRef.current = worker;
     };
 
-    /* ── 1. Document PiP : fenêtre propre, sans barre ni boutons vidéo ── */
-    const docPip = getDocPip();
-    if (docPip) {
-      try {
-        const win = await docPip.requestWindow({ width: 360, height: 203 });
-        pipWindowRef.current = win;
-        win.document.title = 'horloge-live.com';
-        Object.assign(win.document.body.style, {
-          margin: '0', overflow: 'hidden', background: '#0A0A0A',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh',
-        });
-        Object.assign(canvas.style, { width: '100%', height: '100%', objectFit: 'contain', display: 'block' });
-        win.document.body.appendChild(canvas);
-        win.addEventListener('pagehide', teardown, { once: true });
-        startTicking();
-        render();
-        setActive(true);
-        return;
-      } catch {
-        pipWindowRef.current = null; // repli sur le PiP vidéo
-      }
-    }
-
-    /* ── 2. PiP vidéo (Safari, Chrome Android…) ── */
     const video = document.createElement('video');
     video.muted = true;
     video.playsInline = true;
@@ -325,15 +286,13 @@ export function usePictureInPicture(getScene: () => PipScene, style: PipStyle) {
   }, [render, teardown]);
 
   const close = useCallback(() => {
-    if (pipWindowRef.current) {
-      pipWindowRef.current.close();
-    } else if (videoRef.current && document.pictureInPictureElement === videoRef.current) {
+    if (videoRef.current && document.pictureInPictureElement === videoRef.current) {
       document.exitPictureInPicture().catch(() => {});
     }
   }, []);
 
   const toggle = useCallback(() => {
-    if (pipWindowRef.current || (videoRef.current && document.pictureInPictureElement === videoRef.current)) {
+    if (videoRef.current && document.pictureInPictureElement === videoRef.current) {
       close();
     } else {
       open();
