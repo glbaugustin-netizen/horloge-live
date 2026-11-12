@@ -8,6 +8,8 @@ import {
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import BottomBar from '@/components/BottomBar';
+import PipButton from '@/components/PipButton';
+import { usePictureInPicture, pipClockText, pipDateText, pipDurationText } from '@/lib/usePictureInPicture';
 import MobileNav from '@/components/MobileNav';
 import { useSettings } from '@/lib/useSettings';
 import { saveSession } from '@/lib/useHistory';
@@ -315,6 +317,12 @@ export default function ChronoPageClient() {
   /* Référence pour ancrer le chrono : Date.now() − elapsed = point zéro */
   const anchorRef = useRef<number>(0);
 
+  /* ── Mode incrusté (Picture-in-Picture) — calculé depuis l'ancre, pas gelé onglet caché ── */
+  const pip = usePictureInPicture(() => ({
+    kind: 'text',
+    main: pipDurationText(running ? Date.now() - anchorRef.current : elapsed, { tenths: true }),
+  }), { font: settings.font, textColor: settings.textColor, background: settings.background });
+
   /* ── Boucle requestAnimationFrame ── */
   useEffect(() => {
     if (!running) return;
@@ -425,6 +433,8 @@ export default function ChronoPageClient() {
           <Menu size={20} strokeWidth={1.5} />
         </button>
       )}
+
+      {!isFullscreen && <PipButton supported={pip.supported} active={pip.active} onToggle={pip.toggle} language={settings.language} />}
 
       {/* ── Affichage central ── */}
       <div className="chrono-centered" style={{ zIndex: 10 }}>

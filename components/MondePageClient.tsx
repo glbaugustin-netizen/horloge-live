@@ -6,6 +6,8 @@ import { Menu, Settings2, Maximize2, User, X } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import MobileNav from '@/components/MobileNav';
 import { useSettings } from '@/lib/useSettings';
+import PipButton from '@/components/PipButton';
+import { usePictureInPicture, pipClockText, pipDateText, pipDurationText } from '@/lib/usePictureInPicture';
 
 const Sidebar      = dynamic(() => import('@/components/Sidebar'),       { ssr: false, loading: () => null });
 const SettingsPanel = dynamic(() => import('@/components/SettingsPanel'), { ssr: false, loading: () => null });
@@ -521,6 +523,18 @@ export default function MondePageClient() {
   const [accountHref,  setAccountHref]  = useState('/connexion');
   const [customZones,  setCustomZones]  = useState<string[]>([]);
 
+  /* ── Mode incrusté (Picture-in-Picture) ── */
+  const pip = usePictureInPicture(() => {
+    const d = new Date();
+    return {
+      kind: 'list',
+      rows: [...DEFAULT_TZS, ...customZones].slice(0, 6).map((tz) => ({
+        label: tzDisplayName(tz, language),
+        value: formatTime(d, tz).slice(0, 5),
+      })),
+    };
+  }, { font: settings.font, textColor: settings.textColor, background: settings.background });
+
   useEffect(() => {
     let unsub: (() => void) | null = null;
 
@@ -624,6 +638,8 @@ export default function MondePageClient() {
       >
         <Menu size={20} strokeWidth={1.5} />
       </button>
+
+      <PipButton supported={pip.supported} active={pip.active} onToggle={pip.toggle} language={language} />
 
       {/* ── Contenu scrollable ── */}
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', zIndex: 10 }}>

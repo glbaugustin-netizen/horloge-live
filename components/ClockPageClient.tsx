@@ -9,6 +9,8 @@ import Clock from '@/components/Clock';
 import BottomBar from '@/components/BottomBar';
 import MobileNav from '@/components/MobileNav';
 import { useSettings } from '@/lib/useSettings';
+import PipButton from '@/components/PipButton';
+import { usePictureInPicture, pipClockText, pipDateText, pipDurationText } from '@/lib/usePictureInPicture';
 
 /* Chargés en différé — absents du bundle initial (économise ~80 KB) */
 const Sidebar       = dynamic(() => import('@/components/Sidebar'),       { ssr: false, loading: () => null });
@@ -101,6 +103,18 @@ export default function ClockPageClient() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [embedOpen,   setEmbedOpen]   = useState(false);
   const [accountHref, setAccountHref] = useState('/connexion');
+
+  /* ── Mode incrusté (Picture-in-Picture) ── */
+  const pip = usePictureInPicture(() => {
+    const d = new Date();
+    return {
+      kind: 'text',
+      main: pipClockText(d, settings.format, settings.showSeconds),
+      sub: settings.showDate ? pipDateText(d, settings.language) : undefined,
+    };
+  }, flipMode
+    ? { font: 'Inter', textColor: flipTheme === 'light' ? '#111111' : '#FFFFFF', background: flipTheme === 'light' ? '#F5F5F5' : '#0A0A0A' }
+    : { font: settings.font, textColor: settings.textColor, background: settings.background });
 
   /* Suivi état de connexion Firebase */
   useEffect(() => {
@@ -196,6 +210,8 @@ export default function ClockPageClient() {
           <Menu size={20} strokeWidth={1.5} />
         </button>
       )}
+
+      {!isFullscreen && <PipButton supported={pip.supported} active={pip.active} onToggle={pip.toggle} language={settings.language} />}
 
       {/* ── Horloge centrée ──
           Desktop/tablet : top 50%

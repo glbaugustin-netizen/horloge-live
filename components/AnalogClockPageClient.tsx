@@ -9,6 +9,8 @@ import AnalogClock from '@/components/AnalogClock';
 import BottomBar from '@/components/BottomBar';
 import MobileNav from '@/components/MobileNav';
 import { useSettings } from '@/lib/useSettings';
+import PipButton from '@/components/PipButton';
+import { usePictureInPicture, pipClockText, pipDateText, pipDurationText } from '@/lib/usePictureInPicture';
 
 /* Chargés en différé */
 const Sidebar       = dynamic(() => import('@/components/Sidebar'),       { ssr: false, loading: () => null });
@@ -114,6 +116,17 @@ export default function AnalogClockPageClient() {
 
   /* ── Date courante ── */
   const [now, setNow] = useState<Date | null>(null);
+
+  /* ── Mode incrusté (Picture-in-Picture) ── */
+  const pip = usePictureInPicture(() => {
+    const d = new Date();
+    return {
+      kind: 'analog',
+      date: d,
+      showNumbers,
+      sub: settings.showDate ? pipDateText(d, settings.language) : undefined,
+    };
+  }, { textColor: clockTheme === 'white' ? '#111111' : '#FFFFFF', background: clockTheme === 'white' ? '#F5F5F5' : settings.background });
 
   /* ── Date tick ── */
   useEffect(() => {
@@ -237,6 +250,8 @@ export default function AnalogClockPageClient() {
             <Menu size={20} strokeWidth={1.5} />
           </button>
         )}
+
+        {!isFullscreen && <PipButton supported={pip.supported} active={pip.active} onToggle={pip.toggle} language={settings.language} />}
 
         {/* ── Horloge centrée ── */}
         <div

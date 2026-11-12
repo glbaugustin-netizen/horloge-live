@@ -8,6 +8,8 @@ import {
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import BottomBar from '@/components/BottomBar';
+import PipButton from '@/components/PipButton';
+import { usePictureInPicture, pipClockText, pipDateText, pipDurationText } from '@/lib/usePictureInPicture';
 import MobileNav from '@/components/MobileNav';
 import { useSettings } from '@/lib/useSettings';
 import { saveSession } from '@/lib/useHistory';
@@ -350,6 +352,12 @@ export default function MinuteurPageClient() {
   /* Évite de sauvegarder plusieurs fois la même session */
   const hasSavedRef = useRef(false);
 
+  /* ── Mode incrusté (Picture-in-Picture) — calculé depuis l'heure de fin ── */
+  const pip = usePictureInPicture(() => ({
+    kind: 'text',
+    main: pipDurationText(running ? endTimeRef.current - Date.now() : remaining, { ceil: true }),
+  }), { font: settings.font, textColor: settings.textColor, background: settings.background });
+
   /* ── Boucle requestAnimationFrame ── */
   useEffect(() => {
     if (!running) return;
@@ -486,6 +494,8 @@ export default function MinuteurPageClient() {
           <Menu size={20} strokeWidth={1.5} />
         </button>
       )}
+
+      {!isFullscreen && <PipButton supported={pip.supported} active={pip.active} onToggle={pip.toggle} language={settings.language} />}
 
       {/* ── Affichage central ── */}
       <div className="chrono-centered" style={{ zIndex: 10 }}>

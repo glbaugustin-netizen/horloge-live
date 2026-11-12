@@ -3,6 +3,8 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
+import PipButton from '@/components/PipButton';
+import { usePictureInPicture, pipClockText, pipDateText, pipDurationText } from '@/lib/usePictureInPicture';
 import { Maximize2, Minimize2, Pencil, GraduationCap, ArrowLeft } from 'lucide-react';
 
 /* ─── Types ──────────────────────────────────────────────────── */
@@ -177,6 +179,16 @@ export default function ExamenPageClient() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [endTime, setEndTime]       = useState('');
+
+  /* ── Mode incrusté (Picture-in-Picture) ── */
+  const pip = usePictureInPicture(() => {
+    const d = new Date();
+    return {
+      kind: 'text',
+      main: pipClockText(d, '24h', config.showSeconds),
+      sub: config.showEndTime && endTime ? `${LABELS[lang].endTimePrefix} ${endTime}` : config.subject || undefined,
+    };
+  }, { font: 'Inter', textColor: '#111827', background: '#FFFFFF' });
   const containerRef = useRef<HTMLDivElement>(null);
 
   /* Detect language + load config from localStorage */
@@ -550,6 +562,8 @@ export default function ExamenPageClient() {
           <Pencil size={13} />
           {t.editBtn}
         </button>
+
+        <PipButton supported={pip.supported} active={pip.active} onToggle={pip.toggle} language={lang} variant="light" />
 
         <button
           onClick={handleFullscreenToggle}
