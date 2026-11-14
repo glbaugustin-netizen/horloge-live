@@ -3,6 +3,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
+import { getPreferredLanguage } from '@/lib/language';
 import PipButton from '@/components/PipButton';
 import { usePictureInPicture, pipClockText, pipDateText, pipDurationText } from '@/lib/usePictureInPicture';
 import { Maximize2, Minimize2, Pencil, GraduationCap, ArrowLeft } from 'lucide-react';
@@ -194,8 +195,7 @@ export default function ExamenPageClient() {
   /* Detect language + load config from localStorage */
   useEffect(() => {
     try {
-      const storedLang = localStorage.getItem(STORAGE_LANG);
-      if (storedLang === 'en') setLang('en');
+      setLang(getPreferredLanguage());
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
         const parsed = JSON.parse(stored) as Partial<ExamConfig>;

@@ -2,6 +2,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { getPreferredLanguage } from '@/lib/language';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 
@@ -24,8 +25,7 @@ export default function LegalPageLayout({
   const [lang, setLang] = useState<'fr' | 'en'>('fr');
 
   useEffect(() => {
-    const stored = localStorage.getItem('horloge-live.com-language');
-    if (stored === 'en') setLang('en');
+    setLang(getPreferredLanguage());
   }, []);
 
   const backLabel = lang === 'fr' ? "Retour à l'horloge" : 'Back to clock';

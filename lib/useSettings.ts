@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { loadFont } from '@/lib/googleFonts';
 import { useSync } from '@/lib/useSync';
+import { detectBrowserLanguage } from '@/lib/language';
 
 const KEYS = {
   font:       'horloge-live.com-font',
@@ -48,11 +49,6 @@ const DEFAULTS: Settings = {
   language:     'fr',
 };
 
-function detectLanguage(): 'fr' | 'en' {
-  if (typeof navigator === 'undefined') return 'fr';
-  const lang = navigator.language?.toLowerCase() ?? 'fr';
-  return lang.startsWith('en') ? 'en' : 'fr';
-}
 
 function readFromStorage(): Partial<Settings> {
   if (typeof window === 'undefined') return {};
@@ -135,7 +131,7 @@ export function useSettings() {
   /* ── Hydratation initiale depuis localStorage ── */
   useEffect(() => {
     const stored       = readFromStorage();
-    const detectedLang = detectLanguage();
+    const detectedLang = detectBrowserLanguage();
     const merged: Settings = { ...DEFAULTS, language: detectedLang, ...stored };
     setSettings(merged);
     applyToCssVariables(merged);

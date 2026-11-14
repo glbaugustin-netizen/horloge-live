@@ -8,6 +8,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { getPreferredLanguage } from '@/lib/language';
 
 const CLARITY_ID  = 'xeolkk3cw3';
 const CONSENT_KEY = 'horloge-live.com-cookie-consent'; // 'accepted' | 'refused'
@@ -49,8 +50,7 @@ export default function CookieConsent() {
 
   useEffect(() => {
     try {
-      const stored = localStorage.getItem('horloge-live.com-language');
-      if (stored === 'en') setLang('en');
+      setLang(getPreferredLanguage());
 
       const consent = localStorage.getItem(CONSENT_KEY);
       if (consent === 'accepted') {

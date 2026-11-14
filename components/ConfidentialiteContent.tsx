@@ -2,6 +2,7 @@
 /* eslint-disable react/no-unescaped-entities */
 
 import { useState, useEffect } from 'react';
+import { getPreferredLanguage } from '@/lib/language';
 import LegalPageLayout from '@/components/LegalPageLayout';
 import { S } from '@/lib/legalStyles';
 
@@ -24,8 +25,7 @@ export default function ConfidentialiteContent() {
   const [lang, setLang] = useState<Lang>('fr');
 
   useEffect(() => {
-    const stored = localStorage.getItem('horloge-live.com-language');
-    if (stored === 'en') setLang('en');
+    setLang(getPreferredLanguage());
   }, []);
 
   const isFr = lang === 'fr';
