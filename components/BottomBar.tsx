@@ -16,7 +16,6 @@ export interface BottomBarProps {
   isFullscreen: boolean;
   onFullscreenToggle: () => void;
   isAuthenticated: boolean;
-  language?: 'fr' | 'en';
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -51,7 +50,6 @@ export default function BottomBar({
   isFullscreen,
   onFullscreenToggle,
   isAuthenticated,
-  language = 'fr',
 }: BottomBarProps) {
   const hoverOn  = (e: React.MouseEvent<HTMLButtonElement>) => { e.currentTarget.style.transform = 'translateY(-3px) scale(1.05)'; };
   const hoverOff = (e: React.MouseEvent<HTMLButtonElement>) => { e.currentTarget.style.transform = 'translateY(0) scale(1)'; };
@@ -64,7 +62,7 @@ export default function BottomBar({
       <button
         onClick={onSettingsClick}
         style={iconBtnBase}
-        aria-label={language === 'fr' ? 'Ouvrir les paramètres' : 'Open settings'}
+        aria-label="Open settings"
         onMouseEnter={hoverOn}
         onMouseLeave={hoverOff}
         onMouseDown={press}
@@ -78,8 +76,8 @@ export default function BottomBar({
         onClick={onFullscreenToggle}
         style={iconBtnBase}
         aria-label={isFullscreen
-          ? (language === 'fr' ? 'Quitter le plein écran' : 'Exit fullscreen')
-          : (language === 'fr' ? 'Activer le plein écran' : 'Enable fullscreen')}
+          ? 'Exit fullscreen'
+          : 'Enable fullscreen'}
         onMouseEnter={hoverOn}
         onMouseLeave={hoverOff}
         onMouseDown={press}
@@ -95,8 +93,8 @@ export default function BottomBar({
         onClick={onAccountClick}
         style={iconBtnBase}
         aria-label={isAuthenticated
-          ? (language === 'fr' ? 'Voir mon compte' : 'My account')
-          : (language === 'fr' ? 'Se connecter ou créer un compte' : 'Sign in or create account')}
+          ? 'My account'
+          : 'Sign in or create account'}
         onMouseEnter={hoverOn}
         onMouseLeave={hoverOff}
         onMouseDown={press}

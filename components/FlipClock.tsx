@@ -9,7 +9,6 @@ interface FlipClockProps {
   theme: 'dark' | 'light';
   showSeconds: boolean;
   format: '12h' | '24h';
-  language: 'fr' | 'en';
 }
 
 interface DigitState {
@@ -19,12 +18,9 @@ interface DigitState {
 }
 
 /* ─────────────────────────────────────────────────────────────
-   Traductions
+   Libellés
 ───────────────────────────────────────────────────────────── */
-const LABELS = {
-  fr: { hours: 'HEURES', minutes: 'MINUTES', seconds: 'SECONDES' },
-  en: { hours: 'HOURS',  minutes: 'MINUTES', seconds: 'SECONDS'  },
-} as const;
+const t = { hours: 'HOURS',  minutes: 'MINUTES', seconds: 'SECONDS'  } as const;
 
 /* ─────────────────────────────────────────────────────────────
    CSS injecté — animation 3D pure, accélération GPU
@@ -249,9 +245,7 @@ export default function FlipClock({
   theme,
   showSeconds,
   format,
-  language,
 }: FlipClockProps) {
-  const t        = LABELS[language];
   const sepColor = 'rgba(255,255,255,0.60)';
   const lblColor = 'rgba(255,255,255,0.35)';
 

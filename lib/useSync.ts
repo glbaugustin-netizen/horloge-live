@@ -13,7 +13,6 @@ const STORAGE_KEY_MAP: Record<keyof Settings, string> = {
   mirror:       'horloge-live.com-mirror',
   showDate:     'horloge-live.com-show-date',
   showSeconds:  'horloge-live.com-show-seconds',
-  language:     'horloge-live.com-language',
 };
 
 // Firestore doc uses clean field names (font, fontSize…); localStorage uses full keys
@@ -27,7 +26,6 @@ function settingsToFirestorePrefs(s: Settings): Record<string, string> {
     mirror:       String(s.mirror),
     showDate:     String(s.showDate),
     showSeconds:  String(s.showSeconds),
-    language:     s.language,
   };
 }
 

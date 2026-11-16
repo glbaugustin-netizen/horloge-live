@@ -323,9 +323,9 @@ export function pipClockText(date: Date, format: '12h' | '24h', showSeconds: boo
   return `${pad(date.getHours())}:${m}${s}`;
 }
 
-/** « mercredi 12 novembre » */
-export function pipDateText(date: Date, language: 'fr' | 'en'): string {
-  return date.toLocaleDateString(language === 'fr' ? 'fr-FR' : 'en-US', {
+/** « Wednesday, November 12 » */
+export function pipDateText(date: Date): string {
+  return date.toLocaleDateString('en-US', {
     weekday: 'long', day: 'numeric', month: 'long',
   });
 }

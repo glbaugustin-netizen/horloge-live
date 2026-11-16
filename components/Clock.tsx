@@ -2,18 +2,7 @@
 
 import { useState, useEffect } from 'react';
 
-const TRANSLATIONS = {
-  fr: {
-    hours: 'HEURES',
-    minutes: 'MINUTES',
-    seconds: 'SECONDES',
-    days: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
-    months: [
-      'janvier', 'février', 'mars', 'avril', 'mai', 'juin',
-      'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre',
-    ],
-  },
-  en: {
+const t = {
     hours: 'HOURS',
     minutes: 'MINUTES',
     seconds: 'SECONDS',
@@ -22,14 +11,12 @@ const TRANSLATIONS = {
       'January', 'February', 'March', 'April', 'May', 'June',
       'July', 'August', 'September', 'October', 'November', 'December',
     ],
-  },
 } as const;
 
 interface ClockProps {
   format?: '12h' | '24h';
   showDate?: boolean;
   showSeconds?: boolean;
-  language?: 'fr' | 'en';
 }
 
 function pad(n: number) {
@@ -77,7 +64,6 @@ export default function Clock({
   format = '24h',
   showDate = true,
   showSeconds = false,
-  language = 'fr',
 }: ClockProps) {
   /* Initialisation immédiate côté client — pas d'attente useEffect pour afficher l'heure.
      Côté serveur : null → placeholder "00:00" (suppressHydrationWarning absorbe le delta). */
@@ -91,7 +77,6 @@ export default function Clock({
     return () => clearInterval(id);
   }, []);
 
-  const t = TRANSLATIONS[language];
 
   /* ── placeholder SSR (time = null côté serveur uniquement) ──
      Affiche "00:00" au lieu de "--" → LCP plus représentatif.
@@ -155,9 +140,7 @@ export default function Clock({
   const dayName = t.days[time.getDay()];
   const monthName = t.months[time.getMonth()];
   const dateDisplay =
-    language === 'fr'
-      ? `${dayName} ${time.getDate()} ${monthName} ${time.getFullYear()}`
-      : `${dayName}, ${monthName} ${time.getDate()}, ${time.getFullYear()}`;
+    `${dayName}, ${monthName} ${time.getDate()}, ${time.getFullYear()}`;
 
   const dateSecondaryStyle: React.CSSProperties = {
     fontWeight: 400,

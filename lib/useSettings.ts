@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { loadFont } from '@/lib/googleFonts';
 import { useSync } from '@/lib/useSync';
-import { detectBrowserLanguage } from '@/lib/language';
 
 const KEYS = {
   font:       'horloge-live.com-font',
@@ -14,7 +13,6 @@ const KEYS = {
   mirror:       'horloge-live.com-mirror',
   showDate:     'horloge-live.com-show-date',
   showSeconds:  'horloge-live.com-show-seconds',
-  language:     'horloge-live.com-language',
 } as const;
 
 const FOCUS_KEY = 'horloge-live-focus-mode' as const;
@@ -34,7 +32,6 @@ export interface Settings {
   mirror:       boolean;
   showDate:     boolean;
   showSeconds:  boolean;
-  language:     'fr' | 'en';
 }
 
 const DEFAULTS: Settings = {
@@ -46,7 +43,6 @@ const DEFAULTS: Settings = {
   mirror:       false,
   showDate:     true,
   showSeconds:  false,
-  language:     'fr',
 };
 
 
@@ -61,7 +57,6 @@ function readFromStorage(): Partial<Settings> {
     const mirror       = localStorage.getItem(KEYS.mirror);
     const showDate     = localStorage.getItem(KEYS.showDate);
     const showSeconds  = localStorage.getItem(KEYS.showSeconds);
-    const language     = localStorage.getItem(KEYS.language);
 
     const result: Partial<Settings> = {};
     if (font) result.font = font;
@@ -75,7 +70,6 @@ function readFromStorage(): Partial<Settings> {
     if (mirror      === 'true' || mirror      === 'false') result.mirror      = mirror      === 'true';
     if (showDate    === 'true' || showDate    === 'false') result.showDate    = showDate    === 'true';
     if (showSeconds === 'true' || showSeconds === 'false') result.showSeconds = showSeconds === 'true';
-    if (language === 'fr' || language === 'en')            result.language    = language;
 
     return result;
   } catch {
@@ -131,8 +125,7 @@ export function useSettings() {
   /* ── Hydratation initiale depuis localStorage ── */
   useEffect(() => {
     const stored       = readFromStorage();
-    const detectedLang = detectBrowserLanguage();
-    const merged: Settings = { ...DEFAULTS, language: detectedLang, ...stored };
+    const merged: Settings = { ...DEFAULTS, ...stored };
     setSettings(merged);
     applyToCssVariables(merged);
     if (merged.font !== 'Inter') loadFont(merged.font);
@@ -178,7 +171,6 @@ export function useSettings() {
   const updateMirror      = useCallback((val: boolean)       => updateSetting('mirror',      val), [updateSetting]);
   const updateShowDate    = useCallback((val: boolean)       => updateSetting('showDate',    val), [updateSetting]);
   const updateShowSeconds = useCallback((val: boolean)       => updateSetting('showSeconds', val), [updateSetting]);
-  const updateLanguage    = useCallback((lang: 'fr' | 'en')  => updateSetting('language',   lang), [updateSetting]);
 
   const setFocusMode = useCallback((value: boolean) => {
     setFocusModeState(value);
@@ -235,7 +227,6 @@ export function useSettings() {
     updateMirror,
     updateShowDate,
     updateShowSeconds,
-    updateLanguage,
     focusMode,
     setFocusMode,
     flipMode,

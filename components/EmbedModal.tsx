@@ -11,7 +11,6 @@ type Lang       = 'fr' | 'en';
 interface EmbedModalProps {
   isOpen: boolean;
   onClose: () => void;
-  language?: Lang;
   widgetType?: WidgetType;
 }
 
@@ -23,22 +22,7 @@ const SIZE_DATA: Record<Size, { width: number; height: number; previewHeight: nu
 };
 
 /* ─── Traductions ────────────────────────────────────────── */
-const LABELS = {
-  fr: {
-    title:        "Intégrer sur votre site",
-    typeLabel:    'Widget',
-    typeClock:    'Horloge',
-    typeChrono:   'Chrono',
-    sizeLabel:    'Taille',
-    small:        'Petite',
-    medium:       'Moyenne',
-    large:        'Grande',
-    previewLabel: 'Aperçu',
-    codeLabel:    "Code à intégrer",
-    copyBtn:      'Copier le code',
-    copied:       'Copié !',
-  },
-  en: {
+const t = {
     title:        'Embed on your website',
     typeLabel:    'Widget',
     typeClock:    'Clock',
@@ -51,8 +35,7 @@ const LABELS = {
     codeLabel:    'Embed code',
     copyBtn:      'Copy code',
     copied:       'Copied!',
-  },
-} as const;
+  } as const;
 
 /* ─── Helper ─────────────────────────────────────────────── */
 function buildCode(type: WidgetType, size: Size): string {
@@ -65,10 +48,10 @@ function buildCode(type: WidgetType, size: Size): string {
     ? `https://horloge-live.com/widget/chrono?size=${size}`
     : `https://horloge-live.com/widget/minuteur?size=${size}`;
   const titleAttr = type === 'clock'
-    ? 'Horloge en ligne'
+    ? 'Online clock'
     : type === 'chrono'
-    ? 'Chronomètre en ligne'
-    : 'Minuteur en ligne';
+    ? 'Online stopwatch'
+    : 'Online timer';
   return `<iframe src="${src}"
         width="${width}" height="${height}"
         frameborder="0"
@@ -86,11 +69,10 @@ const LABEL_STYLE: React.CSSProperties = {
 };
 
 /* ─── Composant ──────────────────────────────────────────── */
-export default function EmbedModal({ isOpen, onClose, language = 'fr', widgetType = 'clock' }: EmbedModalProps) {
+export default function EmbedModal({ isOpen, onClose, widgetType = 'clock' }: EmbedModalProps) {
   const [size, setSize] = useState<Size>('medium');
   const [copied,     setCopied]     = useState(false);
 
-  const t  = LABELS[language];
   const code = buildCode(widgetType, size);
   const { previewHeight, chronoHeight, minuteurHeight } = SIZE_DATA[size];
   const ph = widgetType === 'chrono' ? chronoHeight : widgetType === 'minuteur' ? minuteurHeight : previewHeight;
@@ -162,7 +144,7 @@ export default function EmbedModal({ isOpen, onClose, language = 'fr', widgetTyp
           </span>
           <button
             onClick={onClose}
-            aria-label="Fermer"
+            aria-label="Close"
             style={{
               width:      '28px',
               height:     '28px',
@@ -257,7 +239,7 @@ export default function EmbedModal({ isOpen, onClose, language = 'fr', widgetTyp
               key={`${widgetType}-${size}`}
               src={iframeSrc}
               style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
-              title="Aperçu widget"
+              title="Widget preview"
             />
           </div>
         </div>

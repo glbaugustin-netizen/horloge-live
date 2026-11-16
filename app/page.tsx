@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { headers } from 'next/headers';
 import Script from 'next/script';
 import ClockPageClient from '@/components/ClockPageClient';
 import SeoContent from '@/components/SeoContent';
@@ -80,10 +79,6 @@ const faqJsonLd = {
    Page
 ───────────────────────────────────────────────────────────── */
 export default function Home() {
-  const headersList = headers();
-  const acceptLanguage = headersList.get('accept-language') ?? '';
-  const lang = acceptLanguage.toLowerCase().startsWith('fr') ? 'fr' : 'en';
-
   return (
     <>
       {/* JSON-LD FAQPage */}
@@ -97,7 +92,7 @@ export default function Home() {
       <ClockPageClient />
 
       {/* ── Section SEO — rendu serveur, crawlable par les IA ── */}
-      <SeoContent language={lang} />
+      <SeoContent />
     </>
   );
 }

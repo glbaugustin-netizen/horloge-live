@@ -137,7 +137,7 @@ export default function ChronoWidgetClient({ fontSize }: ChronoWidgetClientProps
           }}
           onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.92)'; }}
           onMouseUp={(e)   => { e.currentTarget.style.transform = 'scale(1.08)'; }}
-          aria-label={running ? 'Pause' : 'Démarrer'}
+          aria-label={running ? 'Pause' : 'Start'}
         >
           {running ? (
             /* Pause icon */
@@ -183,7 +183,7 @@ export default function ChronoWidgetClient({ fontSize }: ChronoWidgetClientProps
           }}
           onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.90)'; }}
           onMouseUp={(e)   => { e.currentTarget.style.transform = 'scale(1.08)'; }}
-          aria-label="Réinitialiser"
+          aria-label="Reset"
         >
           <svg width={Math.round(btnSize * 0.28)} height={Math.round(btnSize * 0.28)} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
             <path d="M2.5 8a5.5 5.5 0 1 0 1-3.1"/>

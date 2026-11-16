@@ -8,31 +8,20 @@ import { Clock, Timer, AlarmClock, Globe, GraduationCap, Clock3, Menu, X, User }
 interface SidebarProps {
   isOpen?: boolean;
   onClose?: () => void;
-  language?: 'fr' | 'en';
 }
 
-const NAV_ITEMS = {
-  fr: [
-    { href: '/',                  Icon: Clock,          label: 'Horloge'            },
-    { href: '/chrono',            Icon: Timer,          label: 'Chronomètre'        },
-    { href: '/minuteur',          Icon: AlarmClock,     label: 'Minuteur'           },
-    { href: '/monde',             Icon: Globe,          label: 'Monde'              },
-    { href: '/examen',            Icon: GraduationCap,  label: 'Mode Examen'        },
-    { href: '/horloge-aiguille',  Icon: Clock3,         label: 'Horloge analogique' },
-  ],
-  en: [
+const NAV_ITEMS = [
     { href: '/',                  Icon: Clock,          label: 'Clock'              },
     { href: '/chrono',            Icon: Timer,          label: 'Stopwatch'          },
     { href: '/minuteur',          Icon: AlarmClock,     label: 'Timer'              },
     { href: '/monde',             Icon: Globe,          label: 'World'              },
     { href: '/examen',            Icon: GraduationCap,  label: 'Exam Mode'          },
     { href: '/horloge-aiguille',  Icon: Clock3,         label: 'Analog Clock'       },
-  ],
-};
+  ];
 
-export default function Sidebar({ isOpen: externalOpen, onClose, language = 'fr' }: SidebarProps) {
+export default function Sidebar({ isOpen: externalOpen, onClose }: SidebarProps) {
   const pathname = usePathname();
-  const items    = NAV_ITEMS[language];
+  const items    = NAV_ITEMS;
 
   const [open,        setOpen]        = useState(false);
   const [isMobile,    setIsMobile]    = useState(false);
@@ -102,7 +91,7 @@ export default function Sidebar({ isOpen: externalOpen, onClose, language = 'fr'
       <button
         className="flex sm:hidden"
         onClick={() => setOpen(true)}
-        aria-label="Ouvrir le menu"
+        aria-label="Open menu"
         style={{
           position: 'fixed',
           top: '24px',
@@ -200,7 +189,7 @@ export default function Sidebar({ isOpen: externalOpen, onClose, language = 'fr'
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '8px', position: 'relative', zIndex: 1 }}>
           <button
             onClick={handleClose}
-            aria-label="Fermer le menu"
+            aria-label="Close menu"
             style={{
               width: '32px',
               height: '32px',
@@ -228,7 +217,7 @@ export default function Sidebar({ isOpen: externalOpen, onClose, language = 'fr'
         </div>
 
         {/* Items navigation */}
-        <nav aria-label="Navigation principale" style={{ position: 'relative', zIndex: 1 }}>
+        <nav aria-label="Main navigation" style={{ position: 'relative', zIndex: 1 }}>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '5px' }}>
             {items.map(({ href, Icon, label }) => {
               const isActive = href === '/' ? pathname === '/' : pathname.startsWith(href);
@@ -274,10 +263,10 @@ export default function Sidebar({ isOpen: externalOpen, onClose, language = 'fr'
 
         {/* Lien Mon compte — poussé en bas */}
         {(() => {
-          const accountLabel    = language === 'fr' ? 'Mon compte' : 'My account';
+          const accountLabel    = 'My account';
           const isAccountActive = pathname === '/compte' || pathname === '/connexion';
           return (
-            <nav aria-label="Compte" style={{ marginTop: 'auto', paddingTop: '12px', borderTop: '1px solid rgba(255,255,255,0.10)', position: 'relative', zIndex: 1 }}>
+            <nav aria-label="Account" style={{ marginTop: 'auto', paddingTop: '12px', borderTop: '1px solid rgba(255,255,255,0.10)', position: 'relative', zIndex: 1 }}>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                 <li>
                   <Link

@@ -8,15 +8,15 @@ import type { Settings } from '@/lib/useSettings';
    Données arrière-plans (identiques à SettingsPanel)
 ═══════════════════════════════════════════════════════════════ */
 const SOLID_COLORS = [
-  { label: 'Noir profond',  value: '#0A0A0A' },
-  { label: 'Nuit marine',   value: '#0D1B2A' },
-  { label: 'Forêt sombre',  value: '#0D2416' },
-  { label: 'Bordeaux',      value: '#2A0D0D' },
-  { label: 'Violet nuit',   value: '#1A0D2A' },
-  { label: 'Anthracite',    value: '#1A1A1A' },
-  { label: 'Blanc cassé',   value: '#F5F0E8' },
+  { label: 'Deep black',  value: '#0A0A0A' },
+  { label: 'Navy night',   value: '#0D1B2A' },
+  { label: 'Dark forest',  value: '#0D2416' },
+  { label: 'Burgundy',      value: '#2A0D0D' },
+  { label: 'Night violet',   value: '#1A0D2A' },
+  { label: 'Charcoal',    value: '#1A1A1A' },
+  { label: 'Off-white',   value: '#F5F0E8' },
   { label: 'Beige',         value: '#E8DCC8' },
-  { label: 'Rose kawaii',   value: '#FFB7C5' },
+  { label: 'Kawaii pink',   value: '#FFB7C5' },
 ] as const;
 
 const LANDSCAPE_IMAGES = [
@@ -31,20 +31,17 @@ const LANDSCAPE_IMAGES = [
 ] as const;
 
 const AESTHETIC_IMAGES = [
-  { label: 'Moderne 1', file: 'bg-moderne1.webp' },
-  { label: 'Moderne 2', file: 'bg-moderne2.webp' },
-  { label: 'Moderne 3', file: 'bg-moderne3.webp' },
-  { label: 'Moderne 4', file: 'bg-moderne4.webp' },
-  { label: 'Moderne 5', file: 'bg-moderne5.webp' },
-  { label: 'Moderne 6', file: 'bg-moderne6.webp' },
-  { label: 'Moderne 7', file: 'bg-moderne7.webp' },
-  { label: 'Moderne 8', file: 'bg-moderne8.webp' },
+  { label: 'Modern 1', file: 'bg-moderne1.webp' },
+  { label: 'Modern 2', file: 'bg-moderne2.webp' },
+  { label: 'Modern 3', file: 'bg-moderne3.webp' },
+  { label: 'Modern 4', file: 'bg-moderne4.webp' },
+  { label: 'Modern 5', file: 'bg-moderne5.webp' },
+  { label: 'Modern 6', file: 'bg-moderne6.webp' },
+  { label: 'Modern 7', file: 'bg-moderne7.webp' },
+  { label: 'Modern 8', file: 'bg-moderne8.webp' },
 ] as const;
 
-const LABELS = {
-  fr: { title: 'PARAMÈTRES', background: 'Arrière-plan', solidColors: 'Couleurs unies', landscapes: 'Paysages', aesthetic: 'Aesthetic', uploadBg: 'Importer une image', language: 'Langue' },
-  en: { title: 'SETTINGS',   background: 'Background',   solidColors: 'Solid colors',   landscapes: 'Landscapes', aesthetic: 'Aesthetic', uploadBg: 'Upload an image',     language: 'Language' },
-} as const;
+const LABELS = { title: 'SETTINGS',   background: 'Background',   solidColors: 'Solid colors',   landscapes: 'Landscapes', aesthetic: 'Aesthetic', uploadBg: 'Upload an image' } as const;
 
 /* ═══════════════════════════════════════════════════════════════
    Sous-composants
@@ -86,7 +83,7 @@ function DockStrip({ items }: { items: React.ReactNode[] }) {
 }
 
 /* Galerie arrière-plans */
-function BgGallery({ currentBg, onSelect, labels }: { currentBg: string; onSelect: (v: string) => void; labels: typeof LABELS[keyof typeof LABELS] }) {
+function BgGallery({ currentBg, onSelect, labels }: { currentBg: string; onSelect: (v: string) => void; labels: typeof LABELS }) {
   const fileRef = useRef<HTMLInputElement>(null);
   const bgValue = (file: string) => `url('/backgrounds/${file}')`;
   const isActive = (value: string) => currentBg === value;
@@ -111,7 +108,7 @@ function BgGallery({ currentBg, onSelect, labels }: { currentBg: string; onSelec
         <DockStrip items={SOLID_COLORS.map(({ label, value }) => {
           const active = isActive(value);
           return (
-            <button key={value} aria-label={`Choisir la couleur ${label}`} aria-pressed={active} onClick={() => onSelect(value)}
+            <button key={value} aria-label={`Choose color ${label}`} aria-pressed={active} onClick={() => onSelect(value)}
               style={{ ...vignette, background: value, border: active ? '2px solid rgba(255,255,255,0.80)' : '1px solid rgba(255,255,255,0.10)', boxShadow: active ? 'inset 0 0 0 1px rgba(255,255,255,0.30)' : 'none' }} />
           );
         })} />
@@ -124,7 +121,7 @@ function BgGallery({ currentBg, onSelect, labels }: { currentBg: string; onSelec
           const value = bgValue(file);
           const active = isActive(value);
           return (
-            <button key={file} aria-label={`Choisir le fond ${label}`} aria-pressed={active} onClick={() => onSelect(value)}
+            <button key={file} aria-label={`Choose background ${label}`} aria-pressed={active} onClick={() => onSelect(value)}
               style={{ ...vignette, backgroundImage: value, border: active ? '2px solid rgba(255,255,255,0.80)' : '1px solid rgba(255,255,255,0.10)', boxShadow: active ? 'inset 0 0 0 1px rgba(255,255,255,0.30)' : 'none' }} />
           );
         })} />
@@ -137,7 +134,7 @@ function BgGallery({ currentBg, onSelect, labels }: { currentBg: string; onSelec
           const value = bgValue(file);
           const active = isActive(value);
           return (
-            <button key={file} aria-label={`Choisir le fond ${label}`} aria-pressed={active} onClick={() => onSelect(value)}
+            <button key={file} aria-label={`Choose background ${label}`} aria-pressed={active} onClick={() => onSelect(value)}
               style={{ ...vignette, backgroundImage: value, border: active ? '2px solid rgba(255,255,255,0.80)' : '1px solid rgba(255,255,255,0.10)', boxShadow: active ? 'inset 0 0 0 1px rgba(255,255,255,0.30)' : 'none' }} />
           );
         })} />
@@ -167,31 +164,6 @@ function BgGallery({ currentBg, onSelect, labels }: { currentBg: string; onSelec
   );
 }
 
-/* Sélecteur de langue — bulle coulissante */
-function LanguageToggle({ language, onChange }: { language: 'fr' | 'en'; onChange: (l: 'fr' | 'en') => void }) {
-  const [squishKey, setSquishKey] = useState(0);
-  const isFr = language === 'fr';
-  const handleClick = (lang: 'fr' | 'en') => { if (lang !== language) setSquishKey((k) => k + 1); onChange(lang); };
-  const labelBtn = (lang: 'fr' | 'en'): React.CSSProperties => ({
-    position: 'relative', zIndex: 1, flex: 1, padding: '6px 14px', borderRadius: '50px',
-    fontSize: '13px', fontWeight: language === lang ? 600 : 400, border: 'none',
-    background: 'transparent', cursor: 'pointer', transition: 'color 200ms ease',
-    color: language === lang ? 'rgba(255,255,255,0.97)' : 'var(--glass2-text-inactive)',
-  });
-  return (
-    <div style={{ position: 'relative', display: 'flex', padding: '4px', borderRadius: '50px', background: 'var(--glass2-bg-recessed)', border: '1px solid rgba(255,255,255,0.10)', boxShadow: 'var(--glass2-shadow-recessed)', minWidth: '128px' }}>
-      <div aria-hidden="true" style={{ position: 'absolute', top: '4px', left: '4px', width: 'calc(50% - 4px)', height: 'calc(100% - 8px)', transform: isFr ? 'translateX(0)' : 'translateX(100%)', transition: 'transform 0.48s var(--glass2-ease-bounce)', pointerEvents: 'none', zIndex: 0 }}>
-        <div key={squishKey} style={{ width: '100%', height: '100%', borderRadius: '50px', overflow: 'hidden', background: 'linear-gradient(160deg, rgba(255,255,255,0.30), rgba(255,255,255,0.12))', border: '1px solid rgba(255,255,255,0.42)', boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.60), 0 4px 14px rgba(0,0,0,0.28)', animation: squishKey > 0 ? 'lang-bubble-squish 0.5s var(--glass2-ease-bounce)' : undefined }}>
-          <span aria-hidden="true" style={{ display: 'block', position: 'absolute', top: 0, left: 0, right: 0, height: '50%', borderRadius: '50px 50px 0 0', background: 'linear-gradient(to bottom, rgba(255,255,255,0.55), transparent)', opacity: 0.6, pointerEvents: 'none' }} />
-        </div>
-      </div>
-      {(['fr', 'en'] as const).map((lang) => (
-        <button key={lang} onClick={() => handleClick(lang)} style={labelBtn(lang)}>{lang.toUpperCase()}</button>
-      ))}
-    </div>
-  );
-}
-
 /* ═══════════════════════════════════════════════════════════════
    Panel principal
 ═══════════════════════════════════════════════════════════════ */
@@ -200,11 +172,10 @@ interface Props {
   onClose:          () => void;
   settings:         Settings;
   updateBackground: (v: string) => void;
-  updateLanguage:   (v: 'fr' | 'en') => void;
 }
 
-export default function ConseilsSettingsPanel({ isOpen, onClose, settings, updateBackground, updateLanguage }: Props) {
-  const t = LABELS[settings.language];
+export default function ConseilsSettingsPanel({ isOpen, onClose, settings, updateBackground }: Props) {
+  const t = LABELS;
 
   useEffect(() => {
     if (!isOpen) return;
@@ -257,7 +228,7 @@ export default function ConseilsSettingsPanel({ isOpen, onClose, settings, updat
           </span>
           <button
             onClick={onClose}
-            aria-label="Fermer les paramètres"
+            aria-label="Close settings"
             style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'transparent', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.50)', transition: 'color 150ms ease' }}
             onMouseEnter={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.80)'; }}
             onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.50)'; }}
@@ -271,13 +242,6 @@ export default function ConseilsSettingsPanel({ isOpen, onClose, settings, updat
         {/* Arrière-plan */}
         <BgGallery currentBg={settings.background} onSelect={updateBackground} labels={t} />
 
-        <div style={{ height: '1px', background: 'rgba(255,255,255,0.10)', margin: '20px 0 16px' }} />
-
-        {/* Langue */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontSize: '13px', color: 'var(--glass2-text-secondary)' }}>{t.language}</span>
-          <LanguageToggle language={settings.language} onChange={updateLanguage} />
-        </div>
       </section>
     </>
   );

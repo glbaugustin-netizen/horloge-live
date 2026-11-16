@@ -1,57 +1,36 @@
 'use client';
 /* eslint-disable react/no-unescaped-entities */
 
-import { useState, useEffect } from 'react';
-import { getPreferredLanguage } from '@/lib/language';
 import LegalPageLayout from '@/components/LegalPageLayout';
 import { S } from '@/lib/legalStyles';
 
-type Lang = 'fr' | 'en';
-
-const NAV: Record<Lang, { href: string; label: string }[]> = {
-  fr: [
+const NAV = [
     { href: '/mentions-legales', label: 'Mentions légales' },
     { href: '/cgu',              label: "Conditions d'utilisation" },
     { href: '/confidentialite',  label: 'Confidentialité' },
-  ],
-  en: [
-    { href: '/mentions-legales', label: 'Legal notice' },
-    { href: '/cgu',              label: 'Terms of use' },
-    { href: '/confidentialite',  label: 'Privacy policy' },
-  ],
-};
+  ];
 
 export default function ConfidentialiteContent() {
-  const [lang, setLang] = useState<Lang>('fr');
-
-  useEffect(() => {
-    setLang(getPreferredLanguage());
-  }, []);
-
-  const isFr = lang === 'fr';
-
   return (
     <LegalPageLayout
-      title={isFr ? 'Politique de confidentialité' : 'Privacy policy'}
-      navLinks={NAV[lang]}
+      title="Politique de confidentialité"
+      navLinks={NAV}
     >
       <p style={S.updated}>
-        {isFr ? 'Dernière mise à jour : 29 juin 2026' : 'Last updated: June 29, 2026'}
+        {'Dernière mise à jour : 29 juin 2026'}
       </p>
 
       {/* ── Intro ── */}
       <p style={S.p}>
-        {isFr
-          ? "La présente politique de confidentialité décrit la manière dont le site horloge-live.com collecte, utilise et protège les données personnelles de ses utilisateurs, conformément au Règlement général sur la protection des données (RGPD - UE 2016/679) et à la loi Informatique et Libertés modifiée."
-          : "This privacy policy describes how horloge-live.com collects, uses and protects the personal data of its users, in accordance with the General Data Protection Regulation (GDPR – EU 2016/679) and the amended French Data Protection Act."
+        {"La présente politique de confidentialité décrit la manière dont le site horloge-live.com collecte, utilise et protège les données personnelles de ses utilisateurs, conformément au Règlement général sur la protection des données (RGPD - UE 2016/679) et à la loi Informatique et Libertés modifiée."
         }
       </p>
 
       {/* ── Section 1 ── */}
       <h2 style={S.h2}>
-        {isFr ? '1. Données collectées' : '1. Data collected'}
+        {'1. Données collectées'}
       </h2>
-      {isFr ? (
+      {(
         <>
           <p style={S.p}>
             Le site distingue deux situations selon que l'utilisateur crée ou non un compte :
@@ -84,33 +63,13 @@ export default function ConfidentialiteContent() {
             se connecte avec le même compte.
           </p>
         </>
-      ) : (
-        <>
-          <p style={S.p}>
-            The site distinguishes two situations depending on whether the user creates an account
-            or not:
-          </p>
-          <p style={S.p}>
-            <strong style={S.strong}>Without an account:</strong> no personal data is collected.
-            Customization preferences (font, background, colors, time format) are stored locally on
-            the user's device via the browser's localStorage mechanism. This data never leaves the
-            device and is not transmitted to the publisher.
-          </p>
-          <p style={S.p}>
-            <strong style={S.strong}>With an account (optional):</strong> upon registration, the
-            following data is collected: the user's email address and, if Google authentication is
-            used, the public profile information transmitted by Google (first name, last name, email
-            address). No phone number is required. The date and time of acceptance of the legal terms
-            are recorded.
-          </p>
-        </>
       )}
 
       {/* ── Section 2 ── */}
       <h2 style={S.h2}>
-        {isFr ? '2. Finalité de la collecte' : '2. Purpose of data collection'}
+        {'2. Finalité de la collecte'}
       </h2>
-      {isFr ? (
+      {(
         <>
           <p style={S.p}>
             Les données collectées lors de la création d'un compte sont utilisées exclusivement aux
@@ -140,30 +99,13 @@ export default function ConfidentialiteContent() {
             garantissant un niveau de protection adéquat des données.
           </p>
         </>
-      ) : (
-        <>
-          <p style={S.p}>
-            Data collected upon account creation is used exclusively for the following purpose:
-            enabling secure user login and authentication.
-          </p>
-          <p style={S.p}>
-            No data is used for advertising, commercial or profiling purposes. No data is sold,
-            transferred or shared with third parties, except for the technical subcontractors listed
-            below.
-          </p>
-          <p style={S.p}>
-            <strong style={S.strong}>Subcontractors:</strong> Firebase Authentication (Google LLC)
-            for authentication management. Google LLC is subject to the European Commission's
-            standard contractual clauses, guaranteeing an adequate level of data protection.
-          </p>
-        </>
       )}
 
       {/* ── Section 3 ── */}
       <h2 style={S.h2}>
-        {isFr ? '3. Durée de conservation' : '3. Data retention'}
+        {'3. Durée de conservation'}
       </h2>
-      {isFr ? (
+      {(
         <>
           <p style={S.p}>
             Les données du compte utilisateur (adresse e-mail, préférences synchronisées, villes
@@ -183,27 +125,13 @@ export default function ConfidentialiteContent() {
             ou l'option de réinitialisation du site) ou jusqu'à la suppression du cache du navigateur.
           </p>
         </>
-      ) : (
-        <>
-          <p style={S.p}>
-            User account data (email address, synchronized preferences) is retained for the entire
-            duration of the account's existence. The user may delete their account at any time from
-            their profile settings, which results in the immediate and permanent deletion of all their
-            personal data.
-          </p>
-          <p style={S.p}>
-            Data stored in localStorage on the user's device is retained until the user manually
-            clears it (via browser settings or the site's reset option) or until the browser cache
-            is deleted.
-          </p>
-        </>
       )}
 
       {/* ── Section 4 ── */}
       <h2 style={S.h2}>
-        {isFr ? "4. Droits de l'utilisateur" : '4. User rights'}
+        {"4. Droits de l'utilisateur"}
       </h2>
-      {isFr ? (
+      {(
         <>
           <p style={S.p}>
             Conformément au RGPD, l'utilisateur dispose des droits suivants concernant ses données
@@ -243,51 +171,13 @@ export default function ConfidentialiteContent() {
             .
           </p>
         </>
-      ) : (
-        <>
-          <p style={S.p}>
-            In accordance with the GDPR, users have the following rights regarding their personal data:
-          </p>
-          <p style={S.p}>
-            <strong style={S.strong}>Right of access:</strong> obtain confirmation that data
-            concerning them is being processed and receive a copy.
-          </p>
-          <p style={S.p}>
-            <strong style={S.strong}>Right of rectification:</strong> have inaccurate or incomplete
-            data corrected.
-          </p>
-          <p style={S.p}>
-            <strong style={S.strong}>Right to erasure ("right to be forgotten"):</strong> obtain the
-            deletion of their data, subject to legal retention obligations.
-          </p>
-          <p style={S.p}>
-            <strong style={S.strong}>Right to data portability:</strong> receive their data in a
-            structured, commonly used format.
-          </p>
-          <p style={S.p}>
-            <strong style={S.strong}>Right to object:</strong> object at any time to the processing
-            of their data.
-          </p>
-          <p style={S.p}>
-            To exercise these rights, users may contact the publisher at:{' '}
-            <a href="mailto:glbaugustin@gmail.com" style={S.a}>glbaugustin@gmail.com</a>
-            . A response will be provided within a maximum of 30 days.
-          </p>
-          <p style={S.p}>
-            Users may also lodge a complaint with the French data protection authority (CNIL) at{' '}
-            <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer" style={S.a}>
-              www.cnil.fr
-            </a>
-            .
-          </p>
-        </>
       )}
 
       {/* ── Section 5 ── */}
       <h2 style={S.h2}>
-        {isFr ? '5. Cookies et localStorage' : '5. Cookies and localStorage'}
+        {'5. Cookies et localStorage'}
       </h2>
-      {isFr ? (
+      {(
         <>
           <p style={S.p}>
             Le site horloge-live.com n'utilise pas de cookies à des fins publicitaires ou de traçage.
@@ -326,48 +216,13 @@ export default function ConfidentialiteContent() {
             peut être modifié à tout moment en effaçant les données du site dans le navigateur.
           </p>
         </>
-      ) : (
-        <>
-          <p style={S.p}>
-            horloge-live.com does not use cookies for advertising or tracking purposes. The only
-            local storage mechanisms used are:
-          </p>
-          <p style={S.p}>
-            <strong style={S.strong}>localStorage:</strong> used to save customization preferences
-            (font, background, colors, time format, language). This data is stored locally on the
-            user's device and is never transmitted to external servers.
-          </p>
-          <p style={S.p}>
-            <strong style={S.strong}>Firebase cookies:</strong> when logged into an account, Firebase
-            Authentication uses strictly necessary technical cookies to manage the authentication
-            session. These cookies are only set if the user creates an account and signs in.
-          </p>
-          <p style={S.p}>
-            <strong style={S.strong}>Microsoft Clarity (analytics):</strong> the site uses Microsoft
-            Clarity to analyze, in an aggregated and anonymous way, how visitors use the site (pages
-            viewed, clicks, scrolling, heatmaps). This tool may set cookies and collect technical data
-            (device type, browser, pages visited). Sensitive content (form fields, typed text) is
-            automatically masked. No data is used for advertising purposes. For more information, see
-            the{' '}
-            <a href="https://privacy.microsoft.com/en-us/privacystatement" target="_blank" rel="noopener noreferrer" style={S.a}>
-              Microsoft Privacy Statement
-            </a>
-            .
-          </p>
-          <p style={{ ...S.p, ...S.em }}>
-            Cookies strictly necessary for the operation of the service (authentication) do not
-            require consent, in accordance with CNIL guidelines. The Microsoft Clarity analytics tool
-            is only activated after the user's explicit consent, via the banner shown on first visit.
-            This choice can be changed at any time by clearing the site data in the browser.
-          </p>
-        </>
       )}
 
       {/* ── Section 6 ── */}
       <h2 style={S.h2}>
-        {isFr ? '6. Contact pour exercer ses droits' : '6. Contact for exercising rights'}
+        {'6. Contact pour exercer ses droits'}
       </h2>
-      {isFr ? (
+      {(
         <>
           <p style={S.p}>
             <strong style={S.strong}>Responsable du traitement :</strong> Augustin GLB
@@ -380,20 +235,6 @@ export default function ConfidentialiteContent() {
             Toute demande relative à la protection des données personnelles doit être adressée à
             l'adresse e-mail ci-dessus. L'éditeur s'engage à répondre dans un délai de 30 jours à
             compter de la réception de la demande.
-          </p>
-        </>
-      ) : (
-        <>
-          <p style={S.p}>
-            <strong style={S.strong}>Data controller:</strong> Augustin GLB
-          </p>
-          <p style={S.p}>
-            <strong style={S.strong}>Email address:</strong>{' '}
-            <a href="mailto:glbaugustin@gmail.com" style={S.a}>glbaugustin@gmail.com</a>
-          </p>
-          <p style={S.p}>
-            Any request relating to the protection of personal data must be sent to the email address
-            above. The publisher undertakes to respond within 30 days of receiving the request.
           </p>
         </>
       )}

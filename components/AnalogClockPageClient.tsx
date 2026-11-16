@@ -24,20 +24,14 @@ const LS_THEME   = 'horloge-live-analog-theme';
 
 /* ── Traductions date ── */
 const DATE_LABELS = {
-  fr: {
-    days:   ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
-    months: ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'],
-  },
-  en: {
     days:   ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
     months: ['January','February','March','April','May','June','July','August','September','October','November','December'],
-  },
-} as const;
+  } as const;
 
 /* ─────────────────────────────────────────────────────────────
    Hint plein écran
 ───────────────────────────────────────────────────────────── */
-function FullscreenHint({ language, onExit }: { language: 'fr'|'en'; onExit: () => void }) {
+function FullscreenHint({ onExit }: { onExit: () => void }) {
   const [visible, setVisible] = useState(true);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -72,7 +66,7 @@ function FullscreenHint({ language, onExit }: { language: 'fr'|'en'; onExit: () 
         cursor: 'pointer',
       }}
     >
-      {language === 'fr' ? 'Appuyez sur Échap pour quitter' : 'Press Esc to exit'}
+      {'Press Esc to exit'}
     </div>
   );
 }
@@ -84,7 +78,7 @@ export default function AnalogClockPageClient() {
   const {
     settings,
     updateFont, updateFontSize, updateTextColor, updateBackground,
-    updateFormat, updateMirror, updateShowDate, updateShowSeconds, updateLanguage,
+    updateFormat, updateMirror, updateShowDate, updateShowSeconds,
   } = useSettings();
 
   const router = useRouter();
@@ -124,7 +118,7 @@ export default function AnalogClockPageClient() {
       kind: 'analog',
       date: d,
       showNumbers,
-      sub: settings.showDate ? pipDateText(d, settings.language) : undefined,
+      sub: settings.showDate ? pipDateText(d) : undefined,
     };
   }, { textColor: clockTheme === 'white' ? '#111111' : '#FFFFFF', background: clockTheme === 'white' ? '#F5F5F5' : settings.background });
 
@@ -206,12 +200,9 @@ export default function AnalogClockPageClient() {
   }, []);
 
   /* ── Date formatée ── */
-  const lang = settings.language;
-  const tDate = DATE_LABELS[lang];
+  const tDate = DATE_LABELS;
   const formattedDate = now
-    ? lang === 'fr'
-      ? `${tDate.days[now.getDay()]} ${now.getDate()} ${tDate.months[now.getMonth()]} ${now.getFullYear()}`
-      : `${tDate.days[now.getDay()]}, ${tDate.months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`
+    ? `${tDate.days[now.getDay()]}, ${tDate.months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`
     : '';
 
   return (
@@ -245,13 +236,13 @@ export default function AnalogClockPageClient() {
             }}
             onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.92)'; }}
             onMouseUp={(e)   => { e.currentTarget.style.transform = 'scale(1)'; }}
-            aria-label="Ouvrir le menu de navigation"
+            aria-label="Open navigation menu"
           >
             <Menu size={20} strokeWidth={1.5} />
           </button>
         )}
 
-        {!isFullscreen && <PipButton supported={pip.supported} active={pip.active} onToggle={pip.toggle} language={settings.language} />}
+        {!isFullscreen && <PipButton supported={pip.supported} active={pip.active} onToggle={pip.toggle} />}
 
         {/* ── Horloge centrée ── */}
         <div
@@ -263,7 +254,6 @@ export default function AnalogClockPageClient() {
             showNumbers={showNumbers}
             style={analogStyle}
             format={analogFormat}
-            language={lang}
             clockTheme={clockTheme}
           />
 
@@ -296,7 +286,6 @@ export default function AnalogClockPageClient() {
               isFullscreen={isFullscreen}
               onFullscreenToggle={toggleFullscreen}
               isAuthenticated={accountHref === '/compte'}
-              language={settings.language}
             />
           </div>
         )}
@@ -310,18 +299,11 @@ export default function AnalogClockPageClient() {
               zIndex: 30, gap: '16px',
             }}
           >
-            {(lang === 'en'
-              ? [
+            {[
                   { href: '/cgu',              label: 'Terms of use'   },
                   { href: '/mentions-legales', label: 'Legal notice'   },
                   { href: '/confidentialite',  label: 'Privacy policy' },
-                ]
-              : [
-                  { href: '/cgu',              label: 'CGU'              },
-                  { href: '/mentions-legales', label: 'Mentions légales' },
-                  { href: '/confidentialite',  label: 'Confidentialité'  },
-                ]
-            ).map(({ href, label }) => (
+                ].map(({ href, label }) => (
               <Link
                 key={href}
                 href={href}
@@ -342,7 +324,6 @@ export default function AnalogClockPageClient() {
         {/* ── Navigation mobile ── */}
         {!isFullscreen && (
           <MobileNav
-            language={settings.language}
             isFullscreen={isFullscreen}
             onSettingsOpen={() => setSettingsOpen(true)}
             onFullscreenToggle={toggleFullscreen}
@@ -351,14 +332,13 @@ export default function AnalogClockPageClient() {
 
         {/* ── Hint plein écran ── */}
         {isFullscreen && (
-          <FullscreenHint language={settings.language} onExit={toggleFullscreen} />
+          <FullscreenHint onExit={toggleFullscreen} />
         )}
 
         {/* ── Sidebar ── */}
         <Sidebar
           isOpen={sidebarOpen}
           onClose={() => setSidebarOpen(false)}
-          language={settings.language}
         />
 
         {/* ── Panneau paramètres (fond, police, langue…) ── */}
@@ -374,7 +354,6 @@ export default function AnalogClockPageClient() {
           updateMirror={updateMirror}
           updateShowDate={updateShowDate}
           updateShowSeconds={updateShowSeconds}
-          updateLanguage={updateLanguage}
           analogOptions={{
             showNumbers,
             onShowNumbersChange: setShowNumbers,

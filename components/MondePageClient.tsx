@@ -17,47 +17,47 @@ const SettingsPanel = dynamic(() => import('@/components/SettingsPanel'), { ssr:
 ═══════════════════════════════════════════════════════════════ */
 
 const DEFAULT_ZONES = [
-  { tz: 'Europe/Paris',        name: { fr: 'Paris',       en: 'Paris'       } },
-  { tz: 'America/New_York',    name: { fr: 'New York',    en: 'New York'    } },
-  { tz: 'Asia/Tokyo',          name: { fr: 'Tokyo',       en: 'Tokyo'       } },
-  { tz: 'Europe/London',       name: { fr: 'Londres',     en: 'London'      } },
-  { tz: 'Asia/Dubai',          name: { fr: 'Dubaï',       en: 'Dubai'       } },
-  { tz: 'America/Los_Angeles', name: { fr: 'Los Angeles', en: 'Los Angeles' } },
+  { tz: 'Europe/Paris',        name: 'Paris' },
+  { tz: 'America/New_York',    name: 'New York' },
+  { tz: 'Asia/Tokyo',          name: 'Tokyo' },
+  { tz: 'Europe/London',       name: 'London' },
+  { tz: 'Asia/Dubai',          name: 'Dubai' },
+  { tz: 'America/Los_Angeles', name: 'Los Angeles' },
 ] as const;
 
 const DEFAULT_TZS = DEFAULT_ZONES.map(z => z.tz);
 
-const PRESET_CITIES: Array<{ tz: string; name: { fr: string; en: string } }> = [
-  { tz: 'Europe/Paris',                   name: { fr: 'Paris',        en: 'Paris'        } },
-  { tz: 'America/New_York',               name: { fr: 'New York',     en: 'New York'     } },
-  { tz: 'Asia/Tokyo',                     name: { fr: 'Tokyo',        en: 'Tokyo'        } },
-  { tz: 'Europe/London',                  name: { fr: 'Londres',      en: 'London'       } },
-  { tz: 'Asia/Dubai',                     name: { fr: 'Dubaï',        en: 'Dubai'        } },
-  { tz: 'America/Los_Angeles',            name: { fr: 'Los Angeles',  en: 'Los Angeles'  } },
-  { tz: 'Asia/Shanghai',                  name: { fr: 'Shanghai',     en: 'Shanghai'     } },
-  { tz: 'Asia/Singapore',                 name: { fr: 'Singapour',    en: 'Singapore'    } },
-  { tz: 'Asia/Seoul',                     name: { fr: 'Séoul',        en: 'Seoul'        } },
-  { tz: 'Asia/Kolkata',                   name: { fr: 'Mumbai',       en: 'Mumbai'       } },
-  { tz: 'Europe/Berlin',                  name: { fr: 'Berlin',       en: 'Berlin'       } },
-  { tz: 'Europe/Madrid',                  name: { fr: 'Madrid',       en: 'Madrid'       } },
-  { tz: 'Europe/Rome',                    name: { fr: 'Rome',         en: 'Rome'         } },
-  { tz: 'Europe/Amsterdam',               name: { fr: 'Amsterdam',    en: 'Amsterdam'    } },
-  { tz: 'Europe/Zurich',                  name: { fr: 'Zurich',       en: 'Zurich'       } },
-  { tz: 'Europe/Moscow',                  name: { fr: 'Moscou',       en: 'Moscow'       } },
-  { tz: 'America/Chicago',                name: { fr: 'Chicago',      en: 'Chicago'      } },
-  { tz: 'America/Denver',                 name: { fr: 'Denver',       en: 'Denver'       } },
-  { tz: 'America/Toronto',                name: { fr: 'Toronto',      en: 'Toronto'      } },
-  { tz: 'America/Vancouver',              name: { fr: 'Vancouver',    en: 'Vancouver'    } },
-  { tz: 'America/Sao_Paulo',              name: { fr: 'São Paulo',    en: 'São Paulo'    } },
-  { tz: 'America/Argentina/Buenos_Aires', name: { fr: 'Buenos Aires', en: 'Buenos Aires' } },
-  { tz: 'America/Mexico_City',            name: { fr: 'Mexico',       en: 'Mexico City'  } },
-  { tz: 'Africa/Cairo',                   name: { fr: 'Le Caire',     en: 'Cairo'        } },
-  { tz: 'Africa/Johannesburg',            name: { fr: 'Johannesburg', en: 'Johannesburg' } },
-  { tz: 'Africa/Lagos',                   name: { fr: 'Lagos',        en: 'Lagos'        } },
-  { tz: 'Australia/Sydney',               name: { fr: 'Sydney',       en: 'Sydney'       } },
-  { tz: 'Pacific/Auckland',               name: { fr: 'Auckland',     en: 'Auckland'     } },
-  { tz: 'Asia/Bangkok',                   name: { fr: 'Bangkok',      en: 'Bangkok'      } },
-  { tz: 'Asia/Jakarta',                   name: { fr: 'Jakarta',      en: 'Jakarta'      } },
+const PRESET_CITIES: Array<{ tz: string; name: string }> = [
+  { tz: 'Europe/Paris',                   name: 'Paris' },
+  { tz: 'America/New_York',               name: 'New York' },
+  { tz: 'Asia/Tokyo',                     name: 'Tokyo' },
+  { tz: 'Europe/London',                  name: 'London' },
+  { tz: 'Asia/Dubai',                     name: 'Dubai' },
+  { tz: 'America/Los_Angeles',            name: 'Los Angeles' },
+  { tz: 'Asia/Shanghai',                  name: 'Shanghai' },
+  { tz: 'Asia/Singapore',                 name: 'Singapore' },
+  { tz: 'Asia/Seoul',                     name: 'Seoul' },
+  { tz: 'Asia/Kolkata',                   name: 'Mumbai' },
+  { tz: 'Europe/Berlin',                  name: 'Berlin' },
+  { tz: 'Europe/Madrid',                  name: 'Madrid' },
+  { tz: 'Europe/Rome',                    name: 'Rome' },
+  { tz: 'Europe/Amsterdam',               name: 'Amsterdam' },
+  { tz: 'Europe/Zurich',                  name: 'Zurich' },
+  { tz: 'Europe/Moscow',                  name: 'Moscow' },
+  { tz: 'America/Chicago',                name: 'Chicago' },
+  { tz: 'America/Denver',                 name: 'Denver' },
+  { tz: 'America/Toronto',                name: 'Toronto' },
+  { tz: 'America/Vancouver',              name: 'Vancouver' },
+  { tz: 'America/Sao_Paulo',              name: 'São Paulo' },
+  { tz: 'America/Argentina/Buenos_Aires', name: 'Buenos Aires' },
+  { tz: 'America/Mexico_City',            name: 'Mexico City' },
+  { tz: 'Africa/Cairo',                   name: 'Cairo' },
+  { tz: 'Africa/Johannesburg',            name: 'Johannesburg' },
+  { tz: 'Africa/Lagos',                   name: 'Lagos' },
+  { tz: 'Australia/Sydney',               name: 'Sydney' },
+  { tz: 'Pacific/Auckland',               name: 'Auckland' },
+  { tz: 'Asia/Bangkok',                   name: 'Bangkok' },
+  { tz: 'Asia/Jakarta',                   name: 'Jakarta' },
 ];
 
 /* ═══════════════════════════════════════════════════════════════
@@ -74,8 +74,8 @@ function formatTime(date: Date, tz: string): string {
   }).format(date);
 }
 
-function formatDate(date: Date, tz: string, language: 'fr' | 'en'): string {
-  return new Intl.DateTimeFormat(language === 'fr' ? 'fr-FR' : 'en-US', {
+function formatDate(date: Date, tz: string): string {
+  return new Intl.DateTimeFormat('en-US', {
     timeZone: tz,
     weekday:  'short',
     day:      'numeric',
@@ -101,9 +101,9 @@ function getOffsetFromParis(date: Date, tz: string): string {
   return m === 0 ? `${sign}${h}h` : `${sign}${h}h${String(m).padStart(2, '0')}`;
 }
 
-function tzDisplayName(tz: string, language: 'fr' | 'en'): string {
+function tzDisplayName(tz: string): string {
   const found = PRESET_CITIES.find(c => c.tz === tz);
-  if (found) return found.name[language];
+  if (found) return found.name;
   return tz.split('/').pop()?.replace(/_/g, ' ') ?? tz;
 }
 
@@ -111,18 +111,17 @@ function tzDisplayName(tz: string, language: 'fr' | 'en'): string {
    Composant carte horloge
 ═══════════════════════════════════════════════════════════════ */
 function ClockCard({
-  tz, now, language, isCustom, onRemove,
+  tz, now, isCustom, onRemove,
 }: {
   tz: string;
   now: Date;
-  language: 'fr' | 'en';
   isCustom: boolean;
   onRemove?: () => void;
 }) {
   const time   = formatTime(now, tz);
-  const date   = formatDate(now, tz, language);
+  const date   = formatDate(now, tz);
   const offset = getOffsetFromParis(now, tz);
-  const name   = tzDisplayName(tz, language);
+  const name   = tzDisplayName(tz);
 
   return (
     <div
@@ -169,7 +168,7 @@ function ClockCard({
           }}
           onMouseEnter={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.70)'; }}
           onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.30)'; }}
-          title="Supprimer"
+          title="Remove"
         >
           <X size={14} strokeWidth={1.5} />
         </button>
@@ -217,9 +216,9 @@ function ClockCard({
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   Carte "Ajouter"
+   Carte "Add"
 ═══════════════════════════════════════════════════════════════ */
-function AddCityCard({ onClick, language }: { onClick: () => void; language: 'fr' | 'en' }) {
+function AddCityCard({ onClick }: { onClick: () => void }) {
   return (
     <button
       onClick={onClick}
@@ -254,7 +253,7 @@ function AddCityCard({ onClick, language }: { onClick: () => void; language: 'fr
     >
       <span style={{ fontSize: '28px', color: 'rgba(255,255,255,0.35)', lineHeight: 1 }}>+</span>
       <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.35)', fontWeight: 400 }}>
-        {language === 'fr' ? 'Ajouter une ville' : 'Add a city'}
+        {'Add a city'}
       </span>
     </button>
   );
@@ -264,13 +263,11 @@ function AddCityCard({ onClick, language }: { onClick: () => void; language: 'fr
    Modale ajout de ville
 ═══════════════════════════════════════════════════════════════ */
 function AddCityModal({
-  language,
   availableCities,
   onAdd,
   onClose,
 }: {
-  language: 'fr' | 'en';
-  availableCities: Array<{ tz: string; name: { fr: string; en: string } }>;
+  availableCities: Array<{ tz: string; name: string }>;
   onAdd: (tz: string) => void;
   onClose: () => void;
 }) {
@@ -306,7 +303,7 @@ function AddCityModal({
         onClick={(e) => e.stopPropagation()}
       >
         <p style={{ fontSize: '15px', fontWeight: 500, color: 'rgba(255,255,255,0.90)', marginBottom: '16px' }}>
-          {language === 'fr' ? 'Ajouter une ville' : 'Add a city'}
+          {'Add a city'}
         </p>
 
         {/* Liste des villes — bulles glass v2 */}
@@ -365,7 +362,7 @@ function AddCityModal({
                 onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.95)'; }}
                 onMouseUp={(e)   => { e.currentTarget.style.transform = 'translateY(-1px) scale(1.03)'; }}
               >
-                {city.name[language]}
+                {city.name}
               </button>
             );
           })}
@@ -401,7 +398,7 @@ function AddCityModal({
             onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.95)'; }}
             onMouseUp={(e)   => { e.currentTarget.style.transform = 'translateY(-1px)'; }}
           >
-            {language === 'fr' ? 'Annuler' : 'Cancel'}
+            {'Cancel'}
           </button>
 
           {/* Ajouter */}
@@ -436,7 +433,7 @@ function AddCityModal({
             onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.95)'; }}
             onMouseUp={(e)   => { e.currentTarget.style.transform = 'translateY(-2px)'; }}
           >
-            {language === 'fr' ? 'Ajouter' : 'Add'}
+            {'Add'}
           </button>
         </div>
       </div>
@@ -501,10 +498,9 @@ function IconButton({
 export default function MondePageClient() {
   const {
     settings, updateFont, updateFontSize, updateTextColor, updateBackground,
-    updateFormat, updateMirror, updateShowDate, updateShowSeconds, updateLanguage,
+    updateFormat, updateMirror, updateShowDate, updateShowSeconds,
   } = useSettings();
 
-  const language = settings.language;
 
   /* ── Temps ── */
   const [now, setNow] = useState(() => new Date());
@@ -529,7 +525,7 @@ export default function MondePageClient() {
     return {
       kind: 'list',
       rows: [...DEFAULT_TZS, ...customZones].slice(0, 6).map((tz) => ({
-        label: tzDisplayName(tz, language),
+        label: tzDisplayName(tz),
         value: formatTime(d, tz).slice(0, 5),
       })),
     };
@@ -634,12 +630,12 @@ export default function MondePageClient() {
         }}
         onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.92)'; }}
         onMouseUp={(e)   => { e.currentTarget.style.transform = 'scale(1)'; }}
-        aria-label="Ouvrir le menu de navigation"
+        aria-label="Open navigation menu"
       >
         <Menu size={20} strokeWidth={1.5} />
       </button>
 
-      <PipButton supported={pip.supported} active={pip.active} onToggle={pip.toggle} language={language} />
+      <PipButton supported={pip.supported} active={pip.active} onToggle={pip.toggle} />
 
       {/* ── Contenu scrollable ── */}
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', zIndex: 10 }}>
@@ -654,7 +650,6 @@ export default function MondePageClient() {
                 key={tz}
                 tz={tz}
                 now={now}
-                language={language}
                 isCustom={false}
               />
             ))}
@@ -665,7 +660,6 @@ export default function MondePageClient() {
                 key={tz}
                 tz={tz}
                 now={now}
-                language={language}
                 isCustom
                 onRemove={() => handleRemoveZone(tz)}
               />
@@ -673,7 +667,7 @@ export default function MondePageClient() {
 
             {/* Carte "+" */}
             {canAddMore && (
-              <AddCityCard onClick={() => setAddModalOpen(true)} language={language} />
+              <AddCityCard onClick={() => setAddModalOpen(true)} />
             )}
           </div>
 
@@ -686,9 +680,7 @@ export default function MondePageClient() {
               color:      'rgba(255,255,255,0.35)',
               fontWeight: 400,
             }}>
-              {language === 'fr'
-                ? "Connectez-vous pour ajouter jusqu’à 6 villes supplémentaires"
-                : 'Sign in to add up to 6 more cities'}
+              {'Sign in to add up to 6 more cities'}
             </p>
           )}
         </div>
@@ -708,14 +700,14 @@ export default function MondePageClient() {
       >
         <IconButton
           onClick={() => setSettingsOpen(true)}
-          title={language === 'fr' ? 'Paramètres' : 'Settings'}
+          title="Settings"
         >
           <Settings2 size={20} strokeWidth={1.5} />
         </IconButton>
-        <IconButton disabled title={language === 'fr' ? 'Non disponible' : 'Not available'}>
+        <IconButton disabled title="Not available">
           <Maximize2 size={20} strokeWidth={1.5} />
         </IconButton>
-        <IconButton href={accountHref} title={language === 'fr' ? 'Mon compte' : 'My account'}>
+        <IconButton href={accountHref} title="My account">
           <User size={20} strokeWidth={1.5} />
         </IconButton>
       </div>
@@ -726,9 +718,9 @@ export default function MondePageClient() {
         style={{ position: 'absolute', bottom: '28px', left: '24px', zIndex: 30, gap: '16px' }}
       >
         {[
-          { href: '/cgu',              label: 'CGU'              },
-          { href: '/mentions-legales', label: 'Mentions légales' },
-          { href: '/confidentialite',  label: 'Confidentialité'  },
+          { href: '/cgu',              label: 'Terms of use'              },
+          { href: '/mentions-legales', label: 'Legal notice' },
+          { href: '/confidentialite',  label: 'Privacy policy'  },
         ].map(({ href, label }) => (
           <Link
             key={href} href={href}
@@ -743,14 +735,13 @@ export default function MondePageClient() {
 
       {/* ── Navigation mobile ── */}
       <MobileNav
-        language={language}
         isFullscreen={false}
         onSettingsOpen={() => setSettingsOpen(true)}
         onFullscreenToggle={() => {}}
       />
 
       {/* ── Sidebar ── */}
-      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} language={language} />
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* ── Panneau paramètres ── */}
       <SettingsPanel
@@ -765,13 +756,11 @@ export default function MondePageClient() {
         updateMirror={updateMirror}
         updateShowDate={updateShowDate}
         updateShowSeconds={updateShowSeconds}
-        updateLanguage={updateLanguage}
       />
 
       {/* ── Modale ajout ville ── */}
       {addModalOpen && (
         <AddCityModal
-          language={language}
           availableCities={availableCities}
           onAdd={handleAddZone}
           onClose={() => setAddModalOpen(false)}

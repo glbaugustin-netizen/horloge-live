@@ -1,8 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 'use client';
 
-import { useState, useEffect } from 'react';
-import { getPreferredLanguage } from '@/lib/language';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 
@@ -22,13 +20,7 @@ export default function LegalPageLayout({
   navLinks,
   children,
 }: LegalPageLayoutProps) {
-  const [lang, setLang] = useState<'fr' | 'en'>('fr');
-
-  useEffect(() => {
-    setLang(getPreferredLanguage());
-  }, []);
-
-  const backLabel = lang === 'fr' ? "Retour à l'horloge" : 'Back to clock';
+  const backLabel = 'Back to clock';
 
   return (
     <div

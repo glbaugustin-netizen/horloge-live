@@ -18,35 +18,6 @@ const SettingsPanel = dynamic(() => import('@/components/SettingsPanel'), { ssr:
    Traductions
 ═══════════════════════════════════════════════════════════════ */
 const LABELS = {
-  fr: {
-    signOut:    'Se déconnecter',
-    sessions:   'Mes dernières sessions',
-    noSessions: 'Aucune session enregistrée',
-    deleteBtn:      'Supprimer mon compte',
-    deleteTitle:    'Supprimer définitivement le compte',
-    deleteWarn:     'Cette action est irréversible. Votre compte et toutes vos données (préférences, historique) seront définitivement supprimés.',
-    deletePwd:      'Confirmez avec votre mot de passe',
-    deleteGoogle:   'Une fenêtre Google s\'ouvrira pour confirmer votre identité.',
-    deleteConfirm:  'Supprimer définitivement',
-    deleteCancel:   'Annuler',
-    deletePwdReq:   'Veuillez saisir votre mot de passe.',
-    deleteWrongPwd: 'Mot de passe incorrect.',
-    deleteErr:      'Une erreur est survenue. Veuillez réessayer.',
-    colType:    'Type',
-    colDuration:'Durée',
-    colDate:    'Date',
-    chrono:     'Chronomètre',
-    minuteur:   'Minuteur',
-    loading:    'Chargement…',
-    settings:        'Paramètres',
-    fullscreen:      'Plein écran',
-    account:         'Mon compte',
-    ariaSettings:    'Ouvrir les paramètres',
-    ariaFullscreen:  'Activer le plein écran',
-    ariaExitFs:      'Quitter le plein écran',
-    ariaAccount:     'Voir mon compte',
-  },
-  en: {
     signOut:    'Sign out',
     sessions:   'My recent sessions',
     noSessions: 'No sessions recorded',
@@ -73,10 +44,9 @@ const LABELS = {
     ariaFullscreen:  'Enable fullscreen',
     ariaExitFs:      'Exit fullscreen',
     ariaAccount:     'My account',
-  },
-} as const;
+  } as const;
 
-type Labels = typeof LABELS[keyof typeof LABELS];
+type Labels = typeof LABELS;
 
 /* ═══════════════════════════════════════════════════════════════
    Helpers affichage
@@ -90,8 +60,8 @@ function formatDuration(ms: number): string {
   return `${s}s`;
 }
 
-function formatDate(date: Date, language: 'fr' | 'en'): string {
-  return date.toLocaleString(language === 'fr' ? 'fr-FR' : 'en-US', {
+function formatDate(date: Date): string {
+  return date.toLocaleString('en-US', {
     weekday: 'long',
     day:     'numeric',
     month:   'long',
@@ -105,9 +75,9 @@ function formatDate(date: Date, language: 'fr' | 'en'): string {
    Tableau historique — glass v2
 ═══════════════════════════════════════════════════════════════ */
 function HistoryTable({
-  history, loading, language, t,
+  history, loading, t,
 }: {
-  history: SessionDoc[]; loading: boolean; language: 'fr' | 'en'; t: Labels;
+  history: SessionDoc[]; loading: boolean; t: Labels;
 }) {
   const containerStyle: React.CSSProperties = {
     background:          'linear-gradient(160deg, rgba(255,255,255,0.11), rgba(255,255,255,0.04))',
@@ -175,7 +145,7 @@ function HistoryTable({
                   {formatDuration(session.duration)}
                 </td>
                 <td style={{ ...dataCell, textAlign: 'right', color: 'rgba(255,255,255,0.55)', fontSize: '11px' }}>
-                  {formatDate(session.date, language)}
+                  {formatDate(session.date)}
                 </td>
               </tr>
             );
@@ -248,11 +218,10 @@ function IconButton({
 export default function ComptePageClient() {
   const {
     settings, updateFont, updateFontSize, updateTextColor, updateBackground,
-    updateFormat, updateMirror, updateShowDate, updateShowSeconds, updateLanguage,
+    updateFormat, updateMirror, updateShowDate, updateShowSeconds,
   } = useSettings();
 
-  const language = settings.language;
-  const t        = LABELS[language];
+  const t        = LABELS;
   const router   = useRouter();
 
   /* ── Auth ── */
@@ -417,7 +386,7 @@ export default function ComptePageClient() {
           }}
           onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.92)'; }}
           onMouseUp={(e)   => { e.currentTarget.style.transform = 'scale(1)'; }}
-          aria-label="Ouvrir le menu de navigation"
+          aria-label="Open navigation menu"
         >
           <Menu size={20} strokeWidth={1.5} />
         </button>
@@ -513,7 +482,6 @@ export default function ComptePageClient() {
           <HistoryTable
             history={history}
             loading={historyLoading}
-            language={language}
             t={t}
           />
         </div>
@@ -576,7 +544,7 @@ export default function ComptePageClient() {
                   <button
                     type="button"
                     onClick={() => setShowPwd(s => !s)}
-                    aria-label={showPwd ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
+                    aria-label={showPwd ? 'Hide password' : 'Show password'}
                     style={{
                       position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)',
                       background: 'none', border: 'none', cursor: 'pointer', padding: '2px',
@@ -699,9 +667,9 @@ export default function ComptePageClient() {
           style={{ position: 'absolute', bottom: '28px', left: '24px', zIndex: 30, gap: '16px' }}
         >
           {[
-            { href: '/cgu',              label: 'CGU'              },
-            { href: '/mentions-legales', label: 'Mentions légales' },
-            { href: '/confidentialite',  label: 'Confidentialité'  },
+            { href: '/cgu',              label: 'Terms of use'              },
+            { href: '/mentions-legales', label: 'Legal notice' },
+            { href: '/confidentialite',  label: 'Privacy policy'  },
           ].map(({ href, label }) => (
             <Link
               key={href} href={href}
@@ -718,7 +686,6 @@ export default function ComptePageClient() {
       {/* ── Navigation mobile ── */}
       {!isFullscreen && (
         <MobileNav
-          language={language}
           isFullscreen={isFullscreen}
           onSettingsOpen={() => setSettingsOpen(true)}
           onFullscreenToggle={toggleFullscreen}
@@ -726,7 +693,7 @@ export default function ComptePageClient() {
       )}
 
       {/* ── Sidebar ── */}
-      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} language={language} />
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* ── Panneau paramètres ── */}
       <SettingsPanel
@@ -741,7 +708,6 @@ export default function ComptePageClient() {
         updateMirror={updateMirror}
         updateShowDate={updateShowDate}
         updateShowSeconds={updateShowSeconds}
-        updateLanguage={updateLanguage}
       />
     </div>
   );

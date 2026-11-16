@@ -3,13 +3,11 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
-import { getPreferredLanguage } from '@/lib/language';
 import PipButton from '@/components/PipButton';
 import { usePictureInPicture, pipClockText, pipDateText, pipDurationText } from '@/lib/usePictureInPicture';
 import { Maximize2, Minimize2, Pencil, GraduationCap, ArrowLeft } from 'lucide-react';
 
 /* ─── Types ──────────────────────────────────────────────────── */
-type Lang = 'fr' | 'en';
 
 interface ExamConfig {
   subject: string;
@@ -32,31 +30,9 @@ const DEFAULT_CONFIG: ExamConfig = {
 };
 
 const STORAGE_KEY     = 'horloge-live.com-examen-config';
-const STORAGE_LANG    = 'horloge-live.com-language';
 
 /* ─── Traductions ────────────────────────────────────────────── */
 const LABELS = {
-  fr: {
-    backLink:        "Retour à l'horloge",
-    title:           'Horloge plein écran pour la classe et les examens',
-    subtitle:        'Horloge plein écran pour la salle de classe',
-    labelSubject:    'Matière',
-    placeholder:     'Ex : Mathématiques, Physique…',
-    labelDuration:   "Durée de l'épreuve",
-    labelStartTime:  'Heure de début',
-    hour:            (n: number) => `${n} heure${n !== 1 ? 's' : ''}`,
-    min:             (m: number) => `${m} min`,
-    showSeconds:     'Afficher les secondes',
-    showDate:        'Afficher la date',
-    showEndTime:     "Afficher la fin de l'examen",
-    startBtn:        "Démarrer l'examen",
-    durationPrefix:  'Durée :',
-    endTimePrefix:   "Fin de l'examen à",
-    editBtn:         'Modifier',
-    exitFullscreen:  'Quitter le plein écran',
-    fullscreen:      'Plein écran',
-  },
-  en: {
     backLink:        'Back to clock',
     title:           'Full screen clock for classroom and exams',
     subtitle:        'Full screen clock for the classroom',
@@ -75,8 +51,7 @@ const LABELS = {
     editBtn:         'Edit',
     exitFullscreen:  'Exit full screen',
     fullscreen:      'Full screen',
-  },
-} as const;
+  } as const;
 
 /* ─── Helpers ────────────────────────────────────────────────── */
 function formatTime(date: Date, showSeconds: boolean): string {
@@ -87,8 +62,8 @@ function formatTime(date: Date, showSeconds: boolean): string {
   return `${h}:${m}:${s}`;
 }
 
-function formatDate(date: Date, lang: Lang): string {
-  const locale = lang === 'en' ? 'en-GB' : 'fr-FR';
+function formatDate(date: Date): string {
+  const locale = 'en-GB';
   return date.toLocaleDateString(locale, {
     weekday: 'long',
     day: 'numeric',
@@ -174,7 +149,6 @@ function ToggleRow({ label, checked, onChange }: { label: string; checked: boole
 
 /* ─── Main component ─────────────────────────────────────────── */
 export default function ExamenPageClient() {
-  const [lang, setLang]             = useState<Lang>('fr');
   const [config, setConfig]         = useState<ExamConfig>(DEFAULT_CONFIG);
   const [isStarted, setIsStarted]   = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -187,15 +161,14 @@ export default function ExamenPageClient() {
     return {
       kind: 'text',
       main: pipClockText(d, '24h', config.showSeconds),
-      sub: config.showEndTime && endTime ? `${LABELS[lang].endTimePrefix} ${endTime}` : config.subject || undefined,
+      sub: config.showEndTime && endTime ? `${LABELS.endTimePrefix} ${endTime}` : config.subject || undefined,
     };
   }, { font: 'Inter', textColor: '#111827', background: '#FFFFFF' });
   const containerRef = useRef<HTMLDivElement>(null);
 
-  /* Detect language + load config from localStorage */
+  /* Load config from localStorage */
   useEffect(() => {
     try {
-      setLang(getPreferredLanguage());
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
         const parsed = JSON.parse(stored) as Partial<ExamConfig>;
@@ -231,10 +204,6 @@ export default function ExamenPageClient() {
     return () => document.removeEventListener('fullscreenchange', handler);
   }, []);
 
-  const changeLang = useCallback((l: Lang) => {
-    setLang(l);
-    try { localStorage.setItem(STORAGE_LANG, l); } catch {}
-  }, []);
 
   const handleStart = () => {
     setCurrentTime(new Date());
@@ -255,7 +224,7 @@ export default function ExamenPageClient() {
     }
   }, []);
 
-  const t = LABELS[lang];
+  const t = LABELS;
 
   /* ── Config panel ── */
   if (!isStarted) {
@@ -299,35 +268,6 @@ export default function ExamenPageClient() {
               {t.backLink}
             </Link>
 
-            {/* Toggle FR / EN */}
-            <div style={{
-              display: 'flex', gap: '2px', padding: '2px',
-              background: '#f3f4f6', borderRadius: '50px', border: '1px solid #e5e7eb',
-            }}>
-              {(['fr', 'en'] as Lang[]).map((l) => {
-                const active = lang === l;
-                return (
-                  <button
-                    key={l}
-                    onClick={() => changeLang(l)}
-                    aria-pressed={active}
-                    style={{
-                      padding: '4px 12px',
-                      fontSize: '12px',
-                      fontWeight: 600,
-                      borderRadius: '50px',
-                      border: 'none',
-                      cursor: 'pointer',
-                      background: active ? '#1a1a2e' : 'transparent',
-                      color: active ? '#ffffff' : '#6b7280',
-                      transition: 'background 150ms ease, color 150ms ease',
-                    }}
-                  >
-                    {l.toUpperCase()}
-                  </button>
-                );
-              })}
-            </div>
           </div>
 
           {/* Header */}
@@ -527,7 +467,7 @@ export default function ExamenPageClient() {
           textTransform: 'capitalize',
           letterSpacing: '0.01em',
         }}>
-          {formatDate(currentTime, lang)}
+          {formatDate(currentTime)}
         </p>
       )}
 
@@ -563,7 +503,7 @@ export default function ExamenPageClient() {
           {t.editBtn}
         </button>
 
-        <PipButton supported={pip.supported} active={pip.active} onToggle={pip.toggle} language={lang} variant="light" />
+        <PipButton supported={pip.supported} active={pip.active} onToggle={pip.toggle} variant="light" />
 
         <button
           onClick={handleFullscreenToggle}

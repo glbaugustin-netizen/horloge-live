@@ -22,10 +22,8 @@ const FlipClock     = dynamic(() => import('@/components/FlipClock'),     { ssr:
    Hint plein écran
 ───────────────────────────────────────────────────────────── */
 function FullscreenHint({
-  language,
   onExit,
 }: {
-  language: 'fr' | 'en';
   onExit: () => void;
 }) {
   const [visible, setVisible] = useState(true);
@@ -47,7 +45,7 @@ function FullscreenHint({
   }, [show]);
 
   const label =
-    language === 'fr' ? 'Appuyez sur Échap pour quitter' : 'Press Esc to exit';
+    'Press Esc to exit';
 
   return (
     <div
@@ -91,7 +89,6 @@ export default function ClockPageClient() {
     updateMirror,
     updateShowDate,
     updateShowSeconds,
-    updateLanguage,
     flipMode,
     setFlipMode,
     flipTheme,
@@ -110,7 +107,7 @@ export default function ClockPageClient() {
     return {
       kind: 'text',
       main: pipClockText(d, settings.format, settings.showSeconds),
-      sub: settings.showDate ? pipDateText(d, settings.language) : undefined,
+      sub: settings.showDate ? pipDateText(d) : undefined,
     };
   }, flipMode
     ? { font: 'Inter', textColor: flipTheme === 'light' ? '#111111' : '#FFFFFF', background: flipTheme === 'light' ? '#F5F5F5' : '#0A0A0A' }
@@ -205,13 +202,13 @@ export default function ClockPageClient() {
           }}
           onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.92)'; }}
           onMouseUp={(e)   => { e.currentTarget.style.transform = 'scale(1)'; }}
-          aria-label="Ouvrir le menu de navigation"
+          aria-label="Open navigation menu"
         >
           <Menu size={20} strokeWidth={1.5} />
         </button>
       )}
 
-      {!isFullscreen && <PipButton supported={pip.supported} active={pip.active} onToggle={pip.toggle} language={settings.language} />}
+      {!isFullscreen && <PipButton supported={pip.supported} active={pip.active} onToggle={pip.toggle} />}
 
       {/* ── Horloge centrée ──
           Desktop/tablet : top 50%
@@ -225,14 +222,12 @@ export default function ClockPageClient() {
               theme={flipTheme}
               showSeconds={settings.showSeconds}
               format={settings.format}
-              language={settings.language}
             />
           ) : (
             <Clock
               format={settings.format}
               showDate={settings.showDate}
               showSeconds={settings.showSeconds}
-              language={settings.language}
             />
           )}
         </div>
@@ -257,7 +252,6 @@ export default function ClockPageClient() {
             isFullscreen={isFullscreen}
             onFullscreenToggle={toggleFullscreen}
             isAuthenticated={accountHref === '/compte'}
-            language={settings.language}
           />
         </div>
       )}
@@ -274,18 +268,11 @@ export default function ClockPageClient() {
             gap: '16px',
           }}
         >
-          {(settings.language === 'en'
-            ? [
+          {[
                 { href: '/cgu',              label: 'Terms of use'   },
                 { href: '/mentions-legales', label: 'Legal notice'   },
                 { href: '/confidentialite',  label: 'Privacy policy' },
-              ]
-            : [
-                { href: '/cgu',              label: 'CGU'              },
-                { href: '/mentions-legales', label: 'Mentions légales' },
-                { href: '/confidentialite',  label: 'Confidentialité'  },
-              ]
-          ).map(({ href, label }) => (
+              ].map(({ href, label }) => (
             <Link
               key={href}
               href={href}
@@ -326,7 +313,7 @@ export default function ClockPageClient() {
             onMouseEnter={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.70)'; }}
             onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.40)'; }}
           >
-            {settings.language === 'en' ? 'Embed' : 'Intégrer'}
+            {'Embed'}
           </button>
         </div>
       )}
@@ -334,7 +321,6 @@ export default function ClockPageClient() {
       {/* ── Navigation mobile — 2 barres fixes (masquées sur sm+) ── */}
       {!isFullscreen && (
         <MobileNav
-          language={settings.language}
           isFullscreen={isFullscreen}
           onSettingsOpen={() => setSettingsOpen(true)}
           onFullscreenToggle={toggleFullscreen}
@@ -343,14 +329,13 @@ export default function ClockPageClient() {
 
       {/* ── Hint plein écran ── */}
       {isFullscreen && (
-        <FullscreenHint language={settings.language} onExit={toggleFullscreen} />
+        <FullscreenHint onExit={toggleFullscreen} />
       )}
 
       {/* ── Sidebar navigation (desktop/tablet) ── */}
       <Sidebar
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
-        language={settings.language}
       />
 
       {/* ── Panneau paramètres ── */}
@@ -366,7 +351,6 @@ export default function ClockPageClient() {
         updateMirror={updateMirror}
         updateShowDate={updateShowDate}
         updateShowSeconds={updateShowSeconds}
-        updateLanguage={updateLanguage}
         flipMode={flipMode}
         setFlipMode={setFlipMode}
         flipTheme={flipTheme}
@@ -378,7 +362,6 @@ export default function ClockPageClient() {
       <EmbedModal
         isOpen={embedOpen}
         onClose={() => setEmbedOpen(false)}
-        language={settings.language}
       />
     </div>
 

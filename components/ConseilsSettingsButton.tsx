@@ -11,14 +11,14 @@ const ConseilsSettingsPanel = dynamic(
 );
 
 export default function ConseilsSettingsButton() {
-  const { settings, updateBackground, updateLanguage } = useSettings();
+  const { settings, updateBackground } = useSettings();
   const [open, setOpen] = useState(false);
 
   return (
     <>
       <button
         onClick={() => setOpen(true)}
-        aria-label="Ouvrir les paramètres"
+        aria-label="Open settings"
         style={{
           position:             'fixed',
           bottom:               '32px',
@@ -52,7 +52,6 @@ export default function ConseilsSettingsButton() {
         onClose={() => setOpen(false)}
         settings={settings}
         updateBackground={updateBackground}
-        updateLanguage={updateLanguage}
       />
     </>
   );

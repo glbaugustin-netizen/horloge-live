@@ -100,7 +100,7 @@ export default function MinuteurWidgetClient({ fontSize, duration }: MinuteurWid
         <button
           onClick={handlePlayPause}
           disabled={atZero}
-          aria-label={running ? 'Mettre en pause' : 'Démarrer'}
+          aria-label={running ? 'Pause' : 'Start'}
           style={{
             width: `${btnSize}px`, height: `${btnSize}px`, borderRadius: '50%',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -133,7 +133,7 @@ export default function MinuteurWidgetClient({ fontSize, duration }: MinuteurWid
         {/* Reset */}
         <button
           onClick={handleReset}
-          aria-label="Réinitialiser"
+          aria-label="Reset"
           style={{
             width: `${Math.round(btnSize * 0.75)}px`, height: `${Math.round(btnSize * 0.75)}px`,
             borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',

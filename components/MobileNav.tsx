@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import BottomBar from '@/components/BottomBar';
 
 interface MobileNavProps {
-  language?: 'fr' | 'en';
   isFullscreen: boolean;
   onSettingsOpen: () => void;
   onFullscreenToggle: () => void;
@@ -33,7 +32,6 @@ const BAR_STYLE: React.CSSProperties = {
 /* ─── Composant ─────────────────────────────────────────────── */
 
 export default function MobileNav({
-  language = 'fr',
   isFullscreen,
   onSettingsOpen,
   onFullscreenToggle,
@@ -60,7 +58,6 @@ export default function MobileNav({
         isFullscreen={isFullscreen}
         onFullscreenToggle={onFullscreenToggle}
         isAuthenticated={accountHref === '/compte'}
-        language={language}
       />
     </div>
   );

@@ -14,15 +14,15 @@ import SaveSettingsHint from '@/components/SaveSettingsHint';
 ═══════════════════════════════════════════════════════════════ */
 
 const SOLID_COLORS = [
-  { label: 'Noir profond', value: '#0A0A0A' },
-  { label: 'Nuit marine', value: '#0D1B2A' },
-  { label: 'Forêt sombre', value: '#0D2416' },
-  { label: 'Bordeaux', value: '#2A0D0D' },
-  { label: 'Violet nuit', value: '#1A0D2A' },
-  { label: 'Anthracite', value: '#1A1A1A' },
-  { label: 'Blanc cassé', value: '#F5F0E8' },
+  { label: 'Deep black', value: '#0A0A0A' },
+  { label: 'Navy night', value: '#0D1B2A' },
+  { label: 'Dark forest', value: '#0D2416' },
+  { label: 'Burgundy', value: '#2A0D0D' },
+  { label: 'Night violet', value: '#1A0D2A' },
+  { label: 'Charcoal', value: '#1A1A1A' },
+  { label: 'Off-white', value: '#F5F0E8' },
   { label: 'Beige', value: '#E8DCC8' },
-  { label: 'Rose kawaii', value: '#FFB7C5' },
+  { label: 'Kawaii pink', value: '#FFB7C5' },
 ] as const;
 
 const LANDSCAPE_IMAGES = [
@@ -37,14 +37,14 @@ const LANDSCAPE_IMAGES = [
 ] as const;
 
 const AESTHETIC_IMAGES = [
-  { label: 'Moderne 1', file: 'bg-moderne1.webp' },
-  { label: 'Moderne 2', file: 'bg-moderne2.webp' },
-  { label: 'Moderne 3', file: 'bg-moderne3.webp' },
-  { label: 'Moderne 4', file: 'bg-moderne4.webp' },
-  { label: 'Moderne 5', file: 'bg-moderne5.webp' },
-  { label: 'Moderne 6', file: 'bg-moderne6.webp' },
-  { label: 'Moderne 7', file: 'bg-moderne7.webp' },
-  { label: 'Moderne 8', file: 'bg-moderne8.webp' },
+  { label: 'Modern 1', file: 'bg-moderne1.webp' },
+  { label: 'Modern 2', file: 'bg-moderne2.webp' },
+  { label: 'Modern 3', file: 'bg-moderne3.webp' },
+  { label: 'Modern 4', file: 'bg-moderne4.webp' },
+  { label: 'Modern 5', file: 'bg-moderne5.webp' },
+  { label: 'Modern 6', file: 'bg-moderne6.webp' },
+  { label: 'Modern 7', file: 'bg-moderne7.webp' },
+  { label: 'Modern 8', file: 'bg-moderne8.webp' },
 ] as const;
 
 const TEXT_COLORS = [
@@ -63,32 +63,6 @@ const TEXT_COLORS = [
 const FOCUS_KEY = 'horloge-live-focus-mode' as const;
 
 const LABELS = {
-  fr: {
-    title: 'PARAMÈTRES',
-    font: 'Choisir une police',
-    fontSize: 'Taille du texte',
-    background: 'Choisir un arrière-plan',
-    textColor: 'Couleur du texte',
-    format: 'Format 12h / 24h',
-    mirror: 'Mode miroir',
-    showDate: 'Afficher la date',
-    showSeconds: 'Afficher les secondes',
-    language: 'Langue',
-    solidColors: 'Couleurs unies',
-    landscapes: 'Paysages',
-    aesthetic: 'Aesthetic',
-    uploadBg: 'Importer une image',
-    embedBtn: 'Intégrer sur votre site',
-    focusMode: 'Mode Focus',
-    focusEnable: 'Activer',
-    focusDisable: 'Désactiver',
-    flipStyle: 'Style Flip',
-    flipThemeSec: 'THÈME FLIP',
-    flipDark: 'Fond noir',
-    flipLight: 'Fond blanc',
-    flipFontDisabled: 'Non disponible en mode flip',
-  },
-  en: {
     title: 'SETTINGS',
     font: 'Choose a font',
     fontSize: 'Text size',
@@ -98,7 +72,6 @@ const LABELS = {
     mirror: 'Mirror mode',
     showDate: 'Show date',
     showSeconds: 'Show seconds',
-    language: 'Language',
     solidColors: 'Solid colors',
     landscapes: 'Landscapes',
     aesthetic: 'Aesthetic',
@@ -112,8 +85,7 @@ const LABELS = {
     flipDark: 'Dark background',
     flipLight: 'Light background',
     flipFontDisabled: 'Not available in flip mode',
-  },
-} as const;
+  } as const;
 
 /* ── Styles boutons pill sélecteur thème flip — v2 neutre ───── */
 const flipPillStyle: React.CSSProperties = {
@@ -136,7 +108,7 @@ const flipPillActiveStyle: React.CSSProperties = {
   cursor: 'pointer',
 };
 
-type PanelLabels = typeof LABELS[keyof typeof LABELS];
+type PanelLabels = typeof LABELS;
 
 /* ═══════════════════════════════════════════════════════════════
    Sous-composants UI
@@ -235,106 +207,6 @@ function Toggle({
           />
         </div>
       </div>
-    </div>
-  );
-}
-
-/* ─── Sélecteur de langue — bulle liquide glass v2 ──────────── */
-function LanguageToggle({
-  language,
-  onChange,
-}: {
-  language: 'fr' | 'en';
-  onChange: (l: 'fr' | 'en') => void;
-}) {
-  const [squishKey, setSquishKey] = useState(0);
-  const isFr = language === 'fr';
-
-  const handleClick = (lang: 'fr' | 'en') => {
-    if (lang !== language) setSquishKey((k) => k + 1);
-    onChange(lang);
-  };
-
-  const labelBtn = (lang: 'fr' | 'en'): React.CSSProperties => ({
-    position: 'relative',
-    zIndex: 1,
-    flex: 1,
-    padding: '6px 14px',
-    borderRadius: '50px',
-    fontSize: '13px',
-    fontWeight: language === lang ? 600 : 400,
-    border: 'none',
-    background: 'transparent',
-    cursor: 'pointer',
-    transition: 'color 200ms ease, font-weight 200ms ease',
-    color: language === lang ? 'rgba(255,255,255,0.97)' : 'var(--glass2-text-inactive)',
-  });
-
-  return (
-    <div
-      style={{
-        position: 'relative',
-        display: 'flex',
-        padding: '4px',
-        borderRadius: '50px',
-        background: 'var(--glass2-bg-recessed)',
-        border: '1px solid rgba(255,255,255,0.10)',
-        boxShadow: 'var(--glass2-shadow-recessed)',
-        minWidth: '128px',
-      }}
-    >
-      {/* Bulle liquide coulissante */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          top: '4px',
-          left: '4px',
-          width: 'calc(50% - 4px)',
-          height: 'calc(100% - 8px)',
-          transform: isFr ? 'translateX(0)' : 'translateX(100%)',
-          transition: 'transform 0.48s var(--glass2-ease-bounce)',
-          pointerEvents: 'none',
-          zIndex: 0,
-        }}
-      >
-        <div
-          key={squishKey}
-          style={{
-            width: '100%',
-            height: '100%',
-            borderRadius: '50px',
-            overflow: 'hidden',
-            background: 'linear-gradient(160deg, rgba(255,255,255,0.30), rgba(255,255,255,0.12))',
-            border: '1px solid rgba(255,255,255,0.42)',
-            boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.60), 0 4px 14px rgba(0,0,0,0.28)',
-            animation: squishKey > 0 ? 'lang-bubble-squish 0.5s var(--glass2-ease-bounce)' : undefined,
-          }}
-        >
-          {/* Gloss bombé */}
-          <span
-            aria-hidden="true"
-            style={{
-              display: 'block',
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              height: '50%',
-              borderRadius: '50px 50px 0 0',
-              background: 'linear-gradient(to bottom, rgba(255,255,255,0.55), transparent)',
-              opacity: 0.6,
-              pointerEvents: 'none',
-            }}
-          />
-        </div>
-      </div>
-
-      {(['fr', 'en'] as const).map((lang) => (
-        <button key={lang} onClick={() => handleClick(lang)} style={labelBtn(lang)}>
-          {lang.toUpperCase()}
-        </button>
-      ))}
     </div>
   );
 }
@@ -533,7 +405,7 @@ function FontGrid({
                 <button
                   key={font}
                   onClick={() => onSelect(font)}
-                  aria-label={`Choisir la police ${font}`}
+                  aria-label={`Choose font ${font}`}
                   aria-pressed={isSelected}
                   style={{
                     borderRadius: '16px',
@@ -690,7 +562,7 @@ function BgGallery({
             return (
               <button
                 key={value}
-                aria-label={`Choisir la couleur ${label}`}
+                aria-label={`Choose color ${label}`}
                 aria-pressed={active}
                 onClick={() => onSelect(value)}
                 style={{
@@ -717,7 +589,7 @@ function BgGallery({
             return (
               <button
                 key={file}
-                aria-label={`Choisir le fond ${label}`}
+                aria-label={`Choose background ${label}`}
                 aria-pressed={active}
                 onClick={() => onSelect(value)}
                 style={{
@@ -744,7 +616,7 @@ function BgGallery({
             return (
               <button
                 key={file}
-                aria-label={`Choisir le fond ${label}`}
+                aria-label={`Choose background ${label}`}
                 aria-pressed={active}
                 onClick={() => onSelect(value)}
                 style={{
@@ -871,7 +743,6 @@ interface SettingsPanelProps {
   updateMirror: (v: boolean) => void;
   updateShowDate: (v: boolean) => void;
   updateShowSeconds: (v: boolean) => void;
-  updateLanguage: (v: 'fr' | 'en') => void;
   flipMode?: boolean;
   setFlipMode?: (v: boolean) => void;
   flipTheme?: 'dark' | 'light';
@@ -911,7 +782,6 @@ export default function SettingsPanel({
   updateMirror,
   updateShowDate,
   updateShowSeconds,
-  updateLanguage,
   flipMode = false,
   setFlipMode,
   flipTheme = 'dark',
@@ -924,7 +794,7 @@ export default function SettingsPanel({
   const [bgExpanded, setBgExpanded] = useState(false);
   const [focusMode, setFocusModeLocal] = useState(false);
 
-  const t = LABELS[settings.language];
+  const t = LABELS;
 
   /* ── Bulle « connectez-vous pour enregistrer » (visiteurs non connectés) ── */
   const [isGuest, setIsGuest] = useState(false);
@@ -1062,7 +932,6 @@ export default function SettingsPanel({
       {/* ── Panneau (slide depuis le bas) ── */}
       <SaveSettingsHint
         visible={isOpen && isGuest && hasChanged}
-        language={settings.language}
         bottom={panelHeight + 14}
       />
 
@@ -1130,7 +999,7 @@ export default function SettingsPanel({
           </span>
           <button
             onClick={onClose}
-            aria-label="Fermer les paramètres"
+            aria-label="Close settings"
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -1165,31 +1034,31 @@ export default function SettingsPanel({
               <>
                 <div>
                   <SectionTitle>
-                    {settings.language === 'fr' ? 'Horloge analogique' : 'Analog clock'}
+                    {'Analog clock'}
                   </SectionTitle>
 
-                  <ParamRow label={settings.language === 'fr' ? 'Afficher les chiffres' : 'Show numbers'}>
+                  <ParamRow label="Show numbers">
                     <Toggle
                       value={analogOptions.showNumbers}
                       onChange={analogOptions.onShowNumbersChange}
                     />
                   </ParamRow>
 
-                  <ParamRow label={settings.language === 'fr' ? 'Aiguilles classiques' : 'Classic hands'}>
+                  <ParamRow label="Classic hands">
                     <Toggle
                       value={analogOptions.analogStyle === 'classic'}
                       onChange={(val) => analogOptions.onAnalogStyleChange(val ? 'classic' : 'minimal')}
                     />
                   </ParamRow>
 
-                  <ParamRow label={settings.language === 'fr' ? 'Mode 24h' : '24h mode'}>
+                  <ParamRow label="24h mode">
                     <Toggle
                       value={analogOptions.analogFormat === '24h'}
                       onChange={(val) => analogOptions.onAnalogFormatChange(val ? '24h' : '12h')}
                     />
                   </ParamRow>
 
-                  <ParamRow label={settings.language === 'fr' ? 'Cadran blanc' : 'White dial'}>
+                  <ParamRow label="White dial">
                     <Toggle
                       value={analogOptions.clockTheme === 'white'}
                       onChange={(val) => analogOptions.onClockThemeChange(val ? 'white' : 'glass')}
@@ -1383,10 +1252,6 @@ export default function SettingsPanel({
               </ParamRow>
             </div>
 
-            {/* Langue */}
-            <ParamRow label={t.language}>
-              <LanguageToggle language={settings.language} onChange={updateLanguage} />
-            </ParamRow>
 
             {/* Séparateur Mode Focus */}
             <div style={{ height: '1px', background: 'rgba(255, 255, 255, 0.10)', margin: '4px 0' }} />

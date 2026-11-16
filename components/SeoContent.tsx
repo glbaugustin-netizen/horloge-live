@@ -2,15 +2,12 @@
 
 import { articles } from '@/lib/conseils';
 
-type Lang = 'fr' | 'en';
-
-const LABELS: Record<Lang, {
+const t: {
   h1: string; h2_1: string; p1: string; h2_2: string; p2: string;
   h2_3: string; p3: string; h2_4: string; p4: string; h2_faq: string;
   faq: { q: string; a: string }[];
   about: string;
-}> = {
-  fr: {
+} = {
     h1: 'Horloge en ligne aesthetic — Heure live, exacte et personnalisable',
     h2_1: 'Quelle heure est-il en ce moment ?',
     p1: "Notre horloge en ligne affiche l'heure exacte en heures, minutes et secondes, synchronisée en temps réel avec votre navigateur via le protocole NTP. Elle se cale automatiquement sur le fuseau horaire de votre appareil dès l'ouverture de la page — aucun réglage, aucune installation requise. Entièrement gratuite et sans publicité, horloge-live.com fonctionne sur ordinateur, tablette et mobile. Des milliers d'utilisateurs consultent leur heure précise chaque jour.",
@@ -48,43 +45,7 @@ const LABELS: Record<Lang, {
       },
     ],
     about: "horloge-live.com — horloge en ligne aesthetic, live et gratuite. Personnalisable, sans pub, sans inscription.",
-  },
-  en: {
-    h1: 'Aesthetic online clock — Exact time, live & customizable',
-    h2_1: 'What time is it right now?',
-    p1: 'Our live online clock displays the exact time in hours, minutes and seconds, synchronized in real time with your browser. Free and with no installation, it works on desktop, tablet and mobile. Check the precise time at any moment.',
-    h2_2: 'Customize your online clock',
-    p2: 'Adapt your clock to your style: choose from over 60 fonts, change the text color, and set an aesthetic background image or solid color. Enable flip clock mode for a retro display with card animations. The 12h/24h format, mirror mode, and date display are also configurable. Your preferences are saved automatically for your next visit.',
-    h2_3: 'Display the clock in full screen',
-    p3: 'Switch to fullscreen mode in one click to display your clock across the entire screen. Perfect for meeting rooms, classroom time management, or as a desk clock on a second monitor. Enable focus mode from settings for a distraction-free black background display. Press F or click the dedicated icon — press Esc to exit.',
-    h2_4: 'Full screen clock for the classroom and exams',
-    p4: 'Full screen mode displays the time large across the entire screen, perfect for classroom projection. Ideal for exams, timed activities or simply keeping time visible for all students. Works on interactive whiteboards, computers and tablets.',
-    h2_faq: 'Frequently asked questions about the online clock',
-    faq: [
-      {
-        q: 'What is an aesthetic online clock?',
-        a: 'An aesthetic online clock is a visually customizable digital clock: font, wallpaper, colors and style. horloge-live.com offers over 60 fonts and aesthetic, landscape or solid color backgrounds to create a clock that matches your style.',
-      },
-      {
-        q: 'What time is it now? Is this a live online clock?',
-        a: 'Yes. The clock displays the exact time in real time, synchronized live with your browser — it is indeed a live clock. No setup needed: the time appears as soon as you open the page.',
-      },
-      {
-        q: 'How do I display the clock in full screen?',
-        a: 'Click the fullscreen icon at the bottom of the page or press F on your keyboard. The clock fills the entire screen. For a distraction-free display, enable focus mode from settings before going fullscreen. Press Esc to exit.',
-      },
-      {
-        q: 'Is the online clock free and without registration?',
-        a: 'Yes. horloge-live.com is completely free, with no ads and no registration. No account is needed to use all the features of the site.',
-      },
-      {
-        q: 'Can I have a customizable and modifiable online clock?',
-        a: 'Yes. horloge-live.com is a fully customizable and modifiable online clock: font, size, text color, aesthetic or landscape background, 12h/24h format and mirror mode. All your preferences are saved automatically.',
-      },
-    ],
-    about: 'horloge-live.com is a free, ad-free live and aesthetic online clock. Customizable with over 60 fonts and aesthetic or landscape backgrounds, this digital online clock suits everyone — personal use, classroom or meeting. No installation required.',
-  },
-};
+  };
 
 const sectionStyle: React.CSSProperties = {
   position: 'relative',
@@ -132,9 +93,7 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
   );
 }
 
-export default function SeoContent({ language }: { language: Lang }) {
-  const t = LABELS[language] ?? LABELS.fr;
-
+export default function SeoContent() {
   return (
     <section
       style={{
@@ -191,7 +150,7 @@ export default function SeoContent({ language }: { language: Lang }) {
       {conseilLinks.length > 0 && (
         <div style={{ ...sectionStyle, padding: '16px 24px' }}>
           <p style={{ ...pStyle, fontSize: '14px', marginBottom: '8px' }}>
-            {language === 'fr' ? 'À lire aussi :' : 'Also worth reading:'}
+            {'À lire aussi :'}
           </p>
           <ul style={{ margin: 0, paddingLeft: '18px' }}>
             {conseilLinks.map((article) => (
@@ -222,7 +181,7 @@ export default function SeoContent({ language }: { language: Lang }) {
 
       {/* Maillage interne */}
       <p style={{ ...pStyle, fontSize: '14px', marginTop: '16px' }}>
-        {language === 'fr' ? (
+        {(
           <>
             Découvrez aussi notre{' '}
             <a href="/horloge-aiguille" style={{ color: 'var(--color-accent)', textDecoration: 'underline' }}>
@@ -247,29 +206,6 @@ export default function SeoContent({ language }: { language: Lang }) {
             et nos{' '}
             <a href="/conseils" style={{ color: 'var(--color-accent)', textDecoration: 'underline' }}>
               conseils pour réviser et se concentrer
-            </a>.
-          </>
-        ) : (
-          <>
-            Also discover our{' '}
-            <a href="/horloge-aiguille" style={{ color: 'var(--color-accent)', textDecoration: 'underline' }}>
-              analog clock online
-            </a>
-            , our{' '}
-            <a href="/chrono" style={{ color: 'var(--color-accent)', textDecoration: 'underline' }}>
-              online stopwatch
-            </a>
-            , our{' '}
-            <a href="/minuteur" style={{ color: 'var(--color-accent)', textDecoration: 'underline' }}>
-              online timer
-            </a>{' '}
-            and{' '}
-            <a href="/monde" style={{ color: 'var(--color-accent)', textDecoration: 'underline' }}>
-              world clock
-            </a>
-            , as well as our{' '}
-            <a href="/conseils" style={{ color: 'var(--color-accent)', textDecoration: 'underline' }}>
-              tips for studying and staying focused
             </a>.
           </>
         )}

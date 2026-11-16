@@ -9,21 +9,16 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
-const T = {
-  fr: { message: 'Connectez-vous pour enregistrer vos modifications.', link: 'Se connecter' },
-  en: { message: 'Sign in to save your changes.', link: 'Sign in' },
-} as const;
+const t = { message: 'Sign in to save your changes.', link: 'Sign in' } as const;
 
 const GLASS_BG = 'linear-gradient(160deg, rgba(255,255,255,0.16), rgba(255,255,255,0.06))';
 const GLASS_BORDER = '1px solid rgba(255,255,255,0.24)';
 
 export default function SaveSettingsHint({
   visible,
-  language,
   bottom,
 }: {
   visible: boolean;
-  language: 'fr' | 'en';
   /** Distance (px) depuis le bas de l'écran — juste au-dessus du panneau */
   bottom: number;
 }) {
@@ -42,8 +37,6 @@ export default function SaveSettingsHint({
   }, [visible]);
 
   if (!mounted) return null;
-
-  const t = T[language];
 
   return (
     <div

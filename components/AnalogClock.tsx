@@ -10,7 +10,6 @@ interface AnalogClockProps {
   showNumbers?: boolean;   // true = chiffres 1–12, false = traits seulement
   style?: 'classic' | 'minimal'; // classic = aiguilles avec contrepoids
   format?: '12h' | '24h';
-  language?: 'fr' | 'en';
   clockTheme?: 'glass' | 'white'; // défaut : 'glass'
 }
 
@@ -38,7 +37,6 @@ export default function AnalogClock({
   showNumbers = true,
   style = 'classic',
   format = '12h',
-  language = 'fr',
   clockTheme = 'glass',
 }: AnalogClockProps) {
   const [time, setTime] = useState(new Date());
@@ -120,7 +118,7 @@ export default function AnalogClock({
       height={size}
       viewBox={`0 0 ${size} ${size}`}
       style={{ filter: colors.shadow }}
-      aria-label={language === 'fr' ? 'Horloge analogique' : 'Analog clock'}
+      aria-label="Analog clock"
     >
       {/* ── 1. Cadran ── */}
       <circle

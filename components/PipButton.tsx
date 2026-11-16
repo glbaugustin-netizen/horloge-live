@@ -13,16 +13,15 @@ interface Props {
   supported: boolean;
   active: boolean;
   onToggle: () => void;
-  language: 'fr' | 'en';
   variant?: 'glass' | 'light';
 }
 
-export default function PipButton({ supported, active, onToggle, language, variant = 'glass' }: Props) {
+export default function PipButton({ supported, active, onToggle, variant = 'glass' }: Props) {
   if (!supported) return null;
 
   const label = active
-    ? (language === 'fr' ? 'Fermer le mode incrusté' : 'Close picture-in-picture')
-    : (language === 'fr' ? 'Mode incrusté (fenêtre flottante)' : 'Picture-in-picture (floating window)');
+    ? 'Close picture-in-picture'
+    : 'Picture-in-picture (floating window)';
 
   if (variant === 'light') {
     return (

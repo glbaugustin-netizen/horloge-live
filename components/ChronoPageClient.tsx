@@ -23,21 +23,12 @@ const EmbedModal    = dynamic(() => import('@/components/EmbedModal'),    { ssr:
    Traductions
 ═══════════════════════════════════════════════════════════════ */
 const LABELS = {
-  fr: {
-    hours: 'HEURES', minutes: 'MINUTES', seconds: 'SECONDES', millis: 'MILLIÈMES',
-    start: 'Démarrer', pause: 'Pause', resume: 'Reprendre',
-    reset: 'Réinitialiser', lap: 'Tour',
-    lapCol: 'Tour', lapTime: 'Temps tour', totalTime: 'Temps total',
-    hint: 'Appuyez sur Échap pour quitter',
-  },
-  en: {
     hours: 'HOURS', minutes: 'MINUTES', seconds: 'SECONDS', millis: 'MILLIS',
     start: 'Start', pause: 'Pause', resume: 'Resume',
     reset: 'Reset', lap: 'Lap',
     lapCol: 'Lap', lapTime: 'Lap time', totalTime: 'Total time',
     hint: 'Press Esc to exit',
-  },
-} as const;
+  } as const;
 
 /* ═══════════════════════════════════════════════════════════════
    Helpers
@@ -109,7 +100,7 @@ function MillisUnit({ digit, label }: { digit: string; label: string }) {
    Tableau des tours
 ═══════════════════════════════════════════════════════════════ */
 interface Lap { lapTime: number; totalTime: number; }
-type Labels = typeof LABELS[keyof typeof LABELS];
+type Labels = typeof LABELS;
 
 function LapTable({ laps, t }: { laps: Lap[]; t: Labels }) {
   if (laps.length === 0) return null;
@@ -242,7 +233,7 @@ function PillButton({
 /* ═══════════════════════════════════════════════════════════════
    Hint plein écran
 ═══════════════════════════════════════════════════════════════ */
-function FullscreenHint({ language, onExit }: { language: 'fr' | 'en'; onExit: () => void }) {
+function FullscreenHint({ onExit }: { onExit: () => void }) {
   const [visible, setVisible] = useState(true);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -261,7 +252,7 @@ function FullscreenHint({ language, onExit }: { language: 'fr' | 'en'; onExit: (
     };
   }, [show]);
 
-  const label = language === 'fr' ? 'Appuyez sur Échap pour quitter' : 'Press Esc to exit';
+  const label = 'Press Esc to exit';
   return (
     <div
       onClick={onExit}
@@ -288,10 +279,10 @@ function FullscreenHint({ language, onExit }: { language: 'fr' | 'en'; onExit: (
 export default function ChronoPageClient() {
   const {
     settings, updateFont, updateFontSize, updateTextColor, updateBackground,
-    updateFormat, updateMirror, updateShowDate, updateShowSeconds, updateLanguage,
+    updateFormat, updateMirror, updateShowDate, updateShowSeconds,
   } = useSettings();
 
-  const t      = LABELS[settings.language];
+  const t      = LABELS;
   const router = useRouter();
 
   /* ── UI state ── */
@@ -428,13 +419,13 @@ export default function ChronoPageClient() {
           }}
           onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.92)'; }}
           onMouseUp={(e)   => { e.currentTarget.style.transform = 'scale(1)'; }}
-          aria-label="Ouvrir le menu de navigation"
+          aria-label="Open navigation menu"
         >
           <Menu size={20} strokeWidth={1.5} />
         </button>
       )}
 
-      {!isFullscreen && <PipButton supported={pip.supported} active={pip.active} onToggle={pip.toggle} language={settings.language} />}
+      {!isFullscreen && <PipButton supported={pip.supported} active={pip.active} onToggle={pip.toggle} />}
 
       {/* ── Affichage central ── */}
       <div className="chrono-centered" style={{ zIndex: 10 }}>
@@ -491,7 +482,6 @@ export default function ChronoPageClient() {
             isFullscreen={isFullscreen}
             onFullscreenToggle={toggleFullscreen}
             isAuthenticated={accountHref === '/compte'}
-            language={settings.language}
           />
         </div>
       )}
@@ -503,9 +493,9 @@ export default function ChronoPageClient() {
           style={{ position: 'absolute', bottom: '28px', left: '24px', zIndex: 30, gap: '16px' }}
         >
           {[
-            { href: '/cgu',             label: 'CGU'              },
-            { href: '/mentions-legales', label: 'Mentions légales' },
-            { href: '/confidentialite', label: 'Confidentialité'  },
+            { href: '/cgu',             label: 'Terms of use'              },
+            { href: '/mentions-legales', label: 'Legal notice' },
+            { href: '/confidentialite', label: 'Privacy policy'  },
           ].map(({ href, label }) => (
             <Link
               key={href} href={href}
@@ -522,7 +512,6 @@ export default function ChronoPageClient() {
       {/* ── Navigation mobile ── */}
       {!isFullscreen && (
         <MobileNav
-          language={settings.language}
           isFullscreen={isFullscreen}
           onSettingsOpen={() => setSettingsOpen(true)}
           onFullscreenToggle={toggleFullscreen}
@@ -530,10 +519,10 @@ export default function ChronoPageClient() {
       )}
 
       {/* ── Hint plein écran ── */}
-      {isFullscreen && <FullscreenHint language={settings.language} onExit={toggleFullscreen} />}
+      {isFullscreen && <FullscreenHint onExit={toggleFullscreen} />}
 
       {/* ── Sidebar ── */}
-      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} language={settings.language} />
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* ── Panneau paramètres ── */}
       <SettingsPanel
@@ -548,7 +537,6 @@ export default function ChronoPageClient() {
         updateMirror={updateMirror}
         updateShowDate={updateShowDate}
         updateShowSeconds={updateShowSeconds}
-        updateLanguage={updateLanguage}
         disabledOptions={{
           fontSize: true,
           flipStyle: true,
@@ -564,7 +552,6 @@ export default function ChronoPageClient() {
       <EmbedModal
         isOpen={embedOpen}
         onClose={() => setEmbedOpen(false)}
-        language={settings.language}
         widgetType="chrono"
       />
     </div>

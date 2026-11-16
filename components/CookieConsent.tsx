@@ -8,27 +8,16 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import { getPreferredLanguage } from '@/lib/language';
 
 const CLARITY_ID  = 'xeolkk3cw3';
 const CONSENT_KEY = 'horloge-live.com-cookie-consent'; // 'accepted' | 'refused'
 
-type Lang = 'fr' | 'en';
-
 const T = {
-  fr: {
-    message: "Nous utilisons un outil de mesure d'audience (Microsoft Clarity) pour améliorer le site. Les cookies nécessaires au fonctionnement restent toujours actifs.",
-    accept:  'Accepter',
-    refuse:  'Refuser',
-    more:    'En savoir plus',
-  },
-  en: {
     message: 'We use an analytics tool (Microsoft Clarity) to improve the site. Cookies necessary for the site to work remain always active.',
     accept:  'Accept',
     refuse:  'Decline',
     more:    'Learn more',
-  },
-} as const;
+  } as const;
 
 /** Injecte le script Clarity (idempotent). */
 function loadClarity(): void {
@@ -46,12 +35,9 @@ function loadClarity(): void {
 export default function CookieConsent() {
   const [visible, setVisible] = useState(false);
   const [shown,   setShown]   = useState(false); // pour l'animation d'entrée
-  const [lang,    setLang]    = useState<Lang>('fr');
 
   useEffect(() => {
     try {
-      setLang(getPreferredLanguage());
-
       const consent = localStorage.getItem(CONSENT_KEY);
       if (consent === 'accepted') {
         loadClarity();
@@ -79,12 +65,12 @@ export default function CookieConsent() {
 
   if (!visible) return null;
 
-  const t = T[lang];
+  const t = T;
 
   return (
     <div
       role="dialog"
-      aria-label={lang === 'fr' ? 'Consentement aux cookies' : 'Cookie consent'}
+      aria-label="Cookie consent"
       style={{
         position:      'fixed',
         bottom:        '16px',

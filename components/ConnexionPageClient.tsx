@@ -26,47 +26,6 @@ import { useSettings } from '@/lib/useSettings';
    Traductions UI
 ═══════════════════════════════════════════════════════════════ */
 const UI = {
-  fr: {
-    tabSignIn:       'Connexion',
-    tabSignUp:       'Inscription',
-    email:           'Adresse e-mail',
-    password:        'Mot de passe',
-    confirm:         'Confirmer le mot de passe',
-    btnSignIn:       'Se connecter',
-    btnSignUp:       'S\'inscrire',
-    btnGoogle:       'Continuer avec Google',
-    forgotLink:      'Mot de passe oublié ?',
-    forgotTitle:     'Réinitialiser le mot de passe',
-    forgotBtn:       'Envoyer le lien',
-    forgotBack:      '← Retour à la connexion',
-    rgpdText:        'J\'accepte les',
-    rgpdCgu:         'conditions générales d\'utilisation',
-    rgpdAnd:         'et la',
-    rgpdPrivacy:     'politique de confidentialité',
-    accountTitle:    'Mon compte',
-    signedInAs:      'Connecté en tant que',
-    btnSignOut:      'Se déconnecter',
-    signOutConfirm:  'Vous avez été déconnecté.',
-    deleteBtn:       'Supprimer mon compte',
-    deleteTitle:     'Supprimer définitivement le compte',
-    deleteWarn:      'Cette action est irréversible. Votre compte et toutes vos données (préférences, historique) seront définitivement supprimés.',
-    deletePwd:       'Confirmez avec votre mot de passe',
-    deleteGoogle:    'Une fenêtre Google s\'ouvrira pour confirmer votre identité.',
-    deleteConfirm:   'Supprimer définitivement',
-    deleteCancel:    'Annuler',
-    deletePwdReq:    'Veuillez saisir votre mot de passe.',
-    deleteWrongPwd:  'Mot de passe incorrect.',
-    deleteErr:       'Une erreur est survenue. Veuillez réessayer.',
-    successSignIn:   'Connexion réussie. Bienvenue !',
-    successSignUp:   'Compte créé avec succès. Bienvenue !',
-    successVerify:   'Compte créé ! Un e-mail de vérification vient de vous être envoyé. Cliquez sur le lien qu\'il contient, puis connectez-vous. Pensez à vérifier vos spams / courriers indésirables.',
-    errNotVerified:  'Vous devez d\'abord vérifier votre adresse e-mail. Un nouveau lien vient de vous être envoyé — vérifiez votre boîte de réception (et vos spams).',
-    successReset:    'Un e-mail de réinitialisation a été envoyé à votre adresse. Pensez à vérifier vos spams / courriers indésirables si vous ne le voyez pas dans quelques minutes.',
-    errRgpd:         'Veuillez accepter les conditions générales pour vous inscrire.',
-    errEmailMissing: 'Veuillez entrer votre adresse e-mail.',
-    or:              '— ou —',
-  },
-  en: {
     tabSignIn:       'Sign in',
     tabSignUp:       'Sign up',
     email:           'Email address',
@@ -97,16 +56,15 @@ const UI = {
     deletePwdReq:    'Please enter your password.',
     deleteWrongPwd:  'Incorrect password.',
     deleteErr:       'An error occurred. Please try again.',
-    successSignIn:   'Connexion réussie. Bienvenue !',
-    successSignUp:   'Compte créé avec succès. Bienvenue !',
+    successSignIn:   'Signed in. Welcome!',
+    successSignUp:   'Account created. Welcome!',
     successVerify:   'Account created! A verification email has just been sent to you. Click the link inside, then sign in. Please check your spam folder too.',
     errNotVerified:  'You must verify your email address first. A new link has just been sent — please check your inbox (and spam folder).',
     successReset:    'An email has been sent to reset your password. Please check your spam folder if you don\'t see it within a few minutes.',
     errRgpd:         'Please accept the terms to create an account.',
     errEmailMissing: 'Please enter your email address.',
     or:              '— or —',
-  },
-} as const;
+  } as const;
 
 /* ═══════════════════════════════════════════════════════════════
    Mappage erreurs Firebase → messages personnalisés
@@ -116,20 +74,20 @@ function mapFirebaseError(code: string): string {
     case 'auth/invalid-credential':
     case 'auth/wrong-password':
     case 'auth/user-not-found':
-      return 'Email ou mot de passe incorrect. Veuillez réessayer.';
+      return 'Incorrect email or password. Please try again.';
     case 'auth/email-already-in-use':
-      return 'Cette adresse e-mail est déjà utilisée.';
+      return 'This email address is already in use.';
     case 'auth/weak-password':
-      return 'Le mot de passe doit contenir au moins 8 caractères.';
+      return 'Password must be at least 8 characters.';
     case 'auth/invalid-email':
-      return 'Adresse e-mail invalide.';
+      return 'Invalid email address.';
     case 'auth/too-many-requests':
-      return 'Trop de tentatives. Par sécurité, l\'accès est temporairement bloqué. Veuillez réessayer dans quelques minutes.';
+      return 'Too many attempts. For security, access is temporarily blocked. Please try again in a few minutes.';
     case 'auth/popup-closed-by-user':
     case 'auth/cancelled-popup-request':
       return ''; // Silencieux — l'utilisateur a fermé le popup
     default:
-      return 'Une erreur est survenue. Veuillez réessayer.';
+      return 'An error occurred. Please try again.';
   }
 }
 
@@ -232,13 +190,11 @@ function StatusMessage({ type, text }: { type: 'error' | 'success'; text: string
 function RgpdCheckbox({
   checked,
   onChange,
-  language,
 }: {
   checked: boolean;
   onChange: (v: boolean) => void;
-  language: 'fr' | 'en';
 }) {
-  const u = UI[language];
+  const u = UI;
   return (
     <div
       style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', cursor: 'pointer' }}
@@ -423,7 +379,7 @@ function EyeToggle({ show, onToggle }: { show: boolean; onToggle: () => void }) 
     <button
       type="button"
       onClick={onToggle}
-      aria-label={show ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
+      aria-label={show ? 'Hide password' : 'Show password'}
       style={{
         background: 'none', border: 'none', cursor: 'pointer', padding: '2px',
         color: 'rgba(255,255,255,0.35)', lineHeight: 0,
@@ -443,9 +399,9 @@ function EyeToggle({ show, onToggle }: { show: boolean; onToggle: () => void }) 
 /* ═══════════════════════════════════════════════════════════════
    Vue compte connecté — glass v2
 ═══════════════════════════════════════════════════════════════ */
-function AccountView({ user, language }: { user: User; language: 'fr' | 'en' }) {
+function AccountView({ user }: { user: User }) {
   const router = useRouter();
-  const u = UI[language];
+  const u = UI;
   const [loading, setLoading] = useState(false);
 
   /* ── Suppression de compte ── */
@@ -677,7 +633,7 @@ function AccountView({ user, language }: { user: User; language: 'fr' | 'en' }) 
         onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.70)'; }}
         onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.38)'; }}
       >
-        ← {language === 'fr' ? 'Retour à l\'horloge' : 'Back to clock'}
+        ← {'Back to clock'}
       </Link>
     </div>
   );
@@ -689,8 +645,7 @@ function AccountView({ user, language }: { user: User; language: 'fr' | 'en' }) 
 export default function ConnexionPageClient() {
   const { settings } = useSettings();
   const router       = useRouter();
-  const language     = settings.language;
-  const u            = UI[language];
+  const u            = UI;
 
   /* ── Firebase auth state ──
      Une session email/password non vérifiée n'est PAS considérée connectée.
@@ -764,11 +719,11 @@ export default function ConnexionPageClient() {
     clearMessages();
     if (!rgpd) { setError(u.errRgpd); return; }
     if (password.length < 8) {
-      setError('Le mot de passe doit contenir au moins 8 caractères.');
+      setError('Password must be at least 8 characters.');
       return;
     }
     if (password !== confirm) {
-      setError('Les mots de passe ne correspondent pas.');
+      setError('Passwords do not match.');
       return;
     }
     setLoading(true);
@@ -892,7 +847,7 @@ export default function ConnexionPageClient() {
   if (user) {
     return (
       <div style={pageStyle}>
-        <AccountView user={user} language={language} />
+        <AccountView user={user} />
       </div>
     );
   }
@@ -1075,7 +1030,7 @@ export default function ConnexionPageClient() {
 
         {/* RGPD (inscription uniquement) */}
         {tab === 'inscription' && (
-          <RgpdCheckbox checked={rgpd} onChange={setRgpd} language={language} />
+          <RgpdCheckbox checked={rgpd} onChange={setRgpd} />
         )}
 
         {/* Messages d'état */}
