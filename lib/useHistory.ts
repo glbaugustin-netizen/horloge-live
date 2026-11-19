@@ -1,3 +1,5 @@
+import { mightHaveSession } from '@/lib/useAuthUser';
+
 export interface SessionRecord {
   type: 'chrono' | 'minuteur';
   duration: number;
@@ -13,6 +15,8 @@ const MAX_SESSIONS = 50;
 
 export async function saveSession(session: SessionRecord): Promise<void> {
   try {
+    // Visiteur anonyme : pas d'historique, et surtout pas de chargement de Firebase
+    if (!(await mightHaveSession())) return;
     const { auth, getDb } = await import('@/lib/firebase');
     const user = auth.currentUser;
     if (!user) return;

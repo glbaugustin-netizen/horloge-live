@@ -8,6 +8,7 @@ import { FONT_CATEGORIES, loadAllFonts } from '@/lib/googleFonts';
 import type { Settings } from '@/lib/useSettings';
 import GlassSlider from '@/components/GlassSlider';
 import SaveSettingsHint from '@/components/SaveSettingsHint';
+import { useAuthUser } from '@/lib/useAuthUser';
 
 /* ═══════════════════════════════════════════════════════════════
    Données statiques
@@ -797,21 +798,12 @@ export default function SettingsPanel({
   const t = LABELS;
 
   /* ── Bulle « connectez-vous pour enregistrer » (visiteurs non connectés) ── */
-  const [isGuest, setIsGuest] = useState(false);
+  const authUser = useAuthUser();
+  const isGuest = authUser === null;
   const [hasChanged, setHasChanged] = useState(false);
   const [panelHeight, setPanelHeight] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
   const snapshotRef = useRef<string | null>(null);
-
-  useEffect(() => {
-    let unsub: (() => void) | undefined;
-    let cancelled = false;
-    import('@/lib/firebase').then(({ auth, onAuthStateChanged }) => {
-      if (cancelled) return;
-      unsub = onAuthStateChanged(auth, (user) => setIsGuest(!user));
-    }).catch(() => { /* noop */ });
-    return () => { cancelled = true; unsub?.(); };
-  }, []);
 
   /* Signature de tous les réglages modifiables depuis le panneau */
   const signature = JSON.stringify({

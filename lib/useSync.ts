@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef } from 'react';
 import type { Settings } from '@/lib/useSettings';
+import { mightHaveSession } from '@/lib/useAuthUser';
 
 // Mirrors KEYS in useSettings.ts — kept separate to avoid circular imports
 const STORAGE_KEY_MAP: Record<keyof Settings, string> = {
@@ -58,43 +59,38 @@ export function useSync(
     let cancelled   = false;
     let unsubscribe: (() => void) | null = null;
 
-    // ⚡ Perf : ne charger Firebase que si l'utilisateur a déjà une session.
-    // Les visiteurs anonymes (pas de clé firebase:authUser:* en localStorage)
-    // évitent ainsi le parsing du SDK Firebase (~300 KB) au chargement initial.
-    const hasFirebaseSession =
-      typeof localStorage !== 'undefined' &&
-      Object.keys(localStorage).some((key) => key.startsWith('firebase:authUser'));
+    // ⚡ Perf : ne charger Firebase que si une session a pu exister sur cet appareil
+    // (marqueur, clé localStorage ou base IndexedDB de Firebase — cf. useAuthUser).
+    // Les visiteurs anonymes évitent ainsi le SDK Firebase (~300 KB).
+    mightHaveSession().then((maybe) => {
+      if (!maybe || cancelled) return;
 
-    if (!hasFirebaseSession) {
-      // Pas de session connue — Firebase sera chargé au clic sur l'icône compte.
-      return;
-    }
+      import('@/lib/firebase')
+        .then(({ auth, onAuthStateChanged, savePrefsToFirestore, loadPrefsFromFirestore }) => {
+          if (cancelled) return;
 
-    import('@/lib/firebase')
-      .then(({ auth, onAuthStateChanged, savePrefsToFirestore, loadPrefsFromFirestore }) => {
-        if (cancelled) return;
+          syncRef.current = (settings: Settings) => {
+            const user = auth.currentUser;
+            if (!user) return;
+            savePrefsToFirestore(user.uid, settingsToFirestorePrefs(settings)).catch(() => {});
+          };
 
-        syncRef.current = (settings: Settings) => {
-          const user = auth.currentUser;
-          if (!user) return;
-          savePrefsToFirestore(user.uid, settingsToFirestorePrefs(settings)).catch(() => {});
-        };
-
-        unsubscribe = onAuthStateChanged(auth, async (user) => {
-          if (cancelled || !user) return;
-          try {
-            const prefs = await loadPrefsFromFirestore(user.uid);
-            if (!prefs || cancelled) return;
-            writePrefsToLocalStorage(prefs);
-            onLoadRef.current(prefs);
-          } catch (e) {
-            console.error('[useSync] Firestore load error:', e);
-          }
+          unsubscribe = onAuthStateChanged(auth, async (user) => {
+            if (cancelled || !user) return;
+            try {
+              const prefs = await loadPrefsFromFirestore(user.uid);
+              if (!prefs || cancelled) return;
+              writePrefsToLocalStorage(prefs);
+              onLoadRef.current(prefs);
+            } catch (e) {
+              console.error('[useSync] Firestore load error:', e);
+            }
+          });
+        })
+        .catch((e) => {
+          console.error('[useSync] Firebase import error:', e);
         });
-      })
-      .catch((e) => {
-        console.error('[useSync] Firebase import error:', e);
-      });
+    });
 
     return () => {
       cancelled = true;

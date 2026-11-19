@@ -8,6 +8,7 @@ import MobileNav from '@/components/MobileNav';
 import { useSettings } from '@/lib/useSettings';
 import PipButton from '@/components/PipButton';
 import { usePictureInPicture, pipClockText, pipDateText, pipDurationText } from '@/lib/usePictureInPicture';
+import { useAuthUser } from '@/lib/useAuthUser';
 
 const Sidebar      = dynamic(() => import('@/components/Sidebar'),       { ssr: false, loading: () => null });
 const SettingsPanel = dynamic(() => import('@/components/SettingsPanel'), { ssr: false, loading: () => null });
@@ -515,8 +516,9 @@ export default function MondePageClient() {
   const [addModalOpen, setAddModalOpen] = useState(false);
 
   /* ── Auth + fuseaux perso ── */
-  const [isLoggedIn,   setIsLoggedIn]   = useState(false);
-  const [accountHref,  setAccountHref]  = useState('/connexion');
+  const authUser    = useAuthUser();
+  const isLoggedIn  = !!authUser;
+  const accountHref = authUser ? '/compte' : '/connexion';
   const [customZones,  setCustomZones]  = useState<string[]>([]);
 
   /* ── Mode incrusté (Picture-in-Picture) ── */
@@ -531,34 +533,26 @@ export default function MondePageClient() {
     };
   }, { font: settings.font, textColor: settings.textColor, background: settings.background });
 
+  /* Villes personnalisées : Firestore chargé uniquement pour un utilisateur connecté */
   useEffect(() => {
-    let unsub: (() => void) | null = null;
-
-    import('@/lib/firebase').then(async ({ auth, onAuthStateChanged, getDb }) => {
-      const { doc, getDoc } = await import('firebase/firestore');
-
-      unsub = onAuthStateChanged(auth, async (user) => {
-        setIsLoggedIn(!!user);
-        setAccountHref(user ? '/compte' : '/connexion');
-
-        if (user) {
-          try {
-            const db   = await getDb();
-            const ref  = doc(db, 'users', user.uid, 'worldClock', 'main');
-            const snap = await getDoc(ref);
-            if (snap.exists()) {
-              const zones = snap.data().zones;
-              if (Array.isArray(zones)) setCustomZones(zones as string[]);
-            }
-          } catch { /* silencieux */ }
-        } else {
-          setCustomZones([]);
-        }
-      });
-    }).catch(() => {});
-
-    return () => { unsub?.(); };
-  }, []);
+    if (!authUser) {
+      setCustomZones([]);
+      return;
+    }
+    let cancelled = false;
+    (async () => {
+      try {
+        const { getDb } = await import('@/lib/firebase');
+        const { doc, getDoc } = await import('firebase/firestore');
+        const db   = await getDb();
+        const snap = await getDoc(doc(db, 'users', authUser.uid, 'worldClock', 'main'));
+        if (cancelled || !snap.exists()) return;
+        const zones = snap.data().zones;
+        if (Array.isArray(zones)) setCustomZones(zones as string[]);
+      } catch { /* silencieux */ }
+    })();
+    return () => { cancelled = true; };
+  }, [authUser]);
 
   /* ── Ajouter une ville ── */
   const handleAddZone = async (tz: string) => {

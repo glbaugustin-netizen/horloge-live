@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Clock, Timer, AlarmClock, Globe, GraduationCap, Clock3, Menu, X, User } from 'lucide-react';
+import { useAuthUser } from '@/lib/useAuthUser';
 
 interface SidebarProps {
   isOpen?: boolean;
@@ -25,7 +26,8 @@ export default function Sidebar({ isOpen: externalOpen, onClose }: SidebarProps)
 
   const [open,        setOpen]        = useState(false);
   const [isMobile,    setIsMobile]    = useState(false);
-  const [accountHref, setAccountHref] = useState('/connexion');
+  const authUser = useAuthUser();
+  const accountHref = authUser ? '/compte' : '/connexion';
 
   useEffect(() => {
     if (externalOpen !== undefined) setOpen(externalOpen);
@@ -36,16 +38,6 @@ export default function Sidebar({ isOpen: externalOpen, onClose }: SidebarProps)
     check();
     window.addEventListener('resize', check);
     return () => window.removeEventListener('resize', check);
-  }, []);
-
-  useEffect(() => {
-    let unsub: (() => void) | null = null;
-    import('@/lib/firebase').then(({ auth, onAuthStateChanged }) => {
-      unsub = onAuthStateChanged(auth, (user) => {
-        setAccountHref(user ? '/compte' : '/connexion');
-      });
-    }).catch(() => {});
-    return () => { unsub?.(); };
   }, []);
 
   const handleClose = () => {
@@ -226,6 +218,7 @@ export default function Sidebar({ isOpen: externalOpen, onClose }: SidebarProps)
                 <li key={href}>
                   <Link
                     href={href}
+                    prefetch={false}
                     onClick={handleClose}
                     style={isActive ? navItemActive : navItemInactive}
                     aria-current={isActive ? 'page' : undefined}
@@ -271,6 +264,7 @@ export default function Sidebar({ isOpen: externalOpen, onClose }: SidebarProps)
                 <li>
                   <Link
                     href={accountHref}
+                    prefetch={false}
                     onClick={handleClose}
                     style={isAccountActive ? navItemActive : navItemInactive}
                     aria-current={isAccountActive ? 'page' : undefined}

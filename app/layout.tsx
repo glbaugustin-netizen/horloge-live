@@ -97,7 +97,7 @@ const foucScript = `(function(){try{
   var font=localStorage.getItem('horloge-live.com-font')||'Inter';
   var size=parseInt(localStorage.getItem('horloge-live.com-font-size')||'200',10);
   var color=localStorage.getItem('horloge-live.com-text-color')||'#FFFFFF';
-  var bg=localStorage.getItem('horloge-live.com-background')||"url('/backgrounds/bg-nature7.webp')";
+  var bg=localStorage.getItem('horloge-live.com-background')||'#0A0A0A';
   r.style.setProperty('--clock-font-family',"'"+font+"', sans-serif");
   r.style.setProperty('--clock-font-size',size+'px');
   r.style.setProperty('--color-text-primary',color);
@@ -121,37 +121,16 @@ export default function RootLayout({
   return (
     <html lang="fr" className={inter.variable}>
       <head>
-        {/* ── 1. PRELOAD IMAGE LCP — EN PREMIER, avant tout autre tag ──
-            Preload RESPONSIVE : chaque appareil précharge UNIQUEMENT l'image
-            qu'il affiche réellement (cf. @media 768px dans globals.css).
-            Mobile = version allégée (~27 KB) → LCP nettement plus rapide. ── */}
-        <link
-          rel="preload"
-          as="image"
-          href="/backgrounds/bg-nature7-mobile.webp"
-          type="image/webp"
-          media="(max-width: 768px)"
-          fetchPriority="high"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="/backgrounds/bg-nature7.webp"
-          type="image/webp"
-          media="(min-width: 769px)"
-          fetchPriority="high"
-        />
-
-        {/* ── 2. Anti-FOUC : applique les CSS vars AVANT le premier rendu ── */}
+        {/* ── 1. Anti-FOUC : applique les CSS vars AVANT le premier rendu ── */}
         {/* eslint-disable-next-line @next/next/no-sync-scripts */}
         <script dangerouslySetInnerHTML={{ __html: foucScript }} />
 
-        {/* ── 3. Préconnexion Google Fonts (polices alternatives) ── */}
+        {/* ── 2. Préconnexion Google Fonts (polices alternatives) ── */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
 
-        {/* ── 4. Données structurées Schema.org ── */}
+        {/* ── 3. Données structurées Schema.org ── */}
         <Script
           id="ld-json-webapp"
           type="application/ld+json"

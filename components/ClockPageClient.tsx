@@ -11,6 +11,7 @@ import MobileNav from '@/components/MobileNav';
 import { useSettings } from '@/lib/useSettings';
 import PipButton from '@/components/PipButton';
 import { usePictureInPicture, pipClockText, pipDateText, pipDurationText } from '@/lib/usePictureInPicture';
+import { useAuthUser } from '@/lib/useAuthUser';
 
 /* Chargés en différé — absents du bundle initial (économise ~80 KB) */
 const Sidebar       = dynamic(() => import('@/components/Sidebar'),       { ssr: false, loading: () => null });
@@ -99,7 +100,8 @@ export default function ClockPageClient() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [embedOpen,   setEmbedOpen]   = useState(false);
-  const [accountHref, setAccountHref] = useState('/connexion');
+  const authUser = useAuthUser();
+  const accountHref = authUser ? '/compte' : '/connexion';
 
   /* ── Mode incrusté (Picture-in-Picture) ── */
   const pip = usePictureInPicture(() => {
@@ -112,17 +114,6 @@ export default function ClockPageClient() {
   }, flipMode
     ? { font: 'Inter', textColor: flipTheme === 'light' ? '#111111' : '#FFFFFF', background: flipTheme === 'light' ? '#F5F5F5' : '#0A0A0A' }
     : { font: settings.font, textColor: settings.textColor, background: settings.background });
-
-  /* Suivi état de connexion Firebase */
-  useEffect(() => {
-    let unsub: (() => void) | null = null;
-    import('@/lib/firebase').then(({ auth, onAuthStateChanged }) => {
-      unsub = onAuthStateChanged(auth, (user) => {
-        setAccountHref(user ? '/compte' : '/connexion');
-      });
-    }).catch(() => {});
-    return () => { unsub?.(); };
-  }, []);
 
   /* Suivi état plein écran (Échap natif du navigateur) */
   useEffect(() => {

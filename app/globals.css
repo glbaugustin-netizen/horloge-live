@@ -63,9 +63,9 @@
   --clock-font-size: 120px;
 
   /* Fond (dynamique — mis à jour par useSettings) */
-  --bg-image: url('/backgrounds/bg-nature7.webp');
-  --bg-image-mobile: url('/backgrounds/bg-nature7-mobile.webp');
-  --bg-color: transparent;
+  --bg-image: none;
+  --bg-image-mobile: none;
+  --bg-color: #0A0A0A;
 }
 
 /* Reset de base */

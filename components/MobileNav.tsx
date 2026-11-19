@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import BottomBar from '@/components/BottomBar';
+import { useAuthUser } from '@/lib/useAuthUser';
 
 interface MobileNavProps {
   isFullscreen: boolean;
@@ -37,17 +38,8 @@ export default function MobileNav({
   onFullscreenToggle,
 }: MobileNavProps) {
   const router = useRouter();
-  const [accountHref, setAccountHref] = useState('/connexion');
-
-  useEffect(() => {
-    let unsub: (() => void) | null = null;
-    import('@/lib/firebase').then(({ auth, onAuthStateChanged }) => {
-      unsub = onAuthStateChanged(auth, (user) => {
-        setAccountHref(user ? '/compte' : '/connexion');
-      });
-    }).catch(() => {});
-    return () => { unsub?.(); };
-  }, []);
+  const authUser = useAuthUser();
+  const accountHref = authUser ? '/compte' : '/connexion';
 
   // flex sm:hidden : display:flex sur mobile, display:none sur desktop ≥640px
   return (
